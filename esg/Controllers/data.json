@@ -1,0 +1,55 @@
+[  {
+        "id": '73A64FDAFFC',
+        "title": "基本信息",
+        "subs": [
+            {
+                "id": '73AtwFDAFFC',
+                "title": "组织概况",
+                "subs": [
+                    {
+                        "id": '13At4FDAFFC',
+                        "title": "公司介绍"
+                    }
+                ]
+            }
+        ]
+    }，
+    {
+        "id": '73A65FDAFFC',
+        "title": "环境",
+        "subs": [
+            {
+                "id": '74AawFDAFFC',
+                "title": "排放物",
+                "subs": [
+                    {
+                        "id": '14At4FDAFFC',
+                        "title": "废气"
+                    },
+                    {
+                        "id": '84At4FDAFFC',
+                        "title": "废水"
+                    },
+                    {
+                        "id": '85Al4FDAFFC',
+                        "title": "温室气体"                       
+                    }，
+                    {
+                        "id": '86At4FDAFFC',
+                        "title": "有害废弃物"
+                    }
+                ]
+            }， 
+	    {
+                "id": '75AawFDAFFC',
+                "title": "资源使用",
+                "subs": [
+                    {
+                        "id": '24At4FDAFFC',
+                        "title": "能源"
+                    }
+                ]
+            }
+        ]
+    }
+]

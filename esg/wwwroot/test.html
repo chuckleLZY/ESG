@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <button id= "test" type="button" value="GET">1111</button>
+
+    <script src="./assets/vendor/jquery/jquery-3.3.1.min.js"></script>
+    <script>
+        $("#test").click(function(){
+        
+            $.get("api/Report/GetIndicate4",{
+                
+                "UserId": 7685,
+                "IndicateName1": 1,
+                "IndicateName2": 1,
+                "IndicateName3": 1
+            },function(data){alert(data);},"json");
+       
+        });
+              
+
+    </script>
+</body>
+</html>

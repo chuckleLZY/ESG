@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title></title>
+
+
+<link rel="stylesheet" type="text/css" href="css/tree.css"/>
+
+</head>
+<body>
+
+<div class="wrapper">
+	<div id="justAnInputBox1" class="select-tree-wrap"></div>
+	<div id="justAnInputBox2" class="select-tree-wrap"></div>
+</div>
+
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/comboTreePlugin.js"></script>
+
+<script type="text/javascript">
+	// $.ajax({
+	// 	url: '',
+	// 	type: 'post',
+	// 	contentType : "application/json;charset=utf-8",
+	// 	dataType:'json',
+	// 	success: function(data) {
+	//
+	// 	}
+	// });
+
+	var SampleJSONData = [
+		{
+			"id": '1',
+			"title": "总裁办",
+					"subs": [
+				{
+					"id": '1',
+					"title": "张三"
+				},
+							{
+					"id": '1',
+					"title": "李四"
+				},
+				{
+					"id": '1',
+					"title": "数据中心",
+					"subs": [
+						{
+							"id": '1',
+							"title": "王五"
+						},
+						{
+							"id": '1',
+							"title": "赵武"
+						},
+											{
+							"id": '1',
+							"title": "通讯中心",
+													"subs": [
+														{
+												"id": '73At4FmAFFC',
+												"title": "谢一"
+											},
+														{
+												"id": '73At4FpAFFC',
+												"title": "谢四"
+											}
+													]
+						}
+					]
+				}
+			]
+		}
+	
+	];
+
+	let aaa = $('#justAnInputBox1').comboTree({
+			source : SampleJSONData,
+			isMultiple: false,
+			isFirstClassSelectable:false, //第一级是否可选
+			cascadeSelect: true,
+			selectedlength:3 //最多可选
+	});
+
+	let bbb = $('#justAnInputBox2').comboTree({
+			source : SampleJSONData,
+			isMultiple: true,
+			isFirstClassSelectable:false, //第一级是否可选
+			cascadeSelect: true,
+			selectedlength: 100 //最多可选
+	});
+
+	// bbb.datas(); //获取数据
+
+</script>
+<script type="text/javascript">
+    var json = [{"value":"1","text":"中国","pid":"0","children":[{"value":"2","text":"山东省","pid":"1","children":[{"value":"3","text":"济南市","pid":"2","children":[{"value":"4","text":"历城区","pid":"3","children":[]},{"value":"5","text":"历下区","pid":"3","children":[]},{"value":"6","text":"高新区","pid":"3","children":[{"value":"fe8de48f20e54590bf60a83c4485a650","text":"南白花","pid":"6","children":[]},{"value":"4ac6d79609b5496f9296614ef4166ac7","text":"北白花","pid":"6","children":[]}]}]}]}]}]
+	var KKK = [
+		{
+			"id": '1',
+			"title": "总裁办",
+					"subs": [
+				{
+					"id": '1',
+					"title": "张三"
+				},
+							{
+					"id": '1',
+					"title": "李四"
+				},
+				{
+					"id": '1',
+					"title": "数据中心",
+					"subs": [
+						{
+							"id": '1',
+							"title": "王五"
+						},
+						{
+							"id": '1',
+							"title": "赵武"
+						},
+											{
+							"id": '1',
+							"title": "通讯中心",
+													"subs": [
+														{
+												"id": '73At4FmAFFC',
+												"title": "谢一"
+											},
+														{
+												"id": '73At4FpAFFC',
+												"title": "谢四"
+											}
+													]
+						}
+					]
+				}
+			]
+		}
+	
+	];
+	
+	</script>
+
+    <script type="text/javascript">
+    /**
+     * 递归查询JSON树 父子节点
+     */
+    var parentNode = null;
+    var node = null;
+
+    /**
+     * 根据text查找当前节点以及父节点
+     */
+    function getNode(json, text) { 
+
+        //1.第一层 root 深度遍历整个JSON
+        for (var i = 0; i < json.length; i++) {
+            if (node) {
+                break;
+            }
+            var obj = json[i];
+            //没有就下一个
+            if (!obj || !obj.title) {
+                continue;
+            }
+
+            //2.有节点就开始找，一直递归下去
+            if (obj.title == text) {
+                //找到了与text匹配的节点，结束递归
+                node = obj;
+                break;
+            } else {
+                //3.如果有子节点就开始找
+                if (obj.subs&&obj.subs.length!=0) {
+                    //4.递归前，记录当前节点，作为parent 父亲
+                    parentNode = obj;
+                    //递归往下找
+                    getNode(obj.subs, text);
+                } else {
+                    //跳出当前递归，返回上层递归
+                    continue;
+                }
+            }
+        }
+
+        //5.如果木有找到父节点，置为null，因为没有父亲  
+        if (!node) {
+            parentNode = null;
+        }
+
+        //6.返回结果obj
+        return {
+            parentNode: parentNode,
+            node: node
+        };
+    }
+
+    //批量查询
+    var query = '谢一';
+    var result = [];
+    var getResult = function(json,query){
+        node = null;
+        parentNode = null;
+        var obj = getNode(json, query);
+        //判断是否闭包
+        if(obj.parentNode){
+            //有父节点
+            console.log("查询text:" + query + ", 结果:" + obj.node.title + " -> 父级:" + (obj.parentNode ? obj.parentNode.title : '木有父级!'));
+            //获取父节点text继续查祖节点
+            getResult(json,obj.parentNode.title);
+            result.push(obj.parentNode.title);
+        }
+        return result;
+    }
+    getResult(KKK,query);
+    //最后将查询push到result中
+    result.push(query);
+    console.log(result);//['中国','山东省','济南市','高新区','南白花']
+    </script>
+
+
+</body>
+</html>
+<div class="container-fluid  dashboard-content">
+
+	<div class="row">
+
+		<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+
+			<h2 class="pageheader-title">四级指标名称1</h2>
+			<!--<div class="page-header">-->
+			<div class="card">
+				  <div class="card-body">
+					<div class="table-responsive">
+						<table class="table table-striped table-bordered first">
+							<thead>
+								<tr>
+									<th>五级指标名称</th>
+									<th>1月</th><th>2月</th><th>3月</th>
+									<th>4月</th><th>5月</th><th>6月</th>
+									<th>7月</th><th>8月</th><th>9月</th>
+									<th>10月</th><th>11月</th><th>12月</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<th>柴油</th>
+									<td>1</td><td>1</td><td>1</td>
+									<td>1</td><td>1</td><td>1</td>
+									<td>1</td><td>1</td><td>1</td>
+									<td>1</td><td>1</td><td>1</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+			<h2 class="pageheader-title">四级指标名称2</h2>
+			<!--<div class="page-header">-->
+			<div class="card">
+				  <div class="card-body">
+					<div class="table-responsive">
+						<table class="table table-striped table-bordered first">
+							<thead>
+								<tr>
+									<th>五级指标名称</th>
+									<th>1月</th><th>2月</th><th>3月</th>
+									<th>4月</th><th>5月</th><th>6月</th>
+									<th>7月</th><th>8月</th><th>9月</th>
+									<th>10月</th><th>11月</th><th>12月</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<th>柴油</th>
+									<td>1</td><td>1</td><td>1</td>
+									<td>1</td><td>1</td><td>1</td>
+									<td>1</td><td>1</td><td>1</td>
+									<td>1</td><td>1</td><td>1</td>
+								</tr>
+								<tr>
+									<th>柴油</th>
+									<td>1</td><td>1</td><td>1</td>
+									<td>1</td><td>1</td><td>1</td>
+									<td>1</td><td>1</td><td>1</td>
+									<td>1</td><td>1</td><td>1</td>
+								</tr>
+								<tr>
+									<th>柴油</th>
+									<td>1</td><td>1</td><td>1</td>
+									<td>1</td><td>1</td><td>1</td>
+									<td>1</td><td>1</td><td>1</td>
+									<td>1</td><td>1</td><td>1</td>
+								</tr>
+								<tr>
+									<th>柴油</th>
+									<td>1</td><td>1</td><td>1</td>
+									<td>1</td><td>1</td><td>1</td>
+									<td>1</td><td>1</td><td>1</td>
+									<td>1</td><td>1</td><td>1</td>
+								</tr>
+								<tr>
+									<th>柴油</th>
+									<td>1</td><td>1</td><td>1</td>
+									<td>1</td><td>1</td><td>1</td>
+									<td>1</td><td>1</td><td>1</td>
+									<td>1</td><td>1</td><td>1</td>
+								</tr>
+								<tr>
+									<th>柴油</th>
+									<td>1</td><td>1</td><td>1</td>
+									<td>1</td><td>1</td><td>1</td>
+									<td>1</td><td>1</td><td>1</td>
+									<td>1</td><td>1</td><td>1</td>
+								</tr>
+
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+   
+</div>

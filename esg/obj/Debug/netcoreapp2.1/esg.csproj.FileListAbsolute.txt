@@ -1,0 +1,65 @@
+C:\Users\user\source\repos\esg\esg\bin\Debug\netcoreapp2.1\esg.deps.json
+C:\Users\user\source\repos\esg\esg\bin\Debug\netcoreapp2.1\esg.runtimeconfig.json
+C:\Users\user\source\repos\esg\esg\bin\Debug\netcoreapp2.1\esg.runtimeconfig.dev.json
+C:\Users\user\source\repos\esg\esg\bin\Debug\netcoreapp2.1\esg.dll
+C:\Users\user\source\repos\esg\esg\obj\Debug\netcoreapp2.1\esg.csproj.CoreCompileInputs.cache
+C:\Users\user\source\repos\esg\esg\obj\Debug\netcoreapp2.1\esg.RazorAssemblyInfo.cache
+C:\Users\user\source\repos\esg\esg\obj\Debug\netcoreapp2.1\esg.RazorAssemblyInfo.cs
+C:\Users\user\source\repos\esg\esg\obj\Debug\netcoreapp2.1\esg.AssemblyInfoInputs.cache
+C:\Users\user\source\repos\esg\esg\obj\Debug\netcoreapp2.1\esg.AssemblyInfo.cs
+C:\Users\user\source\repos\esg\esg\obj\Debug\netcoreapp2.1\esg.RazorTargetAssemblyInfo.cache
+C:\Users\user\source\repos\esg\esg\bin\Debug\netcoreapp2.1\esg.pdb
+C:\Users\user\source\repos\esg\esg\obj\Debug\netcoreapp2.1\esg.dll
+C:\Users\user\source\repos\esg\esg\obj\Debug\netcoreapp2.1\esg.pdb
+C:\Users\user\source\repos\esg\esg\bin\Debug\netcoreapp2.1\esg.Views.dll
+C:\Users\user\source\repos\esg\esg\obj\Debug\netcoreapp2.1\esg.csproj.CopyComplete
+C:\Users\Wade\Documents\WeChat Files\matianf\FileStorage\File\2020-08\esg\esg\bin\Debug\netcoreapp2.1\appsettings.Development.json
+C:\Users\Wade\Documents\WeChat Files\matianf\FileStorage\File\2020-08\esg\esg\bin\Debug\netcoreapp2.1\appsettings.json
+C:\Users\Wade\Documents\WeChat Files\matianf\FileStorage\File\2020-08\esg\esg\bin\Debug\netcoreapp2.1\Properties\launchSettings.json
+C:\Users\Wade\Documents\WeChat Files\matianf\FileStorage\File\2020-08\esg\esg\bin\Debug\netcoreapp2.1\esg.deps.json
+C:\Users\Wade\Documents\WeChat Files\matianf\FileStorage\File\2020-08\esg\esg\bin\Debug\netcoreapp2.1\esg.runtimeconfig.json
+C:\Users\Wade\Documents\WeChat Files\matianf\FileStorage\File\2020-08\esg\esg\bin\Debug\netcoreapp2.1\esg.runtimeconfig.dev.json
+C:\Users\Wade\Documents\WeChat Files\matianf\FileStorage\File\2020-08\esg\esg\bin\Debug\netcoreapp2.1\esg.dll
+C:\Users\Wade\Documents\WeChat Files\matianf\FileStorage\File\2020-08\esg\esg\bin\Debug\netcoreapp2.1\esg.pdb
+C:\Users\Wade\Documents\WeChat Files\matianf\FileStorage\File\2020-08\esg\esg\bin\Debug\netcoreapp2.1\esg.Views.dll
+C:\Users\Wade\Documents\WeChat Files\matianf\FileStorage\File\2020-08\esg\esg\bin\Debug\netcoreapp2.1\esg.Views.pdb
+C:\Users\Wade\Documents\WeChat Files\matianf\FileStorage\File\2020-08\esg\esg\obj\Debug\netcoreapp2.1\esg.csprojAssemblyReference.cache
+C:\Users\Wade\Documents\WeChat Files\matianf\FileStorage\File\2020-08\esg\esg\obj\Debug\netcoreapp2.1\esg.AssemblyInfoInputs.cache
+C:\Users\Wade\Documents\WeChat Files\matianf\FileStorage\File\2020-08\esg\esg\obj\Debug\netcoreapp2.1\esg.AssemblyInfo.cs
+C:\Users\Wade\Documents\WeChat Files\matianf\FileStorage\File\2020-08\esg\esg\obj\Debug\netcoreapp2.1\esg.csproj.CoreCompileInputs.cache
+C:\Users\Wade\Documents\WeChat Files\matianf\FileStorage\File\2020-08\esg\esg\obj\Debug\netcoreapp2.1\esg.RazorAssemblyInfo.cache
+C:\Users\Wade\Documents\WeChat Files\matianf\FileStorage\File\2020-08\esg\esg\obj\Debug\netcoreapp2.1\esg.RazorAssemblyInfo.cs
+C:\Users\Wade\Documents\WeChat Files\matianf\FileStorage\File\2020-08\esg\esg\obj\Debug\netcoreapp2.1\esg.TagHelpers.input.cache
+C:\Users\Wade\Documents\WeChat Files\matianf\FileStorage\File\2020-08\esg\esg\obj\Debug\netcoreapp2.1\esg.TagHelpers.output.cache
+C:\Users\Wade\Documents\WeChat Files\matianf\FileStorage\File\2020-08\esg\esg\obj\Debug\netcoreapp2.1\esg.RazorCoreGenerate.cache
+C:\Users\Wade\Documents\WeChat Files\matianf\FileStorage\File\2020-08\esg\esg\obj\Debug\netcoreapp2.1\Razor\wwwroot\login.cshtml.g.cs
+C:\Users\Wade\Documents\WeChat Files\matianf\FileStorage\File\2020-08\esg\esg\obj\Debug\netcoreapp2.1\esg.RazorTargetAssemblyInfo.cache
+C:\Users\Wade\Documents\WeChat Files\matianf\FileStorage\File\2020-08\esg\esg\obj\Debug\netcoreapp2.1\esg.RazorTargetAssemblyInfo.cs
+C:\Users\Wade\Documents\WeChat Files\matianf\FileStorage\File\2020-08\esg\esg\obj\Debug\netcoreapp2.1\esg.Views.pdb
+C:\Users\Wade\Documents\WeChat Files\matianf\FileStorage\File\2020-08\esg\esg\obj\Debug\netcoreapp2.1\esg.dll
+C:\Users\Wade\Documents\WeChat Files\matianf\FileStorage\File\2020-08\esg\esg\obj\Debug\netcoreapp2.1\esg.pdb
+C:\Users\Wade\Documents\WeChat Files\matianf\FileStorage\File\2020-08\esg\esg\obj\Debug\netcoreapp2.1\esg.genruntimeconfig.cache
+C:\Users\Wade\Documents\WeChat Files\matianf\FileStorage\File\2020-08\esg\esg\obj\Debug\netcoreapp2.1\esg.csproj.CopyComplete
+C:\Users\11582\Desktop\WEB终极测试\esg\bin\Debug\netcoreapp2.1\esg.deps.json
+C:\Users\11582\Desktop\WEB终极测试\esg\bin\Debug\netcoreapp2.1\esg.runtimeconfig.json
+C:\Users\11582\Desktop\WEB终极测试\esg\bin\Debug\netcoreapp2.1\esg.runtimeconfig.dev.json
+C:\Users\11582\Desktop\WEB终极测试\esg\bin\Debug\netcoreapp2.1\esg.dll
+C:\Users\11582\Desktop\WEB终极测试\esg\bin\Debug\netcoreapp2.1\esg.pdb
+C:\Users\11582\Desktop\WEB终极测试\esg\bin\Debug\netcoreapp2.1\esg.Views.dll
+C:\Users\11582\Desktop\WEB终极测试\esg\bin\Debug\netcoreapp2.1\esg.Views.pdb
+C:\Users\11582\Desktop\WEB终极测试\esg\obj\Debug\netcoreapp2.1\esg.csprojAssemblyReference.cache
+C:\Users\11582\Desktop\WEB终极测试\esg\obj\Debug\netcoreapp2.1\esg.csproj.CoreCompileInputs.cache
+C:\Users\11582\Desktop\WEB终极测试\esg\obj\Debug\netcoreapp2.1\esg.RazorAssemblyInfo.cache
+C:\Users\11582\Desktop\WEB终极测试\esg\obj\Debug\netcoreapp2.1\esg.RazorAssemblyInfo.cs
+C:\Users\11582\Desktop\WEB终极测试\esg\obj\Debug\netcoreapp2.1\esg.AssemblyInfoInputs.cache
+C:\Users\11582\Desktop\WEB终极测试\esg\obj\Debug\netcoreapp2.1\esg.AssemblyInfo.cs
+C:\Users\11582\Desktop\WEB终极测试\esg\obj\Debug\netcoreapp2.1\esg.TagHelpers.input.cache
+C:\Users\11582\Desktop\WEB终极测试\esg\obj\Debug\netcoreapp2.1\esg.TagHelpers.output.cache
+C:\Users\11582\Desktop\WEB终极测试\esg\obj\Debug\netcoreapp2.1\esg.RazorCoreGenerate.cache
+C:\Users\11582\Desktop\WEB终极测试\esg\obj\Debug\netcoreapp2.1\Razor\wwwroot\login.g.cshtml.cs
+C:\Users\11582\Desktop\WEB终极测试\esg\obj\Debug\netcoreapp2.1\esg.RazorTargetAssemblyInfo.cache
+C:\Users\11582\Desktop\WEB终极测试\esg\obj\Debug\netcoreapp2.1\esg.RazorTargetAssemblyInfo.cs
+C:\Users\11582\Desktop\WEB终极测试\esg\obj\Debug\netcoreapp2.1\esg.Views.pdb
+C:\Users\11582\Desktop\WEB终极测试\esg\obj\Debug\netcoreapp2.1\esg.dll
+C:\Users\11582\Desktop\WEB终极测试\esg\obj\Debug\netcoreapp2.1\esg.pdb
+C:\Users\11582\Desktop\WEB终极测试\esg\obj\Debug\netcoreapp2.1\esg.csproj.CopyComplete
