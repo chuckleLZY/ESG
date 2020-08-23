@@ -260,7 +260,7 @@ namespace esg.Controllers
             return Json(list);
         }
         //查看信息
-        [HttpGet]
+        [HttpPost]
         public JsonResult viewPI([FromBody] int user_id)
         {
             List<viewPIReturn> list = new List<viewPIReturn>();
