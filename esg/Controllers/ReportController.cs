@@ -262,7 +262,7 @@ namespace esg.Controllers
         }
 
         //查看一、二、三级指标
-        [HttpGet]
+        [HttpPost]
         //   api/Report/GetIndicate123
         public List<Indicate123> GetIndicate123(Indicate ind)
         {
@@ -302,7 +302,7 @@ namespace esg.Controllers
         }
 
         //查看四级指标
-        [HttpGet]
+        [HttpPost]
         //   api/Report/GetIndicate4
         public List<string> GetIndicate4(Indicate ind)
         {
@@ -337,7 +337,7 @@ namespace esg.Controllers
         }
 
         //查看数据
-        [HttpGet]
+        [HttpPost]
         //   api/Report/GetData
         public List<Data> GetData([FromForm]Indicate ind)
         {
