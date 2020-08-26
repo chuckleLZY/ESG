@@ -97,7 +97,7 @@ namespace esg.Controllers
                 {
                     if (data.Type == 2)
                     {
-                        string sql = "update data_qualitative set report_id = @RId, report_year =@Year, data = @Data where esg_id = @EId";
+                        string sql = "update data_qualitative set data = @Data where esg_id = @EId,report_id = @RId, report_year =@Year";
                         cmd.Connection = conn;
                         cmd.CommandText = sql;
 
@@ -108,7 +108,7 @@ namespace esg.Controllers
                     }
                     else if (data.Type == 1 || data.Type == 11 || data.Type == 12)//定量输入
                     {
-                        string sql = "update data_quantitative set report_id = @RId, report_year =@Year,report_month=@Month, data = @Data where esg_id = @EId";
+                        string sql = "update data_quantitative set data = @Data where esg_id = @EId,report_id = @RId, report_year =@Year,report_month=@Month";
                         cmd.Connection = conn;
                         cmd.CommandText = sql;
 
