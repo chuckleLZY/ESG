@@ -17,7 +17,7 @@ namespace esg.Controllers
 
         //录入指标信息(定性)
         [HttpPost]
-        public int InputDataF([FromBody] DataQualitative data)
+        public int InputData([FromBody] InputData data)
         {
             int error_code = 1;
             using (MySqlConnection conn = new MySqlConnection(connString))
@@ -25,38 +25,18 @@ namespace esg.Controllers
                 conn.Open();
                 using (MySqlCommand cmd = new MySqlCommand())
                 {
-                    string sql = "insert into data_qualitative(esg_id,report_id,report_year,data) values(@EId,@RId,@Year,@Data)";
-                    cmd.Connection = conn;
-                    cmd.CommandText = sql;
-
-                    cmd.Parameters.Add(new MySqlParameter("@EId", data.EsgId));
-                    cmd.Parameters.Add(new MySqlParameter("@RId", data.ReportId));
-                    cmd.Parameters.Add(new MySqlParameter("@Year", System.DateTime.Now.Year));
-                    cmd.Parameters.Add(new MySqlParameter("@Data", data.Data));
-
-                    if (cmd.ExecuteNonQuery() != 1)
+                    if (data.Type == 2)
                     {
-                        error_code = 0;
+                        string sql = "insert into data_qualitative(esg_id,report_id,report_year,data) values(@EId,@RId,@Year,@Data)";
+                        cmd.Connection = conn;
+                        cmd.CommandText = sql;
+
+                        cmd.Parameters.Add(new MySqlParameter("@EId", data.EsgId));
+                        cmd.Parameters.Add(new MySqlParameter("@RId", data.ReportId));
+                        cmd.Parameters.Add(new MySqlParameter("@Year", System.DateTime.Now.Year));
+                        cmd.Parameters.Add(new MySqlParameter("@Data", data.Data));
                     }
-                }
-                conn.Close();
-            }
-            return error_code;
-        }
-
-        //录入指标信息(定量)
-        [HttpPost]
-        public int InputDataT([FromBody] DataQuantitative data)
-        {
-            int error_code = 1;
-
-            using (MySqlConnection conn = new MySqlConnection(connString))
-            {
-                conn.Open();
-                using (MySqlCommand cmd = new MySqlCommand())
-                {
-                    double temp = data.Data;
-                    if (data.Type == 1||data.Type==11||data.Type==12)//定量输入
+                    else if (data.Type == 1 || data.Type == 11 || data.Type == 12)//定量输入
                     {
                         if (data.Type == 11 || data.Type == 12)//定量计算
                         {
@@ -79,7 +59,6 @@ namespace esg.Controllers
                                 }
                             }
                             data.Data = solve(operation);
-
                         }
                         string sql = "insert into data_quantitative(esg_id,report_id,report_year,report_month,data) values(@EId,@RId,@Year,@Month,@Data)";
                         cmd.Connection = conn;
@@ -87,19 +66,91 @@ namespace esg.Controllers
 
                         cmd.Parameters.Add(new MySqlParameter("@EId", data.EsgId));
                         cmd.Parameters.Add(new MySqlParameter("@RId", data.ReportId));
-                        cmd.Parameters.Add(new MySqlParameter("@Year", System.DateTime.Now.Year));
-                        cmd.Parameters.Add(new MySqlParameter("@Month", System.DateTime.Now.Month));
+                        cmd.Parameters.Add(new MySqlParameter("@Year", data.ReportYear));
+                        cmd.Parameters.Add(new MySqlParameter("@Month", data.ReportMonth));
                         cmd.Parameters.Add(new MySqlParameter("@Data", data.Data));
-
-                        if (cmd.ExecuteNonQuery() != 1)
-                        {
-                            error_code = 0;
-                        }
                     }
-                    else
+                    else//error type
                     {
-                        //错误type，返回-1
                         error_code = -1;
+                        conn.Close();
+                        return error_code;
+                    }
+                    if (cmd.ExecuteNonQuery() != 1)
+                    {
+                        error_code = 0;
+                    }
+                }
+                conn.Close();
+            }
+            return error_code;
+        }
+
+        [HttpPut]///////////////////////////////////////////////
+        public int UpdataData([FromBody] InputData data)
+        {
+            int error_code = 1;
+            using (MySqlConnection conn = new MySqlConnection(connString))
+            {
+                conn.Open();
+                using (MySqlCommand cmd = new MySqlCommand())
+                {
+                    if (data.Type == 2)
+                    {
+                        string sql = "update data_qualitative set report_id = @RId, report_year =@Year, data = @Data where esg_id = @EId";
+                        cmd.Connection = conn;
+                        cmd.CommandText = sql;
+
+                        cmd.Parameters.Add(new MySqlParameter("@RId", data.ReportId));
+                        cmd.Parameters.Add(new MySqlParameter("@Year", data.ReportYear));
+                        cmd.Parameters.Add(new MySqlParameter("@Data", data.Data));
+                        cmd.Parameters.Add(new MySqlParameter("@EId", data.EsgId));
+                    }
+                    else if (data.Type == 1 || data.Type == 11 || data.Type == 12)//定量输入
+                    {
+                        string sql = "update data_quantitative set report_id = @RId, report_year =@Year,report_month=@Month, data = @Data where esg_id = @EId";
+                        cmd.Connection = conn;
+                        cmd.CommandText = sql;
+
+                        cmd.Parameters.Add(new MySqlParameter("@RId", data.ReportId));
+                        cmd.Parameters.Add(new MySqlParameter("@Year", data.ReportYear));
+                        cmd.Parameters.Add(new MySqlParameter("@Month", data.ReportMonth));
+                        cmd.Parameters.Add(new MySqlParameter("@Data", data.Data));
+                        cmd.Parameters.Add(new MySqlParameter("@EId", data.EsgId));
+                    }
+                    else//error type
+                    {
+                        error_code = -1;
+                        conn.Close();
+                        return error_code;
+                    }
+                    if (cmd.ExecuteNonQuery() != 1)
+                    {
+                        error_code = 0;
+                    }
+                }
+                conn.Close();
+            }
+            return error_code;
+        }
+
+        //数据录入员提交审核
+        [HttpPut]
+        public int Submit(int report_id)
+        {
+            int error_code = 1;
+            using (MySqlConnection conn = new MySqlConnection(connString))
+            {
+                conn.Open();
+                using (MySqlCommand cmd = new MySqlCommand())
+                {
+                    string sql = "update report set status=10 where report_id=@reportId";
+                    cmd.Connection = conn;
+                    cmd.CommandText = sql;
+                    cmd.Parameters.Add(new MySqlParameter("@reportId", report_id));
+                    if (cmd.ExecuteNonQuery() != 1)
+                    {
+                        error_code = 0;
                     }
                 }
                 conn.Close();
