@@ -7,11 +7,12 @@ namespace esg.Models
 {
     public class Data
     {
-        public string Name { get; set; }
+        public string ESG_Id { get; set; }
+        public int Report_Month { get; set; }
         //public string Data_f { get; set; }//定性指标
         //public double Data_t { get; set; }//定量指标
         public dynamic TData { get; set; }
-        public int Status { get; set; }
+        //public int Status { get; set; }
     }
     public class InputData
     {
