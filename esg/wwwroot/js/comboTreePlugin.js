@@ -357,24 +357,67 @@
         getResult(KKK,target.attr('data-name'));
         result.push(target.attr('data-name'));
         console.log(result);
-        var str = encodeURI(JSON.stringify({
-            //UserId: $("#id").val(),
-            UserId: "7685",
-            IndicateName1: "环境",
-            IndicateName2: "排放物",
-            IndicateName3: "废气"
-        }),'utf-8')
+        var str = JSON.stringify({
+            IndicateName1: result[0],
+            IndicateName2: result[1],
+            IndicateName3: result[2]
+        });
+        $("#bread1").html(result[0]);
+        $("#bread2").html(result[1]);
+        $("#bread3").html(result[2]);
+        $("#MAIN").html("");
         $.ajax({
             url: "api/Report/GetIndicate4",//修改API
-            type: "GET",
+            type: "POST",
             contentType: "application/json",
             data: str,
-        success:function(data){alert(data);},
+        success:function(data){//alert(data);
+            //此时已经拿到了四级指标
+            var level4=data;
+            for(var i=0;i<data.length;i++)
+            {
+                $("#MAIN").append("<h2 class=\"pageheader-title\">"+data[i]+"</h2><div class=\"card\"><div class=\"card-body\"> \
+                <div id=\"Five\" class=\"table-responsive\"></div></div></div>");
+            }
+            var str1=JSON.stringify({
+                IndicateName1: $("#bread1").html(),
+                IndicateName2: $("#bread2").html(),
+                IndicateName3: $("#bread3").html(),
+                IndicateName4:data[0]
+            });
+        
+            $.ajax({
+                url: "api/Report/GetIndicate5",//修改API
+                type: "POST",
+                contentType: "application/json",
+                data: str1,
+            success:function(data){//alert();
+            for(var i=0;i<data.length;i++)
+            {
+                if(data[i]["type"]==1)
+                {
+                    //
+                //
+                    $("#Five").append("<h4 class=\"pageheader-title\" style=\"font-size:\
+                    15px\">"+data[i]["esG_Id"]+"&nbsp;&nbsp;&nbsp;"+data[i]["name"]+"(单位:"+data[i]["unit"]+")"+"</h4>\
+                    <table class=\"table table-striped table-bordered first\"> \
+                    <thead id=\"head\">\
+                    <tr>\
+                    <th>1月</th><th>2月</th><th>3月</th>\
+                    <th>4月</th><th>5月</th><th>6月</th>\
+                    <th>7月</th><th>8月</th><th>9月</th>\
+                    <th>10月</th><th>11月</th><th>12月</th>\
+                </tr>\
+                    </thead><tbody id=\"body\"></tbody></table>");
+                }
+            }
+            
+            },
+            error:function(xhr){alert("error");}
+             });
+        },
         error:function(xhr){alert("error");}
          });
-
-
-
 
 
         result.splice(0, result.length);
