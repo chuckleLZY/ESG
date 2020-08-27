@@ -362,9 +362,11 @@ namespace esg.Controllers
 
         //查看数据
         [HttpPost]
-        //   api/Report/GetData?Report_Year=
-        public List<Data> GetData([FromBody]List<DataDetail> dataDetails,int Report_Year,int ReportId)
+        //   api/Report/GetData
+        public List<Data> GetData([FromBody]DataDetails dataDetail)
         {
+            int Report_Year = dataDetail.Report_Year;
+            int ReportId = dataDetail.ReportId;
             List<Data> datas = new List<Data>();
             using (MySqlConnection con = new MySqlConnection(connString))
             {
@@ -393,11 +395,11 @@ namespace esg.Controllers
                 reader.Close();
                 Data data = new Data();
                 int frequency;
-                for (int i=0;i<dataDetails.Count;i++)
+                for (int i=0;i< dataDetail.dataDetails.Count;i++)
                 {
-                    if(dataDetails[i].Type>10)
+                    if(dataDetail.dataDetails[i].Type>10)
                     {
-                        if(dataDetails[i].ESG_Id== "A1.2-10")
+                        if(dataDetail.dataDetails[i].ESG_Id== "A1.2-10")
                         {
                             //A2.1 - 10 * A1.2 - 10
                             double A21_10, A12_10;
@@ -409,7 +411,7 @@ namespace esg.Controllers
                             {
                                 reader.Close();
                                 data = new Data();
-                                data.ESG_Id = dataDetails[i].ESG_Id;
+                                data.ESG_Id = dataDetail.dataDetails[i].ESG_Id;
                                 data.Report_Month = 0;
                                 data.TData = -1;
                                 datas.Add(data);
@@ -426,7 +428,7 @@ namespace esg.Controllers
                                 {
                                     reader.Close();
                                     data = new Data();
-                                    data.ESG_Id = dataDetails[i].ESG_Id;
+                                    data.ESG_Id = dataDetail.dataDetails[i].ESG_Id;
                                     data.Report_Month = j;
                                     data.TData = -1;
                                     datas.Add(data);
@@ -439,14 +441,14 @@ namespace esg.Controllers
                                     reader.Close();
 
                                     data = new Data();
-                                    data.ESG_Id = dataDetails[i].ESG_Id;
+                                    data.ESG_Id = dataDetail.dataDetails[i].ESG_Id;
                                     data.Report_Month = j;
                                     data.TData = A21_10 * A12_10;
                                     datas.Add(data);
                                 }
                             }
                         }
-                        else if(dataDetails[i].ESG_Id == "A1.3-55")
+                        else if(dataDetail.dataDetails[i].ESG_Id == "A1.3-55")
                         {
                             //A1.3-35
                             double A13_35;
@@ -460,7 +462,7 @@ namespace esg.Controllers
                                 {
                                     reader.Close();
                                     data = new Data();
-                                    data.ESG_Id = dataDetails[i].ESG_Id;
+                                    data.ESG_Id = dataDetail.dataDetails[i].ESG_Id;
                                     data.Report_Month = j;
                                     data.TData = -1;
                                     datas.Add(data);
@@ -470,13 +472,13 @@ namespace esg.Controllers
                                 reader.Close();
 
                                 data = new Data();
-                                data.ESG_Id = dataDetails[i].ESG_Id;
+                                data.ESG_Id = dataDetail.dataDetails[i].ESG_Id;
                                 data.Report_Month = j;
                                 data.TData = A13_35;
                                 datas.Add(data);
                             }
                         }
-                        else if (dataDetails[i].ESG_Id == "A1.3-56")
+                        else if (dataDetail.dataDetails[i].ESG_Id == "A1.3-56")
                         {
                             //A1.3-55/A0-4
                             double A13_55,A0_4;
@@ -490,7 +492,7 @@ namespace esg.Controllers
                                 {
                                     reader.Close();
                                     data = new Data();
-                                    data.ESG_Id = dataDetails[i].ESG_Id;
+                                    data.ESG_Id = dataDetail.dataDetails[i].ESG_Id;
                                     data.Report_Month = j;
                                     data.TData = -1;
                                     datas.Add(data);
@@ -507,7 +509,7 @@ namespace esg.Controllers
                                 {
                                     reader.Close();
                                     data = new Data();
-                                    data.ESG_Id = dataDetails[i].ESG_Id;
+                                    data.ESG_Id = dataDetail.dataDetails[i].ESG_Id;
                                     data.Report_Month = j;
                                     data.TData = -1;
                                     datas.Add(data);
@@ -517,14 +519,14 @@ namespace esg.Controllers
                                 reader.Close();
 
                                 data = new Data();
-                                data.ESG_Id = dataDetails[i].ESG_Id;
+                                data.ESG_Id = dataDetail.dataDetails[i].ESG_Id;
                                 data.Report_Month = j;
                                 data.TData = A13_55/A0_4;
                                 datas.Add(data);
                             }
                         }
 
-                        else if (dataDetails[i].ESG_Id == "A2.1-10")
+                        else if (dataDetail.dataDetails[i].ESG_Id == "A2.1-10")
                         {
                             //A2.1-10.1*能源系数A2.1-10
                             double A21_101, A21_10;
@@ -536,7 +538,7 @@ namespace esg.Controllers
                             {
                                 reader.Close();
                                 data = new Data();
-                                data.ESG_Id = dataDetails[i].ESG_Id;
+                                data.ESG_Id = dataDetail.dataDetails[i].ESG_Id;
                                 data.Report_Month = 0;
                                 data.TData = -1;
                                 datas.Add(data);
@@ -554,7 +556,7 @@ namespace esg.Controllers
                                 {
                                     reader.Close();
                                     data = new Data();
-                                    data.ESG_Id = dataDetails[i].ESG_Id;
+                                    data.ESG_Id = dataDetail.dataDetails[i].ESG_Id;
                                     data.Report_Month = j;
                                     data.TData = -1;
                                     datas.Add(data);
@@ -563,7 +565,7 @@ namespace esg.Controllers
                                 A21_101 = reader.GetDouble("data");
 
                                 data = new Data();
-                                data.ESG_Id = dataDetails[i].ESG_Id;
+                                data.ESG_Id = dataDetail.dataDetails[i].ESG_Id;
                                 data.Report_Month = j;
                                 data.TData = A21_101 * A21_10;
                                 datas.Add(data);
@@ -573,9 +575,9 @@ namespace esg.Controllers
                     }
                     else
                     {
-                        if(dataDetails[i].Type == 2)//定性数据
+                        if(dataDetail.dataDetails[i].Type == 2)//定性数据
                         {
-                            sql = "select data from data_qualitative where esg_id='"+dataDetails[i].ESG_Id+"' and report_id='" + ReportId + "' and report_year='" + Report_Year + "'";
+                            sql = "select data from data_qualitative where esg_id='"+ dataDetail.dataDetails[i].ESG_Id+"' and report_id='" + ReportId + "' and report_year='" + Report_Year + "'";
                             cmd = new MySqlCommand(sql, con);
                             reader = cmd.ExecuteReader();
                             reader.Read();
@@ -583,21 +585,21 @@ namespace esg.Controllers
                             {
                                 reader.Close();
                                 data = new Data();
-                                data.ESG_Id = dataDetails[i].ESG_Id;
+                                data.ESG_Id = dataDetail.dataDetails[i].ESG_Id;
                                 data.Report_Month = 0;
                                 data.TData = -1;
                                 datas.Add(data);
                                 continue;
                             }
                             data = new Data();
-                            data.ESG_Id = dataDetails[i].ESG_Id;
+                            data.ESG_Id = dataDetail.dataDetails[i].ESG_Id;
                             data.TData = reader.GetString("data");
                             datas.Add(data);
                             reader.Close();
                         }
-                        else if(dataDetails[i].Type == 1)//定量数据
+                        else if(dataDetail.dataDetails[i].Type == 1)//定量数据
                         {
-                            sql = "select frequency from indicate where esg_id='" + dataDetails[i].ESG_Id + "'";
+                            sql = "select frequency from indicate where esg_id='" + dataDetail.dataDetails[i].ESG_Id + "'";
                             cmd = new MySqlCommand(sql, con);
                             reader = cmd.ExecuteReader();
                             reader.Read();
@@ -605,7 +607,7 @@ namespace esg.Controllers
                             {
                                 reader.Close();
                                 data = new Data();
-                                data.ESG_Id = dataDetails[i].ESG_Id;
+                                data.ESG_Id = dataDetail.dataDetails[i].ESG_Id;
                                 data.Report_Month = 0;
                                 data.TData = -1;
                                 datas.Add(data);
@@ -615,7 +617,7 @@ namespace esg.Controllers
                             reader.Close();
                             if (frequency==0)//频率为年
                             {
-                                sql = "select data from data_quantitative where esg_id='" + dataDetails[i].ESG_Id + "' and report_id='" + ReportId + "' and report_year='" + Report_Year + "'";
+                                sql = "select data from data_quantitative where esg_id='" + dataDetail.dataDetails[i].ESG_Id + "' and report_id='" + ReportId + "' and report_year='" + Report_Year + "'";
                                 cmd = new MySqlCommand(sql, con);
                                 reader = cmd.ExecuteReader();
                                 reader.Read();
@@ -623,14 +625,14 @@ namespace esg.Controllers
                                 {
                                     reader.Close();
                                     data = new Data();
-                                    data.ESG_Id = dataDetails[i].ESG_Id;
+                                    data.ESG_Id = dataDetail.dataDetails[i].ESG_Id;
                                     data.Report_Month = 0;
                                     data.TData = -1;
                                     datas.Add(data);
                                     continue;
                                 }
                                 data = new Data();
-                                data.ESG_Id = dataDetails[i].ESG_Id;
+                                data.ESG_Id = dataDetail.dataDetails[i].ESG_Id;
                                 data.TData = reader.GetDouble("data");
                                 datas.Add(data);
                                 reader.Close();
@@ -639,7 +641,7 @@ namespace esg.Controllers
                             {
                                 for (int j = 1; j < 13; j++)
                                 {
-                                    sql = "select data from data_quantitative where esg_id='" + dataDetails[i].ESG_Id + "' and report_id='" + ReportId + "' and report_year='" + Report_Year + "' and report_month='" + j + "'";
+                                    sql = "select data from data_quantitative where esg_id='" + dataDetail.dataDetails[i].ESG_Id + "' and report_id='" + ReportId + "' and report_year='" + Report_Year + "' and report_month='" + j + "'";
                                     cmd = new MySqlCommand(sql, con);
                                     reader = cmd.ExecuteReader();
                                     reader.Read();
@@ -647,14 +649,14 @@ namespace esg.Controllers
                                     {
                                         reader.Close();
                                         data = new Data();
-                                        data.ESG_Id = dataDetails[i].ESG_Id;
+                                        data.ESG_Id = dataDetail.dataDetails[i].ESG_Id;
                                         data.Report_Month = j;
                                         data.TData = -1;
                                         datas.Add(data);
                                         continue;
                                     }
                                     data = new Data();
-                                    data.ESG_Id = dataDetails[i].ESG_Id;
+                                    data.ESG_Id = dataDetail.dataDetails[i].ESG_Id;
                                     data.Report_Month = j;
                                     data.TData = reader.GetDouble("data");
                                     datas.Add(data);
@@ -668,7 +670,7 @@ namespace esg.Controllers
                 return datas;
             }
         }
-
+        
         //数据录入员提交审核
         [HttpPut]
         //   api/Report/DataSubmitReport
