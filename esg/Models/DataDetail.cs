@@ -10,4 +10,10 @@ namespace esg.Models
         public String ESG_Id { get; set; }
         public int Type { get; set; }
     }
+    public class DataDetails
+    {
+        public int Report_Year { get; set; }
+        public int ReportId { get; set; }
+        public List<DataDetail> dataDetails { get; set; }
+    }
 }
