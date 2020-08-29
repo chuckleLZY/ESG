@@ -377,48 +377,809 @@
             for(var i=0;i<data.length;i++)
             {
                 $("#MAIN").append("<h2 class=\"pageheader-title\">"+data[i]+"</h2><div class=\"card\"><div class=\"card-body\"> \
-                <div id=\"Five\" class=\"table-responsive\"></div></div></div>");
+                <div name=\"Five\" class=\"table-responsive\"></div></div></div>");
             }
-            var str1=JSON.stringify({
-                IndicateName1: $("#bread1").html(),
-                IndicateName2: $("#bread2").html(),
-                IndicateName3: $("#bread3").html(),
-                IndicateName4:data[0]
-            });
-        
-            $.ajax({
-                url: "api/Report/GetIndicate5",//修改API
-                type: "POST",
-                contentType: "application/json",
-                data: str1,
-            success:function(data){//alert();
             for(var i=0;i<data.length;i++)
             {
-                if(data[i]["type"]==1)
+                //针对于每一个四级指标要发送一个请求
+                var str1=JSON.stringify({
+                    IndicateName1: $("#bread1").html(),
+                    IndicateName2: $("#bread2").html(),
+                    IndicateName3: $("#bread3").html(),
+                    IndicateName4: data[i]
+                });
+                $.ajax({
+                    url: "api/Report/GetIndicate5",
+                    type: "POST",
+                    async: false,
+                    contentType: "application/json",
+                    data: str1,
+                success:function(data2){//alert();
+                if(rst==0||rst==1)//报表权限：可以更改
                 {
-                    //
-                //
-                    $("#Five").append("<h4 class=\"pageheader-title\" style=\"font-size:\
-                    15px\">"+data[i]["esG_Id"]+"&nbsp;&nbsp;&nbsp;"+data[i]["name"]+"(单位:"+data[i]["unit"]+")"+"</h4>\
-                    <table class=\"table table-striped table-bordered first\"> \
-                    <thead id=\"head\">\
-                    <tr>\
-                    <th>1月</th><th>2月</th><th>3月</th>\
-                    <th>4月</th><th>5月</th><th>6月</th>\
-                    <th>7月</th><th>8月</th><th>9月</th>\
-                    <th>10月</th><th>11月</th><th>12月</th>\
-                </tr>\
-                    </thead><tbody id=\"body\"></tbody></table>");
+                    for(var j=0;j<data2.length;j++)
+                    {
+                     $("[name='Five']").each(function(index){
+                        if(index==i){//选择对应的四级表格插入
+                            if(data2[j]["type"]==1)//定量指标
+                            {
+                               if(data2[j]["frequency"]==1)//按月
+                               {
+                                $(this).append("<h4 class=\"pageheader-title\" style=\"font-size:\
+                                15px\">"+data2[j]["esG_Id"]+"&nbsp;&nbsp;&nbsp;"+data2[j]["name"]+"(单位:\
+                                "+data2[j]["unit"]+")"+"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\
+                                <span class=\"badge badge-pill badge-primary\">定量指标-按月填报</span>"+"</h4>\
+                                <table class=\"table table-striped table-bordered first\"> \
+                                <thead id=\"head\">\
+                                <tr>\
+                                <th>1月</th><th>2月</th><th>3月</th>\
+                                <th>4月</th><th>5月</th><th>6月</th>\
+                                </tr>\
+                                </thead>\
+                                <tbody id=\"body\">\
+                                <tr>\
+                                <td><input type=\"text\" id=\"1\" name=\""+data2[j]["esG_Id"]+"\" class=\"form-control\"></td>\
+                                <td><input type=\"text\" id=\"2\" name=\""+data2[j]["esG_Id"]+"\" class=\"form-control\"></td>\
+                                <td><input type=\"text\" id=\"3\" name=\""+data2[j]["esG_Id"]+"\" class=\"form-control\"></td>\
+                                <td><input type=\"text\" id=\"4\" name=\""+data2[j]["esG_Id"]+"\" class=\"form-control\"></td>\
+                                <td><input type=\"text\" id=\"5\" name=\""+data2[j]["esG_Id"]+"\" class=\"form-control\"></td>\
+                                <td><input type=\"text\" id=\"6\" name=\""+data2[j]["esG_Id"]+"\" class=\"form-control\"></td>\
+                                </tr>\
+                                </tbody>\
+                                <thead id=\"head\">\
+                                <tr>\
+                                <th>7月</th><th>8月</th><th>9月</th>\
+                                <th>10月</th><th>11月</th><th>12月</th>\
+                                </tr>\
+                                </thead>\
+                                <tbody id=\"body\">\
+                                <tr>\
+                                <td><input type=\"text\" id=\"7\" name=\""+data2[j]["esG_Id"]+"\" class=\"form-control\"></td>\
+                                <td><input type=\"text\" id=\"8\" name=\""+data2[j]["esG_Id"]+"\" class=\"form-control\"></td>\
+                                <td><input type=\"text\" id=\"9\" name=\""+data2[j]["esG_Id"]+"\" class=\"form-control\"></td>\
+                                <td><input type=\"text\" id=\"10\" name=\""+data2[j]["esG_Id"]+"\" class=\"form-control\"></td>\
+                                <td><input type=\"text\" id=\"11\" name=\""+data2[j]["esG_Id"]+"\" class=\"form-control\"></td>\
+                                <td><input type=\"text\" id=\"12\" name=\""+data2[j]["esG_Id"]+"\" class=\"form-control\"></td>\
+                                </tr>\
+                                </tbody>\
+                                </table>");
+                                var jsonArr = [ {
+                                    "ESG_Id" : data2[j]["esG_Id"],
+                                    "Type" : data2[j]["type"],
+                                }]
+                                var str2 = JSON.stringify({
+                                    ReportId: rid,
+                                    Report_Year: ryear,
+                                    dataDetails: jsonArr
+                                });
+                                var _Type=data2[j]["type"];
+                                var _id=data2[j]["esG_Id"];
+                                $.ajax({
+                                        url: "api/Report/GetData",
+                                        type: "POST",
+                                        async: false,
+                                        contentType: "application/json",
+                                        data: str2,
+                                        success:function(data3){
+                                            for(var k=0;k<12;k++)
+                                            {
+                                                if(data3[k]['tData']!=-1)
+                                                {
+                                                    $("[name='" + _id + "'][id='" + (k+1) + "']").val(data3[k]['tData']);
+                                                }
+                                            }
+                                        }
+                                    });
+                                $("[name='" + data2[j]["esG_Id"] + "']").each(function(index,E){
+                                    $(this).click(function(){
+    
+                                        if($(this).val()!="")
+                                        {
+                                            $(".modal-title").html("更改数据");
+                                            $("[name='Data']").html("确认更改");
+                                            $("[name='Delete']").show();
+                                            $(".modal-body").html("<p>原数据"+$(this).val()+"</p>\
+                                             更改为:<input type=\"text\" class=\"form-control\">");
+                                            //更改数据，发送请求
+                                             $("[name='Data']").off("click").click(function(){
+                                                $.ajax({
+                                                    url: "api/DataInputUser/UpdataData",
+                                                    type: "POST",
+                                                    contentType: "application/json",
+                                                    data: JSON.stringify({
+                                                        EsgId: $(E).attr("name"),
+                                                        ReportId: rid,
+                                                        ReportYear: ryear,
+                                                        ReportMonth:$(E).attr("id"),
+                                                        Data:$(".modal-body").children(".form-control").val(),
+                                                        type:_Type
+                                                    }),
+                                                    success:function(data3){
+                                                        $("[name='Data']").off('click');
+                                                        if(data3==1){          
+                                                            alert("更改成功！");
+                                                            $('.modal').modal('hide');
+                                                            $("[name='" + _id + "'][id='" + $(E).attr("id") + "']").val($(".modal-body").children(".form-control").val());
+                                                        }
+                                                    }
+                                                });
+                                            });
+                                            $("[name='Delete']").off("click").click(function(){
+                                                $.ajax({
+                                                    url: "api/DataInputUser/DeleteData",
+                                                    type: "POST",
+                                                    contentType: "application/json",
+                                                    data: JSON.stringify({
+                                                        EsgId: $(E).attr("name"),
+                                                        ReportId: rid,
+                                                        ReportYear: ryear,
+                                                        ReportMonth:$(E).attr("id"),
+                                                        type:_Type
+                                                    }),
+                                                    success:function(data3){
+                                                        $("[name='Delete']").off('click');
+                                                        if(data3==1){          
+                                                            alert("删除成功！");
+                                                            $('.modal').modal('hide');
+                                                            $("[name='" + _id + "'][id='" + $(E).attr("id") + "']").val("");
+                                                        }
+                                                    }
+                                                });
+                                            });
+                                            $(".modal").modal();
+                                        }
+                                        else
+                                        {
+                                            $(".modal-title").html("录入数据");
+                                            $("[name='Data']").html("确认录入");
+                                            $("[name='Delete']").hide();
+                                            $(".modal-body").html("录入新数据:<input type=\"text\" class=\"form-control\">");
+                                            $(".modal").modal();
+                                            $("[name='Data']").off("click").click(function(){
+                                                $.ajax({
+                                                    url: "api/DataInputUser/InputData",
+                                                    type: "POST",
+                                                    contentType: "application/json",
+                                                    data: JSON.stringify({
+                                                        EsgId: $(E).attr("name"),
+                                                        ReportId: rid,
+                                                        ReportYear: ryear,
+                                                        ReportMonth:$(E).attr("id"),
+                                                        Data:$(".modal-body").children(".form-control").val(),
+                                                        type:_Type
+                                                    }),
+                                                    success:function(data3){
+                                                        $("[name='Data']").off('click');
+                                                        if(data3==1){
+                                                            alert("录入成功！");
+                                                            $('.modal').modal('hide');
+                                                            $("[name='" + _id + "'][id='" + $(E).attr("id") + "']").val($(".modal-body").children(".form-control").val());
+                                                        }
+                                                    }
+                                                });
+                                            });
+                                        }
+                                    });
+                                });
+                               }
+                               else if(data2[j]["frequency"]==0)//按年
+                                  {
+                                   $(this).append("<h4 class=\"pageheader-title\" style=\"font-size:\
+                                   15px\">"+data2[j]["esG_Id"]+"&nbsp;&nbsp;&nbsp;"+data2[j]["name"]+"(单位:\
+                                   "+data2[j]["unit"]+")"+"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\
+                                   <span class=\"badge badge-pill badge-primary\">定量指标-按年填报</span></h4>\
+                                   <table class=\"table table-striped table-bordered first\"> \
+                                   <thead id=\"head\">\
+                                   <tr>\
+                                   <th style=\"font-size:20px\">"+ryear+"年"+"</th><th><input type=\"text\" name=\""+data2[j]["esG_Id"]+"\" class=\"form-control\"></th>\
+                                   </table>");
+                                   var jsonArr = [ {
+                                       "ESG_Id" : data2[j]["esG_Id"],
+                                       "Type" : data2[j]["type"],
+                                   }]
+                                   var str2 = JSON.stringify({
+                                       ReportId: rid,
+                                       Report_Year: ryear,
+                                       dataDetails: jsonArr
+                                   });
+                                   var _Type=data2[j]["type"];
+                                   var _id=data2[j]["esG_Id"];
+                                   $.ajax({
+                                           url: "api/Report/GetData",
+                                           type: "POST",
+                                           async: false,
+                                           contentType: "application/json",
+                                           data: str2,
+                                           success:function(data3){
+                                                if(data3[0]['tData']!=-1)
+                                                {
+                                                       $("[name='" + _id + "']").val(data3[0]['tData']);
+                                                }
+                                           }
+                                       });
+                                   $("[name='" + data2[j]["esG_Id"] + "']").click(function(e){
+                                           if($(this).val()!="")
+                                           {
+                                               $(".modal-title").html("更改数据");
+                                               $("[name='Data']").html("确认更改");
+                                               $("[name='Delete']").show();
+                                               $(".modal-body").html("<p>原数据"+$(this).val()+"</p>\
+                                                更改为:<input type=\"text\" class=\"form-control\">");
+                                               //更改数据，发送请求
+                                                $("[name='Data']").off("click").click(function(){
+                                                   $.ajax({
+                                                       url: "api/DataInputUser/UpdataData",
+                                                       type: "POST",
+                                                       contentType: "application/json",
+                                                       data: JSON.stringify({
+                                                           EsgId: e.currentTarget.name,
+                                                           ReportId: rid,
+                                                           ReportYear: ryear,
+                                                           Data:$(".modal-body").children(".form-control").val(),
+                                                           type:_Type
+                                                       }),
+                                                       success:function(data3){
+                                                           $("[name='Data']").off('click');
+                                                           if(data3==1){          
+                                                               alert("更改成功！");
+                                                               $('.modal').modal('hide');
+                                                               $("[name='" + _id + "']").val($(".modal-body").children(".form-control").val());
+                                                           }
+                                                       }
+                                                   });
+                                               });
+                                               $("[name='Delete']").off("click").click(function(){
+                                                   $.ajax({
+                                                       url: "api/DataInputUser/DeleteData",
+                                                       type: "POST",
+                                                       contentType: "application/json",
+                                                       data: JSON.stringify({
+                                                           EsgId: e.currentTarget.name,
+                                                           ReportId: rid,
+                                                           ReportYear: ryear,
+                                                           type:_Type
+                                                       }),
+                                                       success:function(data3){
+                                                           $("[name='Delete']").off('click');
+                                                           if(data3==1){          
+                                                               alert("删除成功！");
+                                                               $('.modal').modal('hide');
+                                                               $("[name='" + _id + "']").val("");
+                                                           }
+                                                       }
+                                                   });
+                                               });
+                                               $(".modal").modal();
+                                           }
+                                           else
+                                           {
+                                               $(".modal-title").html("录入数据");
+                                               $("[name='Data']").html("确认录入");
+                                               $("[name='Delete']").hide();
+                                               $(".modal-body").html("录入新数据:<input type=\"text\" class=\"form-control\">");
+                                               $(".modal").modal();
+                                               $("[name='Data']").off("click").click(function(){
+                                                   $.ajax({
+                                                       url: "api/DataInputUser/InputData",
+                                                       type: "POST",
+                                                       contentType: "application/json",
+                                                       data: JSON.stringify({
+                                                           EsgId: e.currentTarget.name,
+                                                           ReportId: rid,
+                                                           ReportYear: ryear,
+                                                           Data:$(".modal-body").children(".form-control").val(),
+                                                           type:_Type
+                                                       }),
+                                                       success:function(data3){
+                                                           $("[name='Data']").off('click');
+                                                           if(data3==1){
+                                                               alert("录入成功！");
+                                                               $('.modal').modal('hide');
+                                                               $("[name='" + _id + "']").val($(".modal-body").children(".form-control").val());
+                                                           }
+                                                       }
+                                                   });
+                                               });
+                                           }
+                                   });
+                                  }
+                            }
+                            else if(data2[j]["type"]==2)//定性指标
+                            {
+                                $(this).append("<h4 class=\"pageheader-title\" style=\"font-size:\
+                                15px\">"+data2[j]["esG_Id"]+"&nbsp;&nbsp;&nbsp;"+data2[j]["name"]+
+                                "&nbsp;&nbsp;&nbsp;&nbsp;<span class=\"badge badge-pill badge-dark\">定性指标</span></h4>\
+                                <table class=\"table table-striped table-bordered first\"> \
+                                <th><input type=\"text\" name=\""+data2[j]["esG_Id"]+"\" class=\"form-control\"></th>\
+                                </table>");
+                                var jsonArr = [ {
+                                    "ESG_Id" : data2[j]["esG_Id"],
+                                    "Type" : data2[j]["type"],
+                                }]
+                                var str2 = JSON.stringify({
+                                    ReportId: rid,
+                                    Report_Year: ryear,
+                                    dataDetails: jsonArr
+                                });
+                                var _Type=data2[j]["type"];
+                                var _id=data2[j]["esG_Id"];
+                                $.ajax({
+                                        url: "api/Report/GetData",
+                                        type: "POST",
+                                        async: false,
+                                        contentType: "application/json",
+                                        data: str2,
+                                        success:function(data3){
+                                             if(data3[0]['tData']!=-1)
+                                             {
+                                                    $("[name='" + _id + "']").val(data3[0]['tData']);
+                                             }
+                                        }
+                                    });
+                                $("[name='" + data2[j]["esG_Id"] + "']").click(function(e){
+                                        if($(this).val()!="")
+                                        {
+                                            
+                                            $(".modal-title").html("更改数据");
+                                            $("[name='Data']").html("确认更改");
+                                            $("[name='Delete']").show();
+                                            $(".modal-body").html("<p>原数据"+$(this).val()+"</p>\
+                                             更改为:<input type=\"text\" class=\"form-control\">");
+                                            //更改数据，发送请求
+                                             $("[name='Data']").off("click").click(function(){
+                                                $.ajax({
+                                                    url: "api/DataInputUser/UpdataData",
+                                                    type: "POST",
+                                                    contentType: "application/json",
+                                                    data: JSON.stringify({
+                                                        EsgId: e.currentTarget.name,
+                                                        ReportId: rid,
+                                                        ReportYear: ryear,
+                                                        Data:$(".modal-body").children(".form-control").val(),
+                                                        type:_Type
+                                                    }),
+                                                    success:function(data3){
+                                                        if(data3==1){          
+                                                            alert("更改成功！");
+                                                            $('.modal').modal('hide');
+                                                            $("[name='" + _id + "']").val($(".modal-body").children(".form-control").val());
+                                                        }
+                                                    }
+                                                });
+                                            });
+                                            $("[name='Delete']").off("click").click(function(){
+                                                $.ajax({
+                                                    url: "api/DataInputUser/DeleteData",
+                                                    type: "POST",
+                                                    contentType: "application/json",
+                                                    data: JSON.stringify({
+                                                        EsgId: e.currentTarget.name,
+                                                        ReportId: rid,
+                                                        ReportYear: ryear,
+                                                        type:_Type
+                                                    }),
+                                                    success:function(data3){
+                                                        if(data3==1){          
+                                                            alert("删除成功！");
+                                                            $('.modal').modal('hide');
+                                                            $("[name='" + _id + "']").val("");
+                                                        }
+                                                    }
+                                                });
+                                            });
+                                            $(".modal").modal();
+                                        }
+                                        else
+                                        {
+                                            $(".modal-title").html("录入数据");
+                                            $("[name='Data']").html("确认录入");
+                                            $("[name='Delete']").hide();
+                                            $(".modal-body").html("录入新数据:<input type=\"text\" class=\"form-control\">");
+                                            $(".modal").modal();
+                                            $("[name='Data']").off("click").click(function(){
+                                                $.ajax({
+                                                    url: "api/DataInputUser/InputData",
+                                                    type: "POST",
+                                                    contentType: "application/json",
+                                                    data: JSON.stringify({
+                                                        EsgId: e.currentTarget.name,
+                                                        ReportId: rid,
+                                                        ReportYear: ryear,
+                                                        Data:$(".modal-body").children(".form-control").val(),
+                                                        type:_Type
+                                                    }),
+                                                    success:function(data3){
+                                                        if(data3==1){
+                                                            alert("录入成功！");
+                                                            $('.modal').modal('hide');
+                                                            $("[name='" + _id + "']").val($(".modal-body").children(".form-control").val());
+                                                        }
+                                                    }
+                                                });
+                                            });
+                                        }
+                                });
+                            }
+                            else if(data2[j]["type"]==11||data2[j]["type"]==12)//派生指标不可写
+                            {
+                                if(data2[j]["frequency"]==0){//按年
+                                $(this).append("<h4 class=\"pageheader-title\" style=\"font-size:\
+                                15px\">"+data2[j]["esG_Id"]+"&nbsp;&nbsp;&nbsp;"+data2[j]["name"]+"(单位:\
+                                "+data2[j]["unit"]+")"+"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
+                                +"<span class=\"badge badge-pill badge-warning\">派生指标-按年填报</span></h4>\
+                                <table class=\"table table-striped table-bordered first\"> \
+                                <thead id=\"head\">\
+                                <tr>\
+                                <th name=\""+data2[j]["esG_Id"]+"\"></th>\
+                                </tr>\
+                                </thead>\
+                                </table>");
+                                var jsonArr = [ {
+                                    "ESG_Id" : data2[j]["esG_Id"],
+                                    "Type" : data2[j]["type"],
+                                }]
+                                var str2 = JSON.stringify({
+                                    ReportId: rid,
+                                    Report_Year: ryear,
+                                    dataDetails: jsonArr
+                                });
+                                var _Type=data2[j]["type"];
+                                var _id=data2[j]["esG_Id"];
+                                $.ajax({
+                                        url: "api/Report/GetData",
+                                        type: "POST",
+                                        async: false,
+                                        contentType: "application/json",
+                                        data: str2,
+                                        success:function(data3){
+                                             if(data3[0]['tData']!=-1)
+                                             {
+                                                    $("[name='" + _id + "']").val(data3[0]['tData']);
+                                             }
+                                        }
+                                    });
+                                }
+                                else if(data2[j]["frequency"]==1){//按月
+                                    $(this).append("<h4 class=\"pageheader-title\" style=\"font-size:\
+                                    15px\">"+data2[j]["esG_Id"]+"&nbsp;&nbsp;&nbsp;"+data2[j]["name"]+"(单位:\
+                                    "+data2[j]["unit"]+")"+"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
+                                    +"<span class=\"badge badge-pill badge-warning\">派生指标-按月填报</span></h4>\
+                                    <table class=\"table table-striped table-bordered first\"> \
+                                    <thead id=\"head\">\
+                                    <tr>\
+                                    <th>1月</th><th>2月</th><th>3月</th>\
+                                    <th>4月</th><th>5月</th><th>6月</th>\
+                                    </tr>\
+                                    </thead>\
+                                    <tbody id=\"body\">\
+                                    <tr>\
+                                    <td id=\"1\" name=\""+data2[j]["esG_Id"]+"\"></td>\
+                                    <td id=\"2\" name=\""+data2[j]["esG_Id"]+"\"></td>\
+                                    <td id=\"3\" name=\""+data2[j]["esG_Id"]+"\"></td>\
+                                    <td id=\"4\" name=\""+data2[j]["esG_Id"]+"\"></td>\
+                                    <td id=\"5\" name=\""+data2[j]["esG_Id"]+"\"></td>\
+                                    <td id=\"6\" name=\""+data2[j]["esG_Id"]+"\"></td>\
+                                    </tr>\
+                                    </tbody>\
+                                    <thead id=\"head\">\
+                                    <tr>\
+                                    <th>7月</th><th>8月</th><th>9月</th>\
+                                    <th>10月</th><th>11月</th><th>12月</th>\
+                                    </tr>\
+                                    </thead>\
+                                    <tbody id=\"body\">\
+                                    <tr>\
+                                    <td id=\"7\" name=\""+data2[j]["esG_Id"]+"\"></td>\
+                                    <td id=\"8\" name=\""+data2[j]["esG_Id"]+"\"></td>\
+                                    <td id=\"9\" name=\""+data2[j]["esG_Id"]+"\"></td>\
+                                    <td id=\"10\" name=\""+data2[j]["esG_Id"]+"\"></td>\
+                                    <td id=\"11\" name=\""+data2[j]["esG_Id"]+"\"></td>\
+                                    <td id=\"12\" name=\""+data2[j]["esG_Id"]+"\"></td>\
+                                    </tr>\
+                                    </tbody>\
+                                    </table>");
+                                    var jsonArr = [ {
+                                        "ESG_Id" : data2[j]["esG_Id"],
+                                        "Type" : data2[j]["type"],
+                                    }]
+                                    var str2 = JSON.stringify({
+                                        ReportId: rid,
+                                        Report_Year: ryear,
+                                        dataDetails: jsonArr
+                                    });
+                                    var _Type=data2[j]["type"];
+                                    var _id=data2[j]["esG_Id"];
+                                    $.ajax({
+                                            url: "api/Report/GetData",
+                                            type: "POST",
+                                            async: false,
+                                            contentType: "application/json",
+                                            data: str2,
+                                            success:function(data3){
+                                                for(var k=0;k<data3.length;k++)
+                                                {
+                                                    if(data3[k]['tData']!=-1)
+                                                    {
+                                                        $("[name='" + _id + "'][id='" + data3[k]['report_Month'] + "']").val(data3[k]['tData']);
+                                                    }
+                                                }
+                                            }
+                                        });
+    
+                                }
+                            }
+                        }
+                        
+    
+    
+                    });
+                   }
                 }
+                else//报表权限：只读权限
+                {
+                    for(var j=0;j<data2.length;j++)
+                    {
+                     $("[name='Five']").each(function(index){
+                        if(index==i){//选择对应的四级表格插入
+                            if(data2[j]["type"]==1)//定量指标
+                            {
+                               if(data2[j]["frequency"]==1)//按月
+                               {
+                                $(this).append("<h4 class=\"pageheader-title\" style=\"font-size:\
+                                15px\">"+data2[j]["esG_Id"]+"&nbsp;&nbsp;&nbsp;"+data2[j]["name"]+"(单位:\
+                                "+data2[j]["unit"]+")"+"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\
+                                <span class=\"badge badge-pill badge-primary\">定量指标-按月填报</span>"+"</h4>\
+                                <table class=\"table table-striped table-bordered first\"> \
+                                <thead id=\"head\">\
+                                <tr>\
+                                <th>1月</th><th>2月</th><th>3月</th>\
+                                <th>4月</th><th>5月</th><th>6月</th>\
+                                </tr>\
+                                </thead>\
+                                <tbody id=\"body\">\
+                                <tr>\
+                                <td id=\"1\" name=\""+data2[j]["esG_Id"]+"\"></td>\
+                                <td id=\"2\" name=\""+data2[j]["esG_Id"]+"\"></td>\
+                                <td id=\"3\" name=\""+data2[j]["esG_Id"]+"\"></td>\
+                                <td id=\"4\" name=\""+data2[j]["esG_Id"]+"\"></td>\
+                                <td id=\"5\" name=\""+data2[j]["esG_Id"]+"\"></td>\
+                                <td id=\"6\" name=\""+data2[j]["esG_Id"]+"\"></td>\
+                                </tr>\
+                                </tbody>\
+                                <thead id=\"head\">\
+                                <tr>\
+                                <th>7月</th><th>8月</th><th>9月</th>\
+                                <th>10月</th><th>11月</th><th>12月</th>\
+                                </tr>\
+                                </thead>\
+                                <tbody id=\"body\">\
+                                <tr>\
+                                <td id=\"7\" name=\""+data2[j]["esG_Id"]+"\"></td>\
+                                <td id=\"8\" name=\""+data2[j]["esG_Id"]+"\"></td>\
+                                <td id=\"9\" name=\""+data2[j]["esG_Id"]+"\"></td>\
+                                <td id=\"10\" name=\""+data2[j]["esG_Id"]+"\"></td>\
+                                <td id=\"11\" name=\""+data2[j]["esG_Id"]+"\"></td>\
+                                <td id=\"12\" name=\""+data2[j]["esG_Id"]+"\"></td>\
+                                </tr>\
+                                </tbody>\
+                                </table>");
+                                var jsonArr = [ {
+                                    "ESG_Id" : data2[j]["esG_Id"],
+                                    "Type" : data2[j]["type"],
+                                }]
+                                var str2 = JSON.stringify({
+                                    ReportId: rid,
+                                    Report_Year: ryear,
+                                    dataDetails: jsonArr
+                                });
+                                var _Type=data2[j]["type"];
+                                var _id=data2[j]["esG_Id"];
+                                $.ajax({
+                                        url: "api/Report/GetData",
+                                        type: "POST",
+                                        async: false,
+                                        contentType: "application/json",
+                                        data: str2,
+                                        success:function(data3){
+                                            for(var k=0;k<12;k++)
+                                            {
+                                                if(data3[k]['tData']!=-1)
+                                                {
+                                                    $("[name='" + _id + "'][id='" + (k+1) + "']").html(data3[k]['tData']);
+                                                }
+                                            }
+                                        }
+                                    });
+                               }
+                               else if(data2[j]["frequency"]==0)//按年
+                                  {
+                                   $(this).append("<h4 class=\"pageheader-title\" style=\"font-size:\
+                                   15px\">"+data2[j]["esG_Id"]+"&nbsp;&nbsp;&nbsp;"+data2[j]["name"]+"(单位:\
+                                   "+data2[j]["unit"]+")"+"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\
+                                   <span class=\"badge badge-pill badge-primary\">定量指标-按年填报</span></h4>\
+                                   <table class=\"table table-striped table-bordered first\"> \
+                                   <thead id=\"head\">\
+                                   <tr>\
+                                   <th style=\"font-size:20px\">"+ryear+"年"+"</th><th name=\""+data2[j]["esG_Id"]+"\"></th>\
+                                   </table>");
+                                   var jsonArr = [ {
+                                       "ESG_Id" : data2[j]["esG_Id"],
+                                       "Type" : data2[j]["type"],
+                                   }]
+                                   var str2 = JSON.stringify({
+                                       ReportId: rid,
+                                       Report_Year: ryear,
+                                       dataDetails: jsonArr
+                                   });
+                                   var _Type=data2[j]["type"];
+                                   var _id=data2[j]["esG_Id"];
+                                   $.ajax({
+                                           url: "api/Report/GetData",
+                                           type: "POST",
+                                           async: false,
+                                           contentType: "application/json",
+                                           data: str2,
+                                           success:function(data3){
+                                                if(data3[0]['tData']!=-1)
+                                                {
+                                                       $("[name='" + _id + "']").html(data3[0]['tData']);
+                                                }
+                                           }
+                                       });
+                                  }
+                            }
+                            else if(data2[j]["type"]==2)//定性指标
+                            {
+                                $(this).append("<h4 class=\"pageheader-title\" style=\"font-size:\
+                                15px\">"+data2[j]["esG_Id"]+"&nbsp;&nbsp;&nbsp;"+data2[j]["name"]+
+                                "&nbsp;&nbsp;&nbsp;&nbsp;<span class=\"badge badge-pill badge-dark\">定性指标</span></h4>\
+                                <table class=\"table table-striped table-bordered first\"> \
+                                <th name=\""+data2[j]["esG_Id"]+"\"></th>\
+                                </table>");
+                                var jsonArr = [ {
+                                    "ESG_Id" : data2[j]["esG_Id"],
+                                    "Type" : data2[j]["type"],
+                                }]
+                                var str2 = JSON.stringify({
+                                    ReportId: rid,
+                                    Report_Year: ryear,
+                                    dataDetails: jsonArr
+                                });
+                                var _Type=data2[j]["type"];
+                                var _id=data2[j]["esG_Id"];
+                                $.ajax({
+                                        url: "api/Report/GetData",
+                                        type: "POST",
+                                        async: false,
+                                        contentType: "application/json",
+                                        data: str2,
+                                        success:function(data3){
+                                             if(data3[0]['tData']!=-1)
+                                             {
+                                                    $("[name='" + _id + "']").html(data3[0]['tData']);
+                                             }
+                                        }
+                                    });
+                            }
+                            else if(data2[j]["type"]==11||data2[j]["type"]==12)//派生指标不可写
+                            {
+                                if(data2[j]["frequency"]==0){//按年
+                                $(this).append("<h4 class=\"pageheader-title\" style=\"font-size:\
+                                15px\">"+data2[j]["esG_Id"]+"&nbsp;&nbsp;&nbsp;"+data2[j]["name"]+"(单位:\
+                                "+data2[j]["unit"]+")"+"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
+                                +"<span class=\"badge badge-pill badge-warning\">派生指标-按年填报</span></h4>\
+                                <table class=\"table table-striped table-bordered first\"> \
+                                <thead id=\"head\">\
+                                <tr>\
+                                <th name=\""+data2[j]["esG_Id"]+"\"></th>\
+                                </tr>\
+                                </thead>\
+                                </table>");
+                                var jsonArr = [ {
+                                    "ESG_Id" : data2[j]["esG_Id"],
+                                    "Type" : data2[j]["type"],
+                                }]
+                                var str2 = JSON.stringify({
+                                    ReportId: rid,
+                                    Report_Year: ryear,
+                                    dataDetails: jsonArr
+                                });
+                                var _Type=data2[j]["type"];
+                                var _id=data2[j]["esG_Id"];
+                                $.ajax({
+                                        url: "api/Report/GetData",
+                                        type: "POST",
+                                        async: false,
+                                        contentType: "application/json",
+                                        data: str2,
+                                        success:function(data3){
+                                             if(data3[0]['tData']!=-1)
+                                             {
+                                                    $("[name='" + _id + "']").html(data3[0]['tData']);
+                                             }
+                                        }
+                                    });
+                                }
+                                else if(data2[j]["frequency"]==1){//按月
+                                    $(this).append("<h4 class=\"pageheader-title\" style=\"font-size:\
+                                    15px\">"+data2[j]["esG_Id"]+"&nbsp;&nbsp;&nbsp;"+data2[j]["name"]+"(单位:\
+                                    "+data2[j]["unit"]+")"+"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
+                                    +"<span class=\"badge badge-pill badge-warning\">派生指标-按月填报</span></h4>\
+                                    <table class=\"table table-striped table-bordered first\"> \
+                                    <thead id=\"head\">\
+                                    <tr>\
+                                    <th>1月</th><th>2月</th><th>3月</th>\
+                                    <th>4月</th><th>5月</th><th>6月</th>\
+                                    </tr>\
+                                    </thead>\
+                                    <tbody id=\"body\">\
+                                    <tr>\
+                                    <td id=\"1\" name=\""+data2[j]["esG_Id"]+"\"></td>\
+                                    <td id=\"2\" name=\""+data2[j]["esG_Id"]+"\"></td>\
+                                    <td id=\"3\" name=\""+data2[j]["esG_Id"]+"\"></td>\
+                                    <td id=\"4\" name=\""+data2[j]["esG_Id"]+"\"></td>\
+                                    <td id=\"5\" name=\""+data2[j]["esG_Id"]+"\"></td>\
+                                    <td id=\"6\" name=\""+data2[j]["esG_Id"]+"\"></td>\
+                                    </tr>\
+                                    </tbody>\
+                                    <thead id=\"head\">\
+                                    <tr>\
+                                    <th>7月</th><th>8月</th><th>9月</th>\
+                                    <th>10月</th><th>11月</th><th>12月</th>\
+                                    </tr>\
+                                    </thead>\
+                                    <tbody id=\"body\">\
+                                    <tr>\
+                                    <td id=\"7\" name=\""+data2[j]["esG_Id"]+"\"></td>\
+                                    <td id=\"8\" name=\""+data2[j]["esG_Id"]+"\"></td>\
+                                    <td id=\"9\" name=\""+data2[j]["esG_Id"]+"\"></td>\
+                                    <td id=\"10\" name=\""+data2[j]["esG_Id"]+"\"></td>\
+                                    <td id=\"11\" name=\""+data2[j]["esG_Id"]+"\"></td>\
+                                    <td id=\"12\" name=\""+data2[j]["esG_Id"]+"\"></td>\
+                                    </tr>\
+                                    </tbody>\
+                                    </table>");
+                                    var jsonArr = [ {
+                                        "ESG_Id" : data2[j]["esG_Id"],
+                                        "Type" : data2[j]["type"],
+                                    }]
+                                    var str2 = JSON.stringify({
+                                        ReportId: rid,
+                                        Report_Year: ryear,
+                                        dataDetails: jsonArr
+                                    });
+                                    var _Type=data2[j]["type"];
+                                    var _id=data2[j]["esG_Id"];
+                                    $.ajax({
+                                            url: "api/Report/GetData",
+                                            type: "POST",
+                                            async: false,
+                                            contentType: "application/json",
+                                            data: str2,
+                                            success:function(data3){
+                                                for(var k=0;k<data3.length;k++)
+                                                {
+                                                    if(data3[k]['tData']!=-1)
+                                                    {
+                                                        $("[name='" + _id + "'][id='" + data3[k]['report_Month'] + "']").html(data3[k]['tData']);
+                                                    }
+                                                }
+                                            }
+                                        });
+    
+                                }
+                            }
+                        }
+                    });
+                   }
+                }
+                },
+                error:function(xhr){alert("error");}
+                 });
             }
-            
-            },
-            error:function(xhr){alert("error");}
-             });
         },
         error:function(xhr){alert("error");}
          });
-
 
         result.splice(0, result.length);
     };

@@ -33,7 +33,7 @@ namespace esg.Controllers
 
                         cmd.Parameters.Add(new MySqlParameter("@EId", data.EsgId));
                         cmd.Parameters.Add(new MySqlParameter("@RId", data.ReportId));
-                        cmd.Parameters.Add(new MySqlParameter("@Year", System.DateTime.Now.Year));
+                        cmd.Parameters.Add(new MySqlParameter("@Year", data.ReportYear));
                         cmd.Parameters.Add(new MySqlParameter("@Data", data.Data));
                     }
                     else if (data.Type == 1 || data.Type == 11 || data.Type == 12)//定量输入
@@ -86,7 +86,7 @@ namespace esg.Controllers
             return error_code;
         }
 
-        [HttpPut]///////////////////////////////////////////////
+        [HttpPost]///////////////////////////////////////////////
         public int UpdataData([FromBody] InputData data)
         {
             int error_code = 1;
@@ -97,7 +97,7 @@ namespace esg.Controllers
                 {
                     if (data.Type == 2)
                     {
-                        string sql = "update data_qualitative set data = @Data where esg_id = @EId,report_id = @RId, report_year =@Year";
+                        string sql = "update data_qualitative set data = @Data where esg_id = @EId and report_id = @RId and report_year =@Year";
                         cmd.Connection = conn;
                         cmd.CommandText = sql;
 
@@ -108,7 +108,7 @@ namespace esg.Controllers
                     }
                     else if (data.Type == 1 || data.Type == 11 || data.Type == 12)//定量输入
                     {
-                        string sql = "update data_quantitative set data = @Data where esg_id = @EId,report_id = @RId, report_year =@Year,report_month=@Month";
+                        string sql = "update data_quantitative set data = @Data where esg_id = @EId and report_id = @RId and report_year =@Year and report_month=@Month";
                         cmd.Connection = conn;
                         cmd.CommandText = sql;
 
@@ -133,6 +133,53 @@ namespace esg.Controllers
             }
             return error_code;
         }
+
+        [HttpPost]///////////////////////////////////////////////
+        public int DeleteData([FromBody] InputData data)
+        {
+            int error_code = 1;
+            using (MySqlConnection conn = new MySqlConnection(connString))
+            {
+                conn.Open();
+                using (MySqlCommand cmd = new MySqlCommand())
+                {
+                    if (data.Type == 2)
+                    {
+                        string sql = "delete from data_qualitative where esg_id = @EId and report_id = @RId and report_year =@Year";
+                        cmd.Connection = conn;
+                        cmd.CommandText = sql;
+
+                        cmd.Parameters.Add(new MySqlParameter("@RId", data.ReportId));
+                        cmd.Parameters.Add(new MySqlParameter("@Year", data.ReportYear));
+                        cmd.Parameters.Add(new MySqlParameter("@EId", data.EsgId));
+                    }
+                    else if (data.Type == 1 || data.Type == 11 || data.Type == 12)//定量输入
+                    {
+                        string sql = "delete from data_quantitative where esg_id = @EId and report_id = @RId and report_year =@Year and report_month=@Month";
+                        cmd.Connection = conn;
+                        cmd.CommandText = sql;
+
+                        cmd.Parameters.Add(new MySqlParameter("@RId", data.ReportId));
+                        cmd.Parameters.Add(new MySqlParameter("@Year", data.ReportYear));
+                        cmd.Parameters.Add(new MySqlParameter("@Month", data.ReportMonth));
+                        cmd.Parameters.Add(new MySqlParameter("@EId", data.EsgId));
+                    }
+                    else//error type
+                    {
+                        error_code = -1;
+                        conn.Close();
+                        return error_code;
+                    }
+                    if (cmd.ExecuteNonQuery() != 1)
+                    {
+                        error_code = 0;
+                    }
+                }
+                conn.Close();
+            }
+            return error_code;
+        }
+
 
         //数据录入员提交审核
         [HttpPut]

@@ -172,7 +172,7 @@ namespace esg.Controllers
         }
 
         //审核通过
-        [HttpPut]
+        [HttpPost]
         //   api/Report/ReportPass
         public int ReportPass(Report rep)
         {
@@ -211,7 +211,7 @@ namespace esg.Controllers
         }
 
         //审核退回
-        [HttpPut]
+        [HttpPost]
         //   api/Report/Return
         public int ReportReturn(Report rep)
         {
@@ -250,7 +250,7 @@ namespace esg.Controllers
         }
 
         //提交审核数据
-        [HttpPut]
+        [HttpPost]
         //   api/Report/HandIn
         public int ReportHandIn(Report rep)
         {
@@ -672,16 +672,16 @@ namespace esg.Controllers
         }
         
         //数据录入员提交审核
-        [HttpPut]
+        [HttpPost]
         //   api/Report/DataSubmitReport
-        public int DataSubmitReport([FromBody]int report_id)
+        public int DataSubmitReport([FromBody]Report rep)
         {
             using (MySqlConnection con = new MySqlConnection(connString))
             {
                 con.Open();
 
                 // 判断是否存在报表ID
-                string sql = "select * from report where report_id=" + report_id;
+                string sql = "select * from report where report_id=" + rep.ReportId;
                 MySqlCommand cmd = new MySqlCommand(sql, con);
                 MySqlDataReader reader = cmd.ExecuteReader();
                 if (!reader.HasRows)
@@ -690,7 +690,7 @@ namespace esg.Controllers
                     return 0;
                 }
                 reader.Close();
-                sql = "update report set status=10 where report_id=" + report_id;
+                sql = "update report set status=10 where report_id=" + rep.ReportId;
                 cmd.CommandText = sql;
                 cmd.ExecuteNonQuery();
 

@@ -106,7 +106,8 @@
                         }
                         else if(data[0]['errorCode']==2)
                         {
-                            window.location.href = 'backend_homepage.html?'+'id='+data[0]['userId']+'&level='+data[0]['level']+'&cname='+encodeURI(encodeURI(data[0]['companyName']))+'&username='+$("#username").val();
+                            window.location.href = 'backend_homepage.html?'+'id='+data[0]['userId']+'&level='+data[0]['level']+'&cname='+encodeURI(encodeURI(data[0]['companyName']))+'&username='+$("#username").val()+'&cid='
+                            +data[0]['comid'];
                         }
                         else{
                             alert("未知错误，请重新登录！");

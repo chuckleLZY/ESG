@@ -248,6 +248,7 @@ namespace esg.Controllers
                                 list[0].ErrorCode = 2;
                                 list[0].UserId = reader.GetInt32(0);
                                 list[0].Level = reader.GetInt32(5);
+                                list[0].Comid = reader.GetInt32(1);
                                 list[0].CompanyName = getCompanyName(reader.GetInt32(1));
                                 reader.Close();
                                 break;
@@ -357,6 +358,7 @@ namespace esg.Controllers
             public int UserId { get; set; }
             public int Level { get; set; }
             public string CompanyName { get; set; }
+            public int Comid{ get; set; }
         }
 
         public class viewPIReturn

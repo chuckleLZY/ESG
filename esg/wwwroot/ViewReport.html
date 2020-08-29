@@ -30,7 +30,7 @@
         <div class="dashboard-header">
             <nav class="navbar navbar-expand-lg bg-white fixed-top">
                 <span class="glyphicon glyphicon-align-left" aria-hidden="true"></span>
-                <a class="navbar-brand" href="index.html"><img src="assets/images/logo2.png" ></a>
+                <a id="shouye" class="navbar-brand" href=""><img src="assets/images/logo2.png" ></a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -98,7 +98,7 @@
     <div class="nav-left-sidebar sidebar-dark">
         <div class="menu-list">
             <nav class="navbar navbar-expand-lg navbar-light">
-                <a class="d-xl-none d-lg-none" href="#">Dashboard</a>
+                <a class="d-xl-none d-lg-none" href="#">功能面板</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -107,7 +107,7 @@
                         <li class="nav-divider">
                             功能
                         </li>
-                        <li class="nav-item ">
+                        <li id="xinjian" class="nav-item ">
                             <a class="nav-link active" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-1" aria-controls="submenu-1"><i class="fa fa-fw fa-user-circle"></i>账户管理<span class="badge badge-success">6</span></a>
                             <div id="submenu-1" class="collapse submenu" style="">
                                 <ul class="nav flex-column">
@@ -132,7 +132,7 @@
                                 </ul>
                             </div>
                         </li>
-                        <li class="nav-item">
+                        <li id="shenhe" class="nav-item">
                             <a class="nav-link" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-2" aria-controls="submenu-2"><i class="fa fa-fw fa-rocket"></i>数据审核</a>
                             <div id="submenu-2" class="collapse submenu" style="">
                                 <ul class="nav flex-column">
@@ -146,15 +146,12 @@
                             </div>
                         </li>
 
-                        <li class="nav-item">
+                        <li id="luru" class="nav-item">
                             <a class="nav-link" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-5" aria-controls="submenu-5"><i class="fas fa-fw fa-table"></i>数据录入</a>
                             <div id="submenu-5" class="collapse submenu" style="">
                                 <ul class="nav flex-column">
                                     <li class="nav-item">
-                                        <a class="nav-link" href=#>录入新数据</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" href=#>查看我的数据</a>
+                                        <a id="viewreport_luru" class="nav-link" href=#>查看我的报表</a>
                                     </li>
                                 </ul>
                             </div>
@@ -170,15 +167,39 @@
         <!-- ============================================================== -->
         <!-- wrapper  -->
         <!-- ============================================================== -->
-
+        <div class="modal" tabindex="-1" role="dialog">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title"></h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-primary" data-dismiss="modal">关闭窗口</button>
+                  <button name="Data" type="button" class="btn btn-success"></button>
+                  <button name="Delete" type="button" class="btn btn-danger">删除数据</button>
+                </div>
+              </div>
+            </div>
+          </div>
 
         <div class="dashboard-wrapper">
-           
+            <div id="report1" class="container-fluid  dashboard-content">
+            </div>
             <div class="container-fluid  dashboard-content">
-
-                <div class="row">
+                <p id="info" style="font-size:20px"></p>
+                <div id="indicatemain" class="row" style="position: relative; top:-40px; ">
+                    
                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                        <div id="justAnInputBox1" class="select-tree-wrap"></div><br>
+                        <button type="button" id="Return" class="btn btn-primary" style="position: relative; top:40px; right:-70%;">返回查看报表页</button>
+                        <button type="button" id="Submit" class="btn btn-success" style="position: relative; top:40px; right:-70%;">提交审核</button>
+                        <div id="justAnInputBox1" class="select-tree-wrap">
+                        </div>
+                        
                         <nav aria-label="breadcrumb">
                             <ol class="breadcrumb">
                               <li id="bread1" class="breadcrumb-item"></li>
@@ -187,53 +208,7 @@
                             </ol>
                           </nav>
                                 <div id="MAIN">
-                                <!-- <h2 class="pageheader-title">四级指标名称1_定量</h2> -->
-                                <!-- <div class="card">
-                                      <div class="card-body">
-                                        <div class="table-responsive">
-                                            <table class="table table-striped table-bordered first">
-                                                <thead>
-                                                    <tr>
-                                                        <th>五级指标名称</th>
-                                                        <th>1月</th><th>2月</th><th>3月</th>
-                                                        <th>4月</th><th>5月</th><th>6月</th>
-                                                        <th>7月</th><th>8月</th><th>9月</th>
-                                                        <th>10月</th><th>11月</th><th>12月</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <tr>
-                                                        <th>柴油</th>
-                                                        <td>1</td><td>1</td><td>1</td>
-                                                        <td>1</td><td>1</td><td>1</td>
-                                                        <td>1</td><td>1</td><td>1</td>
-                                                        <td>1</td><td>1</td><td>1</td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                </div>
-                                <h2 class="pageheader-title">四级指标名称2_定性</h2>
-                                <div class="card">
-                                    <div class="card-body">
-                                      <div class="table-responsive">
-                                          <table class="table table-striped table-bordered first">
-                                              <thead>
-                                                  <tr>
-                                                      <th>五级指标名称</th>
-                                                      <th>1月</th>
-                                                  </tr>
-                                              </thead>
-                                              <tbody>
-                                                  <tr>
-                                                      <th>柴油</th>
-                                                      <td>1</td>
-                                                  </tr>
-                                              </tbody>
-                                          </table>
-                                      </div>
-                                  </div> -->
+                              
                                 </div>
 
 
@@ -293,7 +268,7 @@
 
     <script type="text/javascript" src="js/comboTreePlugin.js"></script>
     <script type="text/javascript">
-        var KKK = [  {
+            var KKK = [  {
         "id": '73A64FDAFFC',
         "title": "基本信息",
         "subs": [
@@ -349,21 +324,6 @@
     }
 ]
 ;
-        
-        </script>
-      <script type="text/javascript">
-        // $.ajax({
-        // 	url: '',
-        // 	type: 'post',
-        // 	contentType : "application/json;charset=utf-8",
-        // 	dataType:'json',
-        // 	success: function(data) {
-        //
-        // 	}
-        // });
-    
-      
-    
         let aaa = $('#justAnInputBox1').comboTree({
                 source : KKK,
                 isMultiple: false,
@@ -371,17 +331,10 @@
                 cascadeSelect: true,
                 selectedlength:3 //最多可选
         });
-    
-  
-    
-        // bbb.datas(); //获取数据
-    
-    </script>
-        <script type="text/javascript">
-        /**
+                /**
          * 递归查询JSON树 父子节点
          */
-        var parentNode = null;
+         var parentNode = null;
         var node = null;
     
         /**
@@ -442,13 +395,172 @@
                 getResult(json,obj.parentNode.title);
                 result.push(obj.parentNode.title);
             }
-            
             return result;
         }
-        //getResult(KKK,query);
-        //最后将查询push到result中
-        //result.push(query);
-        //console.log(result);//['中国','山东省','济南市','高新区','南白花']
+        $("#indicatemain").hide();
+        viewReport();
+        function viewReport()
+        {
+            $.ajax({
+                    url: "api/Report/Data_CompanyReport",
+                    type: "POST",
+                    contentType: "application/json",
+                    data: location.search.split('?')[1].split('&')[4].split('=')[1],
+                    success:function(data){
+                       for(var i=0;i<data.length;i++){
+                           var st;
+                           switch(data[i]['status']){
+                            case 0:
+                                st="新建"
+                                break;
+                            case 1:
+                                st="被本公司退回"
+                                break;
+                            case 10:
+                                st="提交"
+                                break;
+                            case 11:
+                                st="本公司审核通过"
+                                break;
+                            case 20:
+                                st="提交给上层公司"
+                                break;
+                            case 21:
+                                st="上层公司审核通过"
+                                break;
+                            case 22:
+                                st="上层公司退回"
+                                break;
+                           }
+                        $("#report1").append("<div  class=\"card bg-light mb-3\" style=\"max-width: 100rem;\">\
+                            <div name=\"re\" class=\"card-header\" style=\"font-size:18px\">\
+                            Report_id:<span>"+data[i]['reportId']+"</span>&nbsp;&nbsp;&nbsp;&nbsp;\
+                            报表年份:<span id=\"re_year\">"+data[i]['report_Year']+"</span> &nbsp;&nbsp;&nbsp;&nbsp;\
+                            所属公司:<span id=\"re_com\">"+decodeURI(decodeURI(location.search.split('?')[1].split('&')[2].split('=')[1]))+"公司"+"</span>&nbsp;&nbsp;&nbsp;&nbsp;\
+                            <span name=\"re_st\" id=\""+data[i]['status']+ "\" class=\"badge badge-primary\" >状态："+st+"</span>\
+                            <button id=\""+data[i]['reportId']+"\" name=\"re_bt\" type=\"button\" class=\"btn btn-success\" style=\"float: right; margin-top:-6px;\">录入此报表</button>\
+                            </div></div>");
+                       }
+                       $("[name='re_st']").each(function(index){
+                        switch(data[index]['status']){
+                            case 1:case 22:
+                                $(this).attr('class','badge badge-danger');
+                                break;
+                            case 10:case 20:
+                                $(this).attr('class','badge badge-warning');
+                                break;
+                            case 11:case 21:
+                                $(this).attr('class','badge badge-success');
+                                break;
+                           }
+                        
+                       });
+                       $("[name='re_bt']").each(function(index){
+                        switch(data[index]['status']){
+                            case 1:
+                                $(this).html('修改此报表');
+                                $(this).attr('class','btn btn-danger');
+                                break;
+                            case 0:break;
+                            default:
+                                $(this).html('查看此报表');
+                                $(this).attr('class','btn btn-primary');
+                                break;
+                           }
+                        });
+                        $("[name='re_bt']").each(function(index,ele1){
+                            $(ele1).click(function(){
+                                $("[name='re']").each(function(index,ele2){
+                                    if($(ele2).children("[name='re_bt']").attr("id")==$(ele1).attr("id"))
+                                    {
+                                        rid=$(ele1).attr("id");
+                                        ryear=$(ele2).children("#re_year").html();
+                                        rname=$(ele2).children("#re_year").html();
+                                        rcname=$(ele2).children("#re_com").html();
+                                        rst=$(ele2).children("[name='re_st']").attr("id");
+                                    }
+                                });
+                                $("#info").html("报表ID："+
+                                rid+"&nbsp;&nbsp;&nbsp;&nbsp;报表名称："+
+                                rname+"&nbsp;&nbsp;&nbsp;&nbsp;报表年份："+
+                                ryear+"&nbsp;&nbsp;&nbsp;&nbsp;所属公司："+
+                                rcname+"&nbsp;&nbsp;&nbsp;&nbsp;"+$("[name='re_st'][id='" + rst + "']").html());
+                                if(rst==0||rst==1){
+                                $("#report1").fadeOut();
+                                $("#info").fadeIn();
+                                $("#indicatemain").fadeIn();
+                                }
+                                else
+                                {
+                                    $("#report1").fadeOut();
+                                    $("#Submit").hide();
+                                    $("#info").fadeIn();
+                                    $("#indicatemain").fadeIn();
+                                }
+                                });
+                        });
+                    },
+                    error:function(xhr){
+                        alert("error");
+                    }
+                 });
+        }
+
+
+        $("#Return").click(function(){
+            $("#info").fadeOut();
+            $("#indicatemain").fadeOut();
+            $("#MAIN").html("");
+            if($(".input-keyword-item").length>0)
+            {
+                aaa.uncheckrow($(".input-keyword-item").attr("data-id"));
+            }
+            
+            $("#bread1").html("");
+            $("#bread2").html("");
+            $("#bread3").html("");
+            $("#report1").html("");
+            viewReport();
+            $("#report1").fadeIn();
+        });
+        $("#Submit").click(function(){
+            $.ajax({
+                    url: "api/Report/DataSubmitReport",
+                    type: "POST",
+                    contentType: "application/json",
+                    data: JSON.stringify({
+                                Status: rst,
+                                ReportId: rid
+                            }),
+                    success:function(data){
+                        if(data==1)
+                        {
+                            alert("提交成功!");
+                            $("#info").fadeOut();
+                            $("#indicatemain").fadeOut();
+                            $("#report1").html("");
+                            viewReport();
+                            $("#report1").fadeIn();
+                        }
+                        else if (data!=1)
+                        {
+                            alert("状态报表有变，提交失败!");
+                            $("#info").fadeOut();
+                            $("#indicatemain").fadeOut();
+                            $("#report1").html("");
+                            viewReport();
+                            $("#report1").fadeIn();
+                        }
+                    }
+
+                
+                });
+        });
+        var rcname;
+        var rname;
+        var ryear;
+        var rid;
+        var rst;
         </script>
 </body>
  
