@@ -471,8 +471,14 @@
                                         }
                                     });
                                 $("[name='" + data2[j]["esG_Id"] + "']").each(function(index,E){
+                                    var temp;
+                                    $(this).focus(function(){
+                                        temp=$(this).val();
+                                    });
+                                    $(this).blur(function(){
+                                        $(this).val(temp);
+                                    });
                                     $(this).click(function(){
-    
                                         if($(this).val()!="")
                                         {
                                             $(".modal-title").html("更改数据");
@@ -482,27 +488,38 @@
                                              更改为:<input type=\"text\" class=\"form-control\">");
                                             //更改数据，发送请求
                                              $("[name='Data']").off("click").click(function(){
-                                                $.ajax({
-                                                    url: "api/DataInputUser/UpdataData",
-                                                    type: "POST",
-                                                    contentType: "application/json",
-                                                    data: JSON.stringify({
-                                                        EsgId: $(E).attr("name"),
-                                                        ReportId: rid,
-                                                        ReportYear: ryear,
-                                                        ReportMonth:$(E).attr("id"),
-                                                        Data:$(".modal-body").children(".form-control").val(),
-                                                        type:_Type
-                                                    }),
-                                                    success:function(data3){
-                                                        $("[name='Data']").off('click');
-                                                        if(data3==1){          
-                                                            alert("更改成功！");
-                                                            $('.modal').modal('hide');
-                                                            $("[name='" + _id + "'][id='" + $(E).attr("id") + "']").val($(".modal-body").children(".form-control").val());
+                                                if(isNo($(".modal-body").children(".form-control").val())&&$(".modal-body").children(".form-control").val()!="")
+                                                {
+                                                    $.ajax({
+                                                        url: "api/DataInputUser/UpdataData",
+                                                        type: "POST",
+                                                        contentType: "application/json",
+                                                        data: JSON.stringify({
+                                                            EsgId: $(E).attr("name"),
+                                                            ReportId: rid,
+                                                            ReportYear: ryear,
+                                                            ReportMonth:$(E).attr("id"),
+                                                            Data:$(".modal-body").children(".form-control").val(),
+                                                            type:_Type
+                                                        }),
+                                                        success:function(data3){
+                                                            $("[name='Data']").off('click');
+                                                            if(data3==1){          
+                                                                alert("更改成功！");
+                                                                $('.modal').modal('hide');
+                                                                $("[name='" + _id + "'][id='" + $(E).attr("id") + "']").val($(".modal-body").children(".form-control").val());
+                                                            }
                                                         }
-                                                    }
-                                                });
+                                                    });
+                                                }
+                                                else if($(".modal-body").children(".form-control").val()=="")
+                                                {
+                                                    alert("您没有要更改的数据")
+                                                }
+                                                else
+                                                {
+                                                    alert("您输入的格式有误，请重新输入")
+                                                }
                                             });
                                             $("[name='Delete']").off("click").click(function(){
                                                 $.ajax({
@@ -536,27 +553,38 @@
                                             $(".modal-body").html("录入新数据:<input type=\"text\" class=\"form-control\">");
                                             $(".modal").modal();
                                             $("[name='Data']").off("click").click(function(){
-                                                $.ajax({
-                                                    url: "api/DataInputUser/InputData",
-                                                    type: "POST",
-                                                    contentType: "application/json",
-                                                    data: JSON.stringify({
-                                                        EsgId: $(E).attr("name"),
-                                                        ReportId: rid,
-                                                        ReportYear: ryear,
-                                                        ReportMonth:$(E).attr("id"),
-                                                        Data:$(".modal-body").children(".form-control").val(),
-                                                        type:_Type
-                                                    }),
-                                                    success:function(data3){
-                                                        $("[name='Data']").off('click');
-                                                        if(data3==1){
-                                                            alert("录入成功！");
-                                                            $('.modal').modal('hide');
-                                                            $("[name='" + _id + "'][id='" + $(E).attr("id") + "']").val($(".modal-body").children(".form-control").val());
+                                                if(isNo($(".modal-body").children(".form-control").val())&&$(".modal-body").children(".form-control").val()!="")
+                                                {
+                                                    $.ajax({
+                                                        url: "api/DataInputUser/InputData",
+                                                        type: "POST",
+                                                        contentType: "application/json",
+                                                        data: JSON.stringify({
+                                                            EsgId: $(E).attr("name"),
+                                                            ReportId: rid,
+                                                            ReportYear: ryear,
+                                                            ReportMonth:$(E).attr("id"),
+                                                            Data:$(".modal-body").children(".form-control").val(),
+                                                            type:_Type
+                                                        }),
+                                                        success:function(data3){
+                                                            $("[name='Data']").off('click');
+                                                            if(data3==1){
+                                                                alert("录入成功！");
+                                                                $('.modal').modal('hide');
+                                                                $("[name='" + _id + "'][id='" + $(E).attr("id") + "']").val($(".modal-body").children(".form-control").val());
+                                                            }
                                                         }
-                                                    }
-                                                });
+                                                    });
+                                                }
+                                                else if($(".modal-body").children(".form-control").val()=="")
+                                                {
+                                                    alert("您没有要更改的数据")
+                                                }
+                                                else
+                                                {
+                                                    alert("您输入的格式有误，请重新输入")
+                                                }
                                             });
                                         }
                                     });
@@ -607,26 +635,37 @@
                                                 更改为:<input type=\"text\" class=\"form-control\">");
                                                //更改数据，发送请求
                                                 $("[name='Data']").off("click").click(function(){
-                                                   $.ajax({
-                                                       url: "api/DataInputUser/UpdataData",
-                                                       type: "POST",
-                                                       contentType: "application/json",
-                                                       data: JSON.stringify({
-                                                           EsgId: e.currentTarget.name,
-                                                           ReportId: rid,
-                                                           ReportYear: ryear,
-                                                           Data:$(".modal-body").children(".form-control").val(),
-                                                           type:_Type
-                                                       }),
-                                                       success:function(data3){
-                                                           $("[name='Data']").off('click');
-                                                           if(data3==1){          
-                                                               alert("更改成功！");
-                                                               $('.modal').modal('hide');
-                                                               $("[name='" + _id + "']").val($(".modal-body").children(".form-control").val());
-                                                           }
-                                                       }
-                                                   });
+                                                    if(isNo($(".modal-body").children(".form-control").val())&&$(".modal-body").children(".form-control").val()!="")
+                                                    {
+                                                        $.ajax({
+                                                            url: "api/DataInputUser/UpdataData",
+                                                            type: "POST",
+                                                            contentType: "application/json",
+                                                            data: JSON.stringify({
+                                                                EsgId: e.currentTarget.name,
+                                                                ReportId: rid,
+                                                                ReportYear: ryear,
+                                                                Data:$(".modal-body").children(".form-control").val(),
+                                                                type:_Type
+                                                            }),
+                                                            success:function(data3){
+                                                                $("[name='Data']").off('click');
+                                                                if(data3==1){          
+                                                                    alert("更改成功！");
+                                                                    $('.modal').modal('hide');
+                                                                    $("[name='" + _id + "']").val($(".modal-body").children(".form-control").val());
+                                                                }
+                                                            }
+                                                        });
+                                                    }
+                                                   else if($(".modal-body").children(".form-control").val()=="")
+                                                   {
+                                                       alert("您没有要更改的数据")
+                                                   }
+                                                   else
+                                                   {
+                                                       alert("您输入的格式有误，请重新输入")
+                                                   }
                                                });
                                                $("[name='Delete']").off("click").click(function(){
                                                    $.ajax({
@@ -1270,3 +1309,8 @@
     };
 
 })(jQuery, window, document);
+function isNo(str) {
+    var fudian=/^\d+(\.\d+)?$/
+    var reg=/^-?\d+$ /;   /*定义验证表达式*/
+    return reg.test(str)||fudian.test(str);     /*进行验证*/
+}

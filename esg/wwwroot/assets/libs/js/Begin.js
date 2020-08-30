@@ -10,10 +10,15 @@ $(document).ready(function(){
     if(level==1)
     {
         $("#level").html("您的身份：一级管理员");
+        $("#luru").remove();
+
     }
     else if (level==2)
     {
         $("#level").html("您的身份：二级管理员");
+        $("#luru").remove();
+        $("#createcompany").remove();
+        $("#managecompany").remove();
     }
     else if(level==3)
     {
@@ -28,10 +33,11 @@ $(document).ready(function(){
     $("#createreport").attr("href","CreateReport.html?"+'id='+id+'&level='+level+'&cname='+cname+'&username='+username+"&cid="+cid);
     $("#viewreport_luru").attr("href","ViewReport.html?"+'id='+id+'&level='+level+'&cname='+cname+'&username='+username+"&cid="+cid);
     $("#createreport").attr("href","CreateReport.html?"+'id='+id+'&level='+level+'&cname='+cname+'&username='+username+"&cid="+cid);
-    $("#viewreport").attr("href","ViewReport.html?"+'id='+id+'&level='+level+'&cname='+cname+'&username='+username+"&cid="+cid);
+    $("#viewreport_shenhe").attr("href","ViewReport_2.html?"+'id='+id+'&level='+level+'&cname='+cname+'&username='+username+"&cid="+cid);
     $("#datanotcheck").attr("href","ViewNotCheck.html?"+'id='+id+'&level='+level+'&cname='+cname+'&username='+username+"&cid="+cid);
     $("#datahascheck").attr("href","ViewHasCheck.html?"+'id='+id+'&level='+level+'&cname='+cname+'&username='+username+"&cid="+cid);
     $("#shouye").attr("href","backend_homepage.html?"+'id='+id+'&level='+level+'&cname='+cname+'&username='+username+"&cid="+cid);
+    $("#personalinfo").attr("href","PersonalInfo.html?"+'id='+id+'&level='+level+'&cname='+cname+'&username='+username+"&cid="+cid);
     //$("#datanotcheck").attr("href","ViewNotCheck.html?"+'id='+id+'&level='+level+'&cname='+encodeURI(encodeURI(cname))+'&username='+username);
     //$("#datahascheck").attr("href","ViewHasCheck.html?"+'id='+id+'&level='+level+'&cname='+encodeURI(encodeURI(cname))+'&username='+username);
     //$("#datanotcheck").attr("href","ViewNotCheck.html?"+'id='+id+'&level='+level+'&cname='+encodeURI(encodeURI(cname))+'&username='+username);

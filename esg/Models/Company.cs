@@ -11,4 +11,9 @@ namespace esg.Models
         public string Name { get; set; }
         public int Parent { get; set; }
     }
+    public class SubCompany
+    {
+        public string Name { get; set; }
+        public int Com_id { get; set; }
+    }
 }

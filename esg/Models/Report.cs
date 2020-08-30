@@ -15,4 +15,14 @@ namespace esg.Models
         public int Status { get; set; }
         public int Report_Year { get; set; }
     }
+
+    public class ReportForm
+    {
+        public int ReportId { get; set; }
+        public int CompanyId { get; set; }
+        public string ReportName { get; set; }
+        public int Status { get; set; }
+        public int Report_Year { get; set; }
+        public string CompanyName { get; set; }
+    }
 }

@@ -1,0 +1,747 @@
+<!doctype html>
+<html lang="en">
+ 
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="assets/vendor/bootstrap/css/bootstrap.min.css">
+    <link href="assets/vendor/fonts/circular-std/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="assets/libs/css/style.css">
+    <link rel="stylesheet" href="assets/vendor/fonts/fontawesome/css/fontawesome-all.css">
+    <link rel="stylesheet" href="assets/vendor/charts/chartist-bundle/chartist.css">
+    <link rel="stylesheet" href="assets/vendor/charts/morris-bundle/morris.css">
+    <link rel="stylesheet" href="assets/vendor/fonts/material-design-iconic-font/css/materialdesignicons.min.css">
+    <link rel="stylesheet" href="assets/vendor/charts/c3charts/c3.css">
+    <link rel="stylesheet" href="assets/vendor/fonts/flag-icon-css/flag-icon.min.css">
+    <link rel="stylesheet" type="text/css" href="css/tree.css"/>
+    <title>ESG信息管理后台！</title>
+</head>
+
+<body>
+    <!-- ============================================================== -->
+    <!-- main wrapper -->
+    <!-- ============================================================== -->
+    <div class="dashboard-main-wrapper">
+        <!-- ============================================================== -->
+        <!-- navbar -->
+        <!-- ============================================================== -->
+        <div class="dashboard-header">
+            <nav class="navbar navbar-expand-lg bg-white fixed-top">
+                <span class="glyphicon glyphicon-align-left" aria-hidden="true"></span>
+                <a id="shouye" class="navbar-brand" href=""><img src="assets/images/logo2.png" ></a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse " id="navbarSupportedContent">
+                    <ul class="navbar-nav ml-auto navbar-right-top">
+                        <li class="nav-item dropdown notification">
+                            <a class="nav-link nav-icons" href="#" id="navbarDropdownMenuLink1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-fw fa-bell"></i> </a>
+                            <ul class="dropdown-menu dropdown-menu-right notification-dropdown">
+                                <li>
+                                    <div class="notification-title">通&nbsp;&nbsp;&nbsp;&nbsp;知</div>
+                                    <div class="notification-list">
+                                        <div class="list-group">
+                                            <a href="#" class="list-group-item list-group-item-action active">
+                                                <div class="notification-info">
+                                                    <div class="notification-list-user-img"><img src="assets/images/ex.jpg" alt="" class="user-avatar-md rounded-circle"></div>
+                                                    <div class="notification-list-user-block"><span class="notification-list-user-name">王五</span>您提交的数据已审核通过！
+                                                        <div class="notification-date">10分钟前</div>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="list-footer"> <a href="#">查看所有通知</a></div>
+                                </li>
+                            </ul>
+                        </li>
+                    
+                        <li class="nav-item dropdown nav-user">
+                            <a class="nav-link nav-user-img" href="#" id="navbarDropdownMenuLink2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="assets/images/ex.jpg" alt="" class="user-avatar-md rounded-circle"></a>
+                            <div class="dropdown-menu dropdown-menu-right nav-user-dropdown" aria-labelledby="navbarDropdownMenuLink2">
+                                <div class="nav-user-info">
+                                    <h5 id="id" class="mb-0 text-white nav-user-name"> </h5>
+                                    <span id="company" class="status"></span><span class="ml-2">
+                                        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-award-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M8 0l1.669.864 1.858.282.842 1.68 1.337 1.32L13.4 6l.306 1.854-1.337 1.32-.842 1.68-1.858.282L8 12l-1.669-.864-1.858-.282-.842-1.68-1.337-1.32L2.6 6l-.306-1.854 1.337-1.32.842-1.68L6.331.864 8 0z"/>
+                                            <path d="M4 11.794V16l4-1 4 1v-4.206l-2.018.306L8 13.126 6.018 12.1 4 11.794z"/>
+                                          </svg>
+                                        </span>
+                                        <text id="cname">22</text>
+                                        
+                                </div>
+                                <a id="personalinfo" class="dropdown-item" href="#"><i class="fas fa-cog mr-2"></i>管理个人信息</a>
+                                <a class="dropdown-item" href="index.html"><i class="fas fa-power-off mr-2"></i>登出</a>
+                            </div>
+                            
+                           
+                        </li>
+                        <li class="nav-new">                     
+                            <span class="badge badge-pill badge-light">欢迎您进入ESG信息管理系统！</span>
+                            <center><p id= "level" class="headernew"> </p></center>
+                        </li>
+
+                    </ul>
+                </div>
+            </nav>
+        </div>
+        <!-- ============================================================== -->
+        <!-- end navbar -->
+        <!-- ============================================================== -->
+   <!-- ============================================================== -->
+    <!-- left sidebar -->
+    <!-- ============================================================== -->
+    <div class="nav-left-sidebar sidebar-dark">
+        <div class="menu-list">
+            <nav class="navbar navbar-expand-lg navbar-light">
+                <a class="d-xl-none d-lg-none" href="#">功能面板</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav flex-column">
+                        <li class="nav-divider">
+                            功能
+                        </li>
+                        <li id="xinjian" class="nav-item ">
+                            <a class="nav-link active" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-1" aria-controls="submenu-1"><i class="fa fa-fw fa-user-circle"></i>账户管理<span class="badge badge-success">6</span></a>
+                            <div id="submenu-1" class="collapse submenu" style="">
+                                <ul class="nav flex-column">
+                                    <li class="nav-item">
+                                        <a  id="createcompany" class="nav-link" href=#>建立新的子公司</a>
+                                    </li>
+                                    <li  class="nav-item">
+                                        <a id="managecompany" class="nav-link" href=#>管理我的子公司</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a  id="createperson" class="nav-link" href=#>建立新账户</a>
+                                    </li>
+                                    <li  class="nav-item">
+                                        <a id="manageperson" class="nav-link" href=#>管理我建立的账户</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li id="shenhe" class="nav-item">
+                            <a class="nav-link" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-2" aria-controls="submenu-2"><i class="fa fa-fw fa-rocket"></i>报表管理及审核</a>
+                            <div id="submenu-2" class="collapse submenu" >
+                                <ul class="nav flex-column">
+                                    <li class="nav-item">
+                                        <a id="createreport" class="nav-link" href=CreateReport.html>新建报表</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a id="viewreport_shenhe" class="nav-link" href=#>查看我的报表</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li id="luru" class="nav-item">
+                            <a class="nav-link" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-5" aria-controls="submenu-5"><i class="fas fa-fw fa-table"></i>数据录入</a>
+                            <div id="submenu-5" class="collapse submenu">
+                                <ul class="nav flex-column">
+                                    <li class="nav-item">
+                                        <a id="viewreport_luru" class="nav-link" href=#>查看我的报表</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+    </div>
+        <!-- ============================================================== -->
+        <!-- end left sidebar -->
+        <!-- ============================================================== -->
+        <!-- ============================================================== -->
+        <!-- wrapper  -->
+        <!-- ============================================================== -->
+        <div class="modal" tabindex="-1" role="dialog">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title"></h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-primary" data-dismiss="modal">关闭窗口</button>
+                  <button name="Data" type="button" class="btn btn-success"></button>
+                  <button name="Delete" type="button" class="btn btn-danger">删除数据</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        <div class="dashboard-wrapper">
+            
+            <div id="report1" class="container-fluid  dashboard-content">
+            <span id="header1" style="font-size:20px;font-weight:bold;">本公司报表</span>
+            </div>
+            <div id="report2" class="container-fluid  dashboard-content" style="padding-top: 0px;position: reletive;margin-top: -5%;">
+            <span id="header2" style="font-size:20px;font-weight:bold;">子公司报表</span>
+            </div>
+            <div class="container-fluid  dashboard-content">
+                <p id="info" style="font-size:20px"></p>
+                <div id="indicatemain" class="row" style="position: relative; top:-40px; ">
+                    
+                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                        <button type="button" id="Pass" class="btn btn-success" style="position: relative; top:40px; right:-70%;">审核通过</button>
+                        <button type="button" id="Deny" class="btn btn-danger" style="position: relative; top:40px; right:-70%;">退回报表</button>
+                        <button type="button" id="Return" class="btn btn-primary" style="position: relative; top:40px; right:-70%;">返回查看报表页</button>
+                        <button type="button" id="Submit" class="btn btn-success" style="position: relative; top:40px; right:-70%;">提交审核</button>
+                        <div id="justAnInputBox1" class="select-tree-wrap">
+                        </div>
+                        
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb">
+                              <li id="bread1" class="breadcrumb-item"></li>
+                              <li id="bread2" class="breadcrumb-item"></li>
+                              <li id="bread3" class="breadcrumb-item active" aria-current="page"></li>
+                            </ol>
+                          </nav>
+                                <div id="MAIN">
+                                
+                                </div>
+
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- ============================================================== -->
+                    <!-- end basic table  -->
+                    <!-- ============================================================== -->
+                </div>
+               
+            </div>
+            <!-- ============================================================== -->
+            <!-- footer -->
+            <!-- ============================================================== -->
+            <div class="footer">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
+                            
+                        </div>
+                        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
+                            <div class="text-md-right footer-links d-none d-sm-block">
+                                <a href="javascript: void(0);">关于</a>
+                                <a href="javascript: void(0);">技术支持</a>
+                                <a href="javascript: void(0);">联系我们</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- ============================================================== -->
+            <!-- end footer -->
+            <!-- ============================================================== -->
+        </div>
+        
+        <!-- ============================================================== -->
+        <!-- end wrapper  -->
+        <!-- ============================================================== -->
+    </div>
+    <!-- ============================================================== -->
+    <!-- end main wrapper  -->
+    <!-- ============================================================== -->
+    <!-- Optional JavaScript -->
+    <!-- jquery 3.3.1 -->
+    <script src="assets/vendor/jquery/jquery-3.3.1.min.js"></script>
+    <!-- bootstap bundle js -->
+    <script src="assets/vendor/bootstrap/js/bootstrap.bundle.js"></script>
+    <!-- slimscroll js -->
+    <script src="assets/vendor/slimscroll/jquery.slimscroll.js"></script>
+    <!-- main js -->
+    <script src="assets/libs/js/main-js.js"></script>
+    <!-- chart chartist js -->
+    <script src="assets/libs/js/Begin.js"> </script>
+
+    <script type="text/javascript" src="js/viewreport2.js"></script>
+    <script type="text/javascript">
+            var KKK = [  {
+        "id": '73A64FDAFFC',
+        "title": "基本信息",
+        "subs": [
+            {
+                "id": '73AtwFDAFFC',
+                "title": "组织概况",
+                "subs": [
+                    {
+                        "id": '13At4FDAFFC',
+                        "title": "公司介绍"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": '73A65FDAFFC',
+        "title": "环境",
+        "subs": [
+            {
+                "id": '74AawFDAFFC',
+                "title": "排放物",
+                "subs": [
+                    {
+                        "id": '14At4FDAFFC',
+                        "title": "废气"
+                    },
+                    {
+                        "id": '84At4FDAFFC',
+                        "title": "废水"
+                    },
+                    {
+                        "id": '85Al4FDAFFC',
+                        "title": "温室气体"                       
+                    },
+                    {
+                        "id": '86At4FDAFFC',
+                        "title": "有害废弃物"
+                    }
+                ]
+            }, 
+	        {
+                "id": '75AawFDAFFC',
+                "title": "资源使用",
+                "subs": [
+                    {
+                        "id": '24At4FDAFFC',
+                        "title": "能源"
+                    }
+                ]
+            }
+        ]
+    }
+]
+;
+        let aaa = $('#justAnInputBox1').comboTree({
+                source : KKK,
+                isMultiple: false,
+                isFirstClassSelectable:false, //第一级是否可选
+                cascadeSelect: true,
+                selectedlength:3 //最多可选
+        });
+                /**
+         * 递归查询JSON树 父子节点
+         */
+         var parentNode = null;
+        var node = null;
+    
+        /**
+         * 根据text查找当前节点以及父节点
+         */
+        function getNode(json, text) { 
+            //1.第一层 root 深度遍历整个JSON
+            for (var i = 0; i < json.length; i++) {
+                if (node) {
+                    break;
+                }
+                var obj = json[i];
+                //没有就下一个
+                if (!obj || !obj.title) {
+                    continue;
+                }
+                //2.有节点就开始找，一直递归下去
+                if (obj.title == text) {
+                    //找到了与text匹配的节点，结束递归
+                    node = obj;
+                    break;
+                } else {
+                    //3.如果有子节点就开始找
+                    if (obj.subs&&obj.subs.length!=0) {
+                        //4.递归前，记录当前节点，作为parent 父亲
+                        parentNode = obj;
+                        //递归往下找
+                        getNode(obj.subs, text);
+                    } else {
+                        //跳出当前递归，返回上层递归
+                        continue;
+                    }
+                }
+            }
+            //5.如果木有找到父节点，置为null，因为没有父亲  
+            if (!node) {
+                parentNode = null;
+            }
+    
+            //6.返回结果obj
+            return {
+                parentNode: parentNode,
+                node: node
+            };
+        }
+        //批量查询
+        var query = '废气';
+        var result = [];
+        var getResult = function(json,query){
+            node = null;
+            parentNode = null;
+            var obj = getNode(json, query);
+            //判断是否闭包
+            if(obj.parentNode){
+                //有父节点
+                console.log("查询text:" + query + ", 结果:" + obj.node.title + " -> 父级:" + (obj.parentNode ? obj.parentNode.title : '木有父级!'));
+                //获取父节点text继续查祖节点
+                getResult(json,obj.parentNode.title);
+                result.push(obj.parentNode.title);
+            }
+            return result;
+        }
+        $("#indicatemain").hide();
+        viewReport();
+        function viewReport()
+        {
+            $.ajax({
+                    url: "api/Report/Admin_CompanyReport",
+                    type: "POST",
+                    contentType: "application/json",
+                    data: location.search.split('?')[1].split('&')[4].split('=')[1],
+                    success:function(data){
+                       for(var i=0;i<data.length;i++){
+                           var st;
+                           //一级公司
+                           if(location.search.split('?')[1].split('&')[1].split('=')[1]==1)
+                           {
+                            switch(data[i]['status']){
+                            case 0:
+                                st="新建"
+                                break;
+                            case 1:
+                                st="退回至录入员"
+                                break;
+                            case 10:
+                                st="录入员提交待审核"
+                                break;
+                            case 11:
+                                st="审核通过"
+                                break;
+                            case 20:
+                                st="提交至本公司待审核"
+                                break;
+                            case 21:
+                                st="本公司审核通过"
+                                break;
+                            case 22:
+                                st="本公司退回至子公司"
+                                break;
+                           }
+                           }
+                           else{
+                            switch(data[i]['status']){
+                            case 0:
+                                st="新建"
+                                break;
+                            case 1:
+                                st="退回至录入员"
+                                break;
+                            case 10:
+                                st="录入员提交待审核"
+                                break;
+                            case 11:
+                                st="审核通过"
+                                break;
+                            case 20:
+                                st="提交至上层公司待审核"
+                                break;
+                            case 21:
+                                st="上层公司审核通过"
+                                break;
+                            case 22:
+                                st="上层公司退回"
+                                break;
+                           }
+                           }
+
+                            if(data[i]["companyId"]==location.search.split('?')[1].split('&')[4].split('=')[1])
+                        {
+                            $("#report1").append("<div  class=\"card bg-light mb-3\" style=\"max-width: 100rem;\">\
+                            <div name=\"re\" class=\"card-header\" style=\"font-size:18px\">\
+                            Report_id:<span>"+data[i]['reportId']+"</span>&nbsp;&nbsp;&nbsp;&nbsp;\
+                            报表年份:<span id=\"re_year\">"+data[i]['report_Year']+"</span> &nbsp;&nbsp;&nbsp;&nbsp;\
+                            所属公司:<span id=\"re_com\">"+data[i]['companyName']+"公司</span>&nbsp;&nbsp;&nbsp;&nbsp;\
+                            <span name=\"re_st\" id=\""+data[i]['status']+ "\" class=\"badge badge-primary\" >状态："+st+"</span>\
+                            <button id=\""+data[i]['reportId']+"\" name=\"re_bt\" type=\"button\" class=\"btn btn-primary\" style=\"float: right; margin-top:-6px;\">查看此报表</button>\
+                            </div></div>");
+                        }
+                        else{
+                            $("#report2").append("<div  class=\"card bg-light mb-3\" style=\"max-width: 100rem;\">\
+                            <div name=\"re\" class=\"card-header\" style=\"font-size:18px\">\
+                            Report_id:<span>"+data[i]['reportId']+"</span>&nbsp;&nbsp;&nbsp;&nbsp;\
+                            报表年份:<span id=\"re_year\">"+data[i]['report_Year']+"</span> &nbsp;&nbsp;&nbsp;&nbsp;\
+                            所属公司:<span id=\"re_com\">"+data[i]['companyName']+"公司</span>&nbsp;&nbsp;&nbsp;&nbsp;\
+                            <span name=\"re_st\" id=\""+data[i]['status']+ "\" class=\"badge badge-primary\" >状态："+st+"</span>\
+                            <button id=\""+data[i]['reportId']+"\" name=\"re_bt\" type=\"button\" class=\"btn btn-primary\" style=\"float: right; margin-top:-6px;\">查看此报表</button>\
+                            </div></div>");
+                        }
+                        if(location.search.split('?')[1].split('&')[1].split('=')[1]==2)
+                        {
+                            $("#report2").remove();
+                        }
+                       
+                       }
+                       $("[name='re_bt']").each(function(index){
+                        if(data[index]["companyId"]==location.search.split('?')[1].split('&')[4].split('=')[1])
+                        {
+                            switch(data[index]['status']){
+                            case 10:
+                                $(this).html('审核此报表');
+                                $(this).attr('class','btn btn-warning');
+                                break;
+                           }
+                        }
+                        else
+                        {
+                            switch(data[index]['status']){
+                            case 20:
+                                $(this).html('审核此报表');
+                                $(this).attr('class','btn btn-warning');
+                                break;
+                           }
+                        }
+
+                        });
+                       $("[name='re_st']").each(function(index){
+                        if(data[index]["companyId"]==location.search.split('?')[1].split('&')[4].split('=')[1])
+                        {
+                            switch(data[index]['status']){
+                            case 1:case 22:
+                                $(this).attr('class','badge badge-danger');
+                                break;
+                            case 10:case 20:
+                                $(this).attr('class','badge badge-warning');
+                                break;
+                            case 11:case 21:
+                                $(this).attr('class','badge badge-success');
+                                break;
+                           }
+                        }
+                        else
+                        {
+                            switch(data[index]['status']){
+                            case 0:case 1:case 10:case 11:
+                                $(this).attr('class','badge badge-dark');
+                                break;
+                            case 20:
+                                $(this).attr('class','badge badge-warning');
+                                break;
+                            case 22:
+                                $(this).attr('class','badge badge-danger');
+                                break;
+                            case 21:
+                                $(this).attr('class','badge badge-success');
+                                break;
+                        }
+                        }
+                        
+                       });
+                        $("[name='re_bt']").each(function(index,ele1){
+                            $(ele1).click(function(){
+                                $("[name='re']").each(function(index,ele2){
+                                    if($(ele2).children("[name='re_bt']").attr("id")==$(ele1).attr("id"))
+                                    {
+                                        rid=$(ele1).attr("id");
+                                        ryear=$(ele2).children("#re_year").html();
+                                        rname=$(ele2).children("#re_year").html();
+                                        rcname=$(ele2).children("#re_com").html();
+                                        rst=$(ele2).children("[name='re_st']").attr("id");
+                                    }
+                                });
+                                $("#info").html("报表ID："+
+                                rid+"&nbsp;&nbsp;&nbsp;&nbsp;报表名称："+
+                                rname+"&nbsp;&nbsp;&nbsp;&nbsp;报表年份："+
+                                ryear+"&nbsp;&nbsp;&nbsp;&nbsp;所属公司："+
+                                rcname+"&nbsp;&nbsp;&nbsp;&nbsp;"+$("[name='re_st'][id='" + rst + "']").html());
+                                //一级管理员
+                                if(location.search.split('?')[1].split('&')[1].split('=')[1]==1)
+                                {
+                                    if(rst==10||rst==20)//一级录入员提交审核
+                                    {
+                                        $("#Pass").show();
+                                        $("#Deny").show();
+                                        $("#report1").fadeOut();
+                                        $("#report2").fadeOut();
+                                        $("#Submit").hide();
+                                        $("#info").fadeIn();
+                                        $("#indicatemain").fadeIn();
+                                    }
+                                    else//子公司二级管理员提交审核
+                                    {
+                                        $("#report1").fadeOut();
+                                        $("#report2").fadeOut();
+                                        $("#Pass").hide();
+                                        $("#Deny").hide();
+                                        $("#Submit").hide();
+                                        $("#info").fadeIn();
+                                        $("#indicatemain").fadeIn();
+                                    }
+                                }
+                                else//二级管理员
+                                {
+                                    if(rst==10)
+                                    {
+                                        $("#Pass").show();
+                                        $("#Deny").show();
+                                        $("#report1").fadeOut();
+                                        $("#Submit").hide();
+                                        $("#info").fadeIn();
+                                        $("#indicatemain").fadeIn();
+                                    }
+                                    else if(rst==11)
+                                    {
+                                        $("#Submit").show();
+                                        $("#report1").fadeOut();
+                                        $("#Pass").hide();
+                                        $("#Deny").hide();
+                                        $("#info").fadeIn();
+                                        $("#indicatemain").fadeIn();
+                                    }
+                                    else if(rst==22)
+                                    {
+                                        $("#Submit").show();
+                                        $("#Deny").show();
+                                        $("#report1").fadeOut();
+                                        $("#Pass").hide();
+                                        $("#info").fadeIn();
+                                        $("#indicatemain").fadeIn();
+                                    }
+                                    else{
+                                        $("#report1").fadeOut();
+                                        $("#Pass").hide();
+                                        $("#Deny").hide();
+                                        $("#Submit").hide();
+                                        $("#info").fadeIn();
+                                        $("#indicatemain").fadeIn();
+                                    }
+                                }
+                                });
+                        });
+                    },
+                    error:function(xhr){
+                        alert("error");
+                    }
+                 });
+        }
+
+
+        $("#Return").click(function(){
+            returnrp();
+        });
+        $("#Submit").click(function(){
+            $.ajax({
+                    url: "api/Report/ReportHandIn",
+                    type: "POST",
+                    contentType: "application/json",
+                    data: JSON.stringify({
+                                Status: rst,
+                                ReportId: rid
+                            }),
+                    success:function(data){
+                        if(data==20)
+                        {
+                            alert("提交成功!");
+                            returnrp();
+                        }
+                        else if (data!=1)
+                        {
+                            alert("状态报表有变，提交失败!");
+                            returnrp();
+                        }
+                    }
+
+                
+                });
+        });
+        $("#Pass").click(function(){
+            $.ajax({
+                    url: "api/Report/ReportPass",
+                    type: "POST",
+                    contentType: "application/json",
+                    data: JSON.stringify({
+                                Status: rst,
+                                ReportId: rid
+                            }),
+                    success:function(data){
+                        if(data==11||data==21)
+                        {
+                            alert("审核成功!");
+                            returnrp();
+                        }
+                        else
+                        {
+                            alert("状态报表有变，返回查看状态！");
+                            returnrp();
+                        }
+                    }
+                });
+        });
+        $("#Deny").click(function(){
+            $.ajax({
+                    url: "api/Report/ReportReturn",
+                    type: "POST",
+                    contentType: "application/json",
+                    data: JSON.stringify({
+                                Status: rst,
+                                ReportId: rid
+                            }),
+                    success:function(data){
+                        if(data==1||data==22)
+                        {
+                            alert("已退回！");
+                            returnrp();
+                        }
+                        else
+                        {
+                            alert("状态报表有变，返回查看状态！");
+                            returnrp();
+                        }
+                    }
+                });
+        });
+        function returnrp()
+        {
+            $("#info").fadeOut();
+            $("#indicatemain").fadeOut();
+            $("#MAIN").html("");
+            if($(".input-keyword-item").length>0)
+            {
+                aaa.uncheckrow($(".input-keyword-item").attr("data-id"));
+            }
+            $("#bread1").html("");
+            $("#bread2").html("");
+            $("#bread3").html("");
+            $("#report1").html("");
+            $("#report1")
+            if(location.search.split('?')[1].split('&')[1].split('=')[1]==1){
+                    $("#report2").html("");}
+            viewReport();
+            if(location.search.split('?')[1].split('&')[1].split('=')[1]==1){
+            $("#report1").append("<span id=\"header1\" style=\"font-size:20px;font-weight:bold;\">本公司报表</span>");
+            $("#report2").append("<span id=\"header1\" style=\"font-size:20px;font-weight:bold;\">子公司报表</span>")
+                            }
+             else{
+                       $("#report1").append("<span id=\"header1\" style=\"font-size:20px;font-weight:bold;\">本公司报表</span>");
+                            }
+               $("#report1").fadeIn();
+                            if(location.search.split('?')[1].split('&')[1].split('=')[1]==1)
+                            {
+                                $("#report2").fadeIn();
+                            }
+        }
+        var rcname;
+        var rname;
+        var ryear;
+        var rid;
+        var rst;
+        </script>
+</body>
+ 
+</html>

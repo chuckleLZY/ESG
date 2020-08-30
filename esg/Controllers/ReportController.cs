@@ -237,6 +237,10 @@ namespace esg.Controllers
                 {
                     rep.Status = 22;
                 }
+                else if(rep.Status==22)
+                {
+                    rep.Status = 1;
+                }
                 sql = "update report set status='" + rep.Status + "'where report_id='" + rep.ReportId + "'";
                 cmd = new MySqlCommand(sql, con);
                 int err = cmd.ExecuteNonQuery();
@@ -727,40 +731,44 @@ namespace esg.Controllers
 
         //查看本公司报表(针对管理员)
         [HttpPost]
-        public List<Report> Admin_CompanyReport([FromBody]int CompanyId)
+        public List<ReportForm> Admin_CompanyReport([FromBody]int CompanyId)
         {
-            List<Report> reports = new List<Report>();
+            List<ReportForm> reports = new List<ReportForm>();
             using (MySqlConnection con = new MySqlConnection(connString))
             {
                 con.Open();
 
                 //找本公司的报表
-                string sql = "select report_id,report_name,status,report_year from report where com_id=" + CompanyId;
+                string sql = "select report_id,report_name,status,report_year,name,com_id from report natural join company where com_id=" + CompanyId;
                 MySqlCommand cmd = new MySqlCommand(sql, con);
                 MySqlDataReader reader = cmd.ExecuteReader();
                 while (reader.Read())
                 {
-                    Report report = new Report();
+                    ReportForm report = new ReportForm();
                     report.ReportId = reader.GetInt32("report_id");
                     report.ReportName = reader.GetString("report_name");
                     report.Status = reader.GetInt32("status");
                     report.Report_Year = reader.GetInt32("report_year");
+                    report.CompanyName = reader.GetString("name");
+                    report.CompanyId = reader.GetInt32("com_id");
                     reports.Add(report);
                 }
                 reader.Close();
 
                 //找子公司的报表
-                sql = "select report_id,report_name,status,report_year from report natural join company " +
+                sql = "select report_id,report_name,status,report_year,name,com_id from report natural join company " +
                     "where parent=" + CompanyId;
                 cmd.CommandText = sql;
                 reader = cmd.ExecuteReader();
                 while (reader.Read())
                 {
-                    Report report = new Report();
+                    ReportForm report = new ReportForm();
                     report.ReportId = reader.GetInt32("report_id");
                     report.ReportName = reader.GetString("report_name");
                     report.Status = reader.GetInt32("status");
                     report.Report_Year = reader.GetInt32("report_year");
+                    report.CompanyName = reader.GetString("name");
+                    report.CompanyId = reader.GetInt32("com_id");
                     reports.Add(report);
                 }
             }

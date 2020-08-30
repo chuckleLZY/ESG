@@ -26,7 +26,7 @@ namespace esg.Controllers
                 list.Add(new CreateCompanyReturn { ErrorCode = 1 });
                 using(MySqlCommand cmd=new MySqlCommand())
                 {
-                    string sql = "insert into company(level,name,parent) values(@level,@name,@parent)";
+                    string sql = "select * from company(level,name,parent) values(@level,@name,@parent)";
                     cmd.Connection = conn;
                     cmd.CommandText = sql;
                     
@@ -45,7 +45,37 @@ namespace esg.Controllers
             
             return Json(list);
         }
-        
+        [HttpPost]
+        public JsonResult getSubCompany([FromBody]int com_id)
+        {
+            List<SubCompany> com = new List<SubCompany>();
+
+            using (MySqlConnection conn = new MySqlConnection(connString))
+            {
+                conn.Open();
+                
+                using (MySqlCommand cmd = new MySqlCommand())
+                {
+                    string sql = "select * from company where parent=@cid";
+                    cmd.Connection = conn;
+                    cmd.CommandText = sql;
+
+                    cmd.Parameters.Add(new MySqlParameter("@cid", com_id));
+                    
+                    MySqlDataReader reader = cmd.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        SubCompany c = new SubCompany();
+                        c.Name = reader.GetString("name");
+                        c.Com_id = reader.GetInt32("com_id");
+                        com.Add(c);
+                    }
+                    reader.Close();
+                }
+                conn.Close();
+            }
+            return Json(com);
+        }
         [HttpDelete]
         public int deleteCompany([FromBody]int CompanyId)
         {
