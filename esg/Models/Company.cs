@@ -13,7 +13,8 @@ namespace esg.Models
     }
     public class SubCompany
     {
-        public string Name { get; set; }
         public int Com_id { get; set; }
+        public string Name { get; set; }
+        public int Level { get; set; }
     }
 }

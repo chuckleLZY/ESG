@@ -20,34 +20,34 @@ namespace esg.Controllers
         {
             int status = 1;
             int comid = 0;
-            
-            using(MySqlConnection conn=new MySqlConnection(connString))
+
+            using (MySqlConnection conn = new MySqlConnection(connString))
             {
                 conn.Open();
-                using(MySqlCommand cmd=new MySqlCommand())
+                using (MySqlCommand cmd = new MySqlCommand())
                 {
                     string sql = "insert into company(level,name,parent) values(@level,@name,@parent)";
                     cmd.Connection = conn;
                     cmd.CommandText = sql;
-                    
+
                     cmd.Parameters.Add(new MySqlParameter("@level", com.Level));
                     cmd.Parameters.Add(new MySqlParameter("@name", com.Name));
                     cmd.Parameters.Add(new MySqlParameter("@parent", com.Parent));
-                    
+
                     if (cmd.ExecuteNonQuery() != 1)
                     {
                         status = 0;
                     }
-                    
+
                     comid = (int)cmd.LastInsertedId;
                 }
                 conn.Close();
             }
-            if(status == 1)
+            if (status == 1)
             {
                 return Ok(new
                 {
-                    Status = status,
+                    Status = true,
                     ComId = comid
                 });
             }
@@ -55,44 +55,78 @@ namespace esg.Controllers
             {
                 return Ok(new
                 {
-                    status = status,
+                    status = false,
                 });
             }
-            
+
         }
         [HttpPost]
-        public JsonResult getSubCompany([FromBody]int com_id)
+        public ActionResult<string> getSubCompany(int com_id)
         {
-            List<SubCompany> com = new List<SubCompany>();
+            //0无母公司，1无子公司，2正常
+            int status = 0;
+            int num = 0;
+            SubCompany info1 = new SubCompany();
+            List<SubCompany> info2 = new List<SubCompany>();
 
             using (MySqlConnection conn = new MySqlConnection(connString))
             {
                 conn.Open();
-                
+
                 using (MySqlCommand cmd = new MySqlCommand())
                 {
-                    string sql = "select * from company where parent=@cid";
+                    string sql = "select * from company where com_id=@cid";
                     cmd.Connection = conn;
                     cmd.CommandText = sql;
-
+                    //查找母公司信息
+                    sql = "select * from company where com_id=@cid";
                     cmd.Parameters.Add(new MySqlParameter("@cid", com_id));
-                    
+
                     MySqlDataReader reader = cmd.ExecuteReader();
                     while (reader.Read())
                     {
                         SubCompany c = new SubCompany();
-                        c.Name = reader.GetString("name");
                         c.Com_id = reader.GetInt32("com_id");
-                        com.Add(c);
+                        c.Name = reader.GetString("name");
+                        c.Level = reader.GetInt32("level");
+                        info1 = c;
+                        status = 1;
                     }
                     reader.Close();
+
+                    //查找子公司信息
+                    sql = "select * from company where parent=@comid";
+                    cmd.CommandText = sql;
+                    cmd.Parameters.Add(new MySqlParameter("@comid", com_id));
+                    
+                    MySqlDataReader reader1 = cmd.ExecuteReader();
+                    while (reader1.Read())
+                    {
+                        SubCompany c = new SubCompany();
+                        c.Com_id= reader1.GetInt32("com_id");
+                        c.Name = reader1.GetString("name");
+                        c.Level = reader1.GetInt32("level");
+                        info2.Add(c);
+                        status = 2;
+                        num++;
+                    }
+                    reader1.Close();
                 }
                 conn.Close();
             }
-            return Json(com);
+
+            return Ok(new
+            {
+                status = status,
+                parentCompany = info1,
+                subCompanyNum=num,
+                subCompany = info2
+            });
+
         }
+
         [HttpDelete]
-        public int deleteCompany([FromBody]int CompanyId)
+        public int deleteCompany( int CompanyId)
         {
             int error_code = 1;
 
@@ -103,7 +137,7 @@ namespace esg.Controllers
                 {
                     //删除本公司
                     string sql = "delete from company where com_id = @com_id";
-                    cmd.Connection = conn;    
+                    cmd.Connection = conn;
                     cmd.CommandText = sql;
                     cmd.Parameters.Add(new MySqlParameter("@com_id", CompanyId));
 
