@@ -305,15 +305,16 @@
              $("#inputLevel").val($("a#Comchoice1").html());
              $("#subchoose").fadeIn();
              $.ajax({
-                    url: "api/Company/getSubCompany",
+                    url: "api/Company/getSubCompany?com_id="+location.search.split('?')[1].split('&')[4].split('=')[1],
                     type: "POST",
                     contentType: "application/json",
-                    data: location.search.split('?')[1].split('&')[4].split('=')[1],
+                    //data: location.search.split('?')[1].split('&')[4].split('=')[1],
                 success:function(data){
-                    
-                    for(var i=0;i<data.length;i++)
+                    console.log(location.search.split('?')[1].split('&')[4].split('=')[1]);
+                    console.log(data);
+                    for(var i=0;i<data.subCompany.length;i++)
                     {
-                        $(".custom-select").append("<option value=\""+data[i]['com_id']+"\">"+data[i]['com_id']+"："+data[i]['name']+"公司"+"</option>")
+                        $(".custom-select").append("<option value=\""+data.subCompany[i].com_id+"\">"+data.subCompany[i].com_id+"："+data.subCompany[i].name+"公司"+"</option>")
                     }
                 },
                 error:function(xhr){alert("error");}
@@ -370,6 +371,7 @@
                 {
                     CID=location.search.split('?')[1].split('&')[4].split('=')[1];
                 }
+                console.log(CID);
                 $.ajax({
                     url: "api/user/createnewcustomer",//修改API
                     type: "POST",

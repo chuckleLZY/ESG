@@ -188,36 +188,21 @@
                 <!-- ============================================================== -->
                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                     <div class="card">
-                        <h5 class="card-header">我的账户</h5>
+                        <h5 class="card-header">本公司账户</h5>
                         <div class="card-body">
                             <div class="table-responsive">
                                 <table class="table table-striped table-bordered first">
                                     <thead>
                                         <tr>
                                             <th>账户名</th>
-                                           
                                             <th>账户身份</th>
-                                            <th>邮箱地址</th>
+                                            <th>所属公司</th>
                                             <th>可进行的操作</th>
 
                                         </tr>
                                     </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>Tiger Nixon</td>
-                                            
-                                            <td>Edinburgh</td>
-                                            <td>1158222167@qq.com</td>
-                                            <td><button type="button" class="btn btn-outline-danger">删除此用户</button></td>
-                                        </tr>
-                                        <tr>
-                                            <td>Tiger Nixon</td>
-                                            
-                                            <td>Edinburgh</td>
-                                            <td>61</td>
-                                            <td>2011/04/25</td>
+                                    <tbody id="userinfo">
 
-                                        </tr>
                                     </tbody>
                                 </table>
                             </div>
@@ -282,6 +267,213 @@
     <script src="assets/vendor/charts/c3charts/C3chartjs.js"></script>
     <script src="assets/libs/js/dashboard-ecommerce.js"></script>
     <script src="assets/libs/js/Begin.js"></script>
+    <script type="text/javascript">
+    var a=location.search.split('?')[1].split('=')[2].split('&')[0];
+    var num=0;
+    var first=0;
+    var aInt2;
+    function viewchilduser(cname)
+    {
+        console.log(cname);
+        
+        $.ajax({
+            url:"api/User/ViewChildCustomer",
+            type:"POST",
+            contentType:"application/json",
+            data: '\"'+cname+'\"' ,
+            success:function(result){   
+                console.log(result);
+                    for(var i=0;i<result.adminAccount.length;i++)
+                    {
+                        $("#userinfo").append(" <tr>\
+                        <td>"+result.adminAccount[i]+"</td>\
+                        <td>二级管理员</td>\
+                        <td>"+cname+"</td>\
+                        <td><button type=\"button\" class=\"btn btn-outline-danger\" id=\"DeleteButton"+num+"\">删除此用户</button></td>\
+                        </tr>");
+                        num++;
+                    }
+                    for(var i=0;i<result.dataAccount.length;i++)
+                    {
+                        $("#userinfo").append(" <tr>\
+                        <td>"+result.dataAccount[i]+"</td>\
+                        <td>数据录入员</td>\
+                        <td>"+cname+"</td>\
+                        <td><button type=\"button\" class=\"btn btn-outline-danger\" id=\"DeleteButton"+num+"\">删除此用户</button></td>\
+                        </tr>");
+                        num++;
+                    }
+
+                    aInt2 = document.getElementById('userinfo').getElementsByTagName('button');
+                for(var i=0;i<result.dataAccount.length+result.adminAccount.length;i++)
+                {
+                    var user=result.userID[i];
+                    aInt2[i+first].onclick=function(){
+                        $.ajax({
+                            url:"api/User/DeleteCustomer?UserId="+user,
+                            type:"DELETE",
+                            contentType:"application/json",
+                            //data:user,
+                            success:function(ans){
+                                
+                                if(ans==0)
+                                {
+                                     alert("删除用户失败！请重试！");
+                                }
+                                else
+                                {
+                                   alert("删除用户成功");
+                                   window.location.reload();
+                                }
+
+                            },
+                            error:function(xhr){alert("error");}
+                        })
+                    }
+                }
+
+
+
+            },
+            error:function(xhr)
+            {
+                alert("error");
+            }
+        })
+    }
+    viewUser();
+    function viewUser()
+    {
+        if(a==1)
+        {
+            $.ajax({
+            url:"api/User/ViewFirstCustomerInfo",
+            type:"POST",
+            contentType:"application/json",
+            data: location.search.split('?')[1].split('=')[1].split('&')[0],
+            success:function(result){
+                console.log(result);
+                for(var i=0;i<result.adminAccount.length;i++)
+                {
+                    $("#userinfo").append(" <tr>\
+                    <td>"+result.adminAccount[i]+"</td>\
+                    <td>一级管理员</td>\
+                    <td>"+result.companyName+"</td>\
+                    <td><button type=\"button\" class=\"btn btn-outline-danger\" id=\"DeleteButton"+num+"\">删除此用户</button></td>\
+                    </tr>");
+                    num++;
+                }
+                for(var i=0;i<result.dataAccount.length;i++)
+                {
+                    $("#userinfo").append(" <tr>\
+                    <td>"+result.dataAccount[i]+"</td>\
+                    <td>数据录入员</td>\
+                    <td>"+result.companyName+"</td>\
+                    <td><button type=\"button\" class=\"btn btn-outline-danger\" id=\"DeleteButton"+num+"\">删除此用户</button></td>\
+                    </tr>");
+                    num++;
+                }
+                first=result.dataAccount.length+result.adminAccount.length;
+                for(var i=0;i<result.childCompanyName.length;i++)
+                {
+                    viewchilduser(result.childCompanyName[i]);
+                }
+                aInt2 = document.getElementById('userinfo').getElementsByTagName('button');
+                for(var i=0;i<result.dataAccount.length+result.adminAccount.length;i++)
+                {
+                    var user=result.userID[i];
+                    aInt2[i].onclick=function(){
+                        $.ajax({
+                            url:"api/User/DeleteCustomer?UserId="+user,
+                            type:"DELETE",
+                            contentType:"application/json",
+                            success:function(ans){
+                                if(ans==0)
+                                {
+                                     alert("删除用户失败！请重试！");
+                                }
+                                else
+                                {
+                                   alert("删除用户成功");
+                                   window.location.reload();
+                                }
+                            },
+                            error:function(xhr){alert("error");}
+                        })
+                    }
+                }
+
+            },
+            error:function(xhr)
+            {
+                alert("error");
+            }
+            })
+        }
+        else if(a==2)
+        {
+            $.ajax({
+            url:"api/User/ViewSecondCustomerInfo",
+            type:"POST",
+            contentType:"application/json",
+            data: location.search.split('?')[1].split('=')[1].split('&')[0],
+            success:function(result){
+                console.log(result);        
+                for(var i=0;i<result.adminAccount.length;i++)
+                    {
+                        $("#userinfo").append(" <tr>\
+                        <td>"+result.adminAccount[i]+"</td>\
+                        <td>二级管理员</td>\
+                        <td>"+result.companyName+"</td>\
+                        <td><button type=\"button\" class=\"btn btn-outline-danger\" id=\"DeleteButton"+num+"\">删除此用户</button></td>\
+                        </tr>");
+                        num++;
+                    }
+                    for(var i=0;i<result.dataAccount.length;i++)
+                    {
+                        $("#userinfo").append(" <tr>\
+                        <td>"+result.dataAccount[i]+"</td>\
+                        <td>数据录入员</td>\
+                        <td>"+result.companyName+"</td>\
+                        <td><button type=\"button\" class=\"btn btn-outline-danger\" id=\"DeleteButton"+num+"\">删除此用户</button></td>\
+                        </tr>");
+                        num++;
+                    }
+                    aInt2 = document.getElementById('userinfo').getElementsByTagName('button');
+                for(var i=0;i<result.dataAccount.length+result.adminAccount.length;i++)
+                {
+                    var user=result.userID[i];
+                    aInt2[i+first].onclick=function(){
+                        $.ajax({
+                            url:"api/User/DeleteCustomer?UserId="+user,
+                            type:"DELETE",
+                            contentType:"application/json",
+                            success:function(ans){
+                                if(ans==0)
+                                {
+                                     alert("删除用户失败！请重试！");
+                                }
+                                else
+                                {
+                                   alert("删除用户成功");
+                                   window.location.reload();
+                                }
+                            },
+                            error:function(xhr){alert("error");}
+                        })
+                    }
+                }
+            },
+            error:function(xhr)
+            {
+                alert("error");
+            }
+            })
+        }
+        
+    }
+
+    </script>
 </body>
 
 </html>

@@ -13,11 +13,14 @@ namespace esg.Models
         public List<string> DataAccount { get; set; }
         public List<string> ChildCompanyName { get; set; }
 
+        public List<int> userID{get; set;}
+
         public FirstCreatedUser()
         {
             AdminAccount = new List<string>();
             DataAccount = new List<string>();
             ChildCompanyName = new List<string>();
+            userID = new List<int>();
         }
     }
 }

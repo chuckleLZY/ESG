@@ -63,7 +63,7 @@ namespace esg.Controllers
         }
 
         [HttpDelete]//Delete请求
-        public int DeleteCustomer([FromBody]int UserId)//删除客户
+        public int DeleteCustomer(int UserId)//删除客户
         {
             using (MySqlConnection con = new MySqlConnection(connString))
             {
@@ -120,18 +120,20 @@ namespace esg.Controllers
                 reader.Close();
 
                 //查找本公司管理员和录入员
-                sql = "select account,level from user where com_id=(select com_id from user where user_id=@UserId)";
+                sql = "select user_id,account,level from user where com_id=(select com_id from user where user_id=@UserId)";
                 cmd.CommandText = sql;
                 cmd.Parameters.Add(new MySqlParameter("@UserId", UserId));
                 reader = cmd.ExecuteReader();
                 while(reader.Read())
                 {
                     string act = reader.GetString("account");
+                    int num=reader.GetInt32("user_id");
                     if (reader.GetInt32("level") == 1)
                     {
                         FCUser.AdminAccount.Add(act);
                     }
                     else FCUser.DataAccount.Add(act);
+                    FCUser.userID.Add(num);
                 }
                 reader.Close();
 
@@ -161,18 +163,20 @@ namespace esg.Controllers
                 con.Open();
 
                 //查找本公司管理员和录入员
-                string sql = "select account,level from user where com_id in (select com_id from company where name=@name)";
+                string sql = "select user_id,account,level from user where com_id in (select com_id from company where name=@name)";
                 MySqlCommand cmd = new MySqlCommand(sql, con);
                 cmd.Parameters.Add(new MySqlParameter("@name", CompanyName));
                 MySqlDataReader reader = cmd.ExecuteReader();
                 while (reader.Read())
                 {
+                    int num=reader.GetInt32("user_id");
                     string act = reader.GetString("account");
                     if (reader.GetInt32("level") == 1)
                     {
                         CCUser.AdminAccount.Add(act);
                     }
                     else CCUser.DataAccount.Add(act);
+                    CCUser.userID.Add(num);
                 }
                 reader.Close();
 
@@ -190,18 +194,20 @@ namespace esg.Controllers
                 con.Open();
 
                 //查找本公司管理员和录入员
-                string sql = "select account,level from user where com_id in (select com_id from user where user_id=@userid)";
+                string sql = "select user_id,account,level from user where com_id in (select com_id from user where user_id=@userid)";
                 MySqlCommand cmd = new MySqlCommand(sql, con);
                 cmd.Parameters.Add(new MySqlParameter("@userid", UserId));
                 MySqlDataReader reader = cmd.ExecuteReader();
                 while (reader.Read())
                 {
+                    int num=reader.GetInt32("user_id");
                     string act = reader.GetString("account");
                     if (reader.GetInt32("level") == 1)
                     {
                         SCUser.AdminAccount.Add(act);
                     }
                     else SCUser.DataAccount.Add(act);
+                    SCUser.userID.Add(num);
                 }
                 reader.Close();
 

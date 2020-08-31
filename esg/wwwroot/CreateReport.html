@@ -186,7 +186,62 @@
                 <!-- ============================================================== -->
                 <!-- basic table  -->
                 <!-- ============================================================== -->
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="mb-0">输入您想建立的报表信息</h3>
+                            <p></p>
+                        </div>
+                        <div class="card">
+                           
+                            <div class="card-body">
+                                <form>
+                                    <label for="inputLevel" class="col-form-label">报表所属公司</label>
+                                    <div class="input-group">
+                                        <input id="inputLevel" type="text" class="form-control" aria-label="Text input with dropdown button">
+                                        <div class="input-group-append">
+                                          <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">请选择</button>
+                                          <div class="dropdown-menu">
+                                            <a id = "Comchoice2" class="dropdown-item" href="#">本公司</a>
+                                            <a id = "Comchoice1" class="dropdown-item" href="#">集团子公司</a>
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div id="subchoose" class="form-group">
+                                        <label for="inputText3" class="col-form-label">选择建立报表所属公司</label>
+                                      <div class="input-group mb-3">
+                                        <select class="custom-select" id="inputGroupSelect01">
+                                          <option selected>Choose...</option>
+                                         
+                                        </select>
+                                      </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputText3" class="col-form-label">报表名称</label>
+                                        <input id="inputText3" type="text" class="form-control">
+                                        <p id = "NameAlert"></p>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputYear" class="col-form-label">报表年份</label>
+                                        <input id="inputYear" type="text" class="form-control">
+                                        <p id = "yearAlert"></p>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="container">
+                                <button id="FinalSubmit" type="button" class="btn btn-primary">创建新报表</button>
+                            </div>
+                </div>
 
+                <!-- ============================================================== -->
+                <!-- end data table  -->
+                <!-- ============================================================== -->
+            </div>
+    </div>
+
+
+
+                
                 <!-- ============================================================== -->
                 <!-- end basic table  -->
                 <!-- ============================================================== -->
@@ -245,6 +300,85 @@
     <script src="assets/vendor/charts/c3charts/C3chartjs.js"></script>
     <script src="assets/libs/js/dashboard-ecommerce.js"></script>
     <script src="assets/libs/js/Begin.js"></script>
+
+    <script>
+        $("#subchoose").hide();
+
+        if(location.search.split('?')[1].split('&')[1].split('=')[1]==2)
+        {
+            $("#Comchoice1").remove();
+        }
+
+        $("a#Comchoice1").click(function(){
+            
+         $("#inputLevel").val($("a#Comchoice1").html());
+         $("#subchoose").fadeIn();
+         $.ajax({
+                url: "api/Company/getSubCompany",
+                type: "POST",
+                contentType: "application/json",
+                data: location.search.split('?')[1].split('&')[4].split('=')[1],
+            success:function(data){
+                
+                for(var i=0;i<data.length;i++)
+                {
+                    $(".custom-select").append("<option value=\""+data[i]['com_id']+"\">"+data[i]['com_id']+"："+data[i]['name']+"公司"+"</option>")
+                }
+            },
+            error:function(xhr){alert("error");}
+             });
+
+        });
+
+        $("a#Comchoice2").click(function(){
+        $("#inputLevel").val($("a#Comchoice2").html());
+        $("#subchoose").hide();
+        });
+
+        $("#FinalSubmit").click(function(){
+            $("p#NameAlert").html("");
+            $("p#yearAlert").html("");
+
+
+            if($("input#inputText3").val().length<=0)
+            {
+                $("p#NameAlert").html("请输入您要建立的报表名称");
+                return false;
+            }
+            if($("#inputYear").val().length<=0)
+            {
+                $("p#yearAlert").html("请输入您要建立报表的年份");
+                return false;
+            }
+            var i=location.search.split('?')[1].split('&')[4].split('=')[1];
+            if($("#inputLevel").val()=="集团子公司")
+                {
+                   i =$('select option:selected').val();
+                }
+            
+            $.ajax({
+                url: "api/report/AddReport",//修改API
+                type: "POST",
+                contentType: "application/json",
+                data: JSON.stringify({
+                    CompanyId:i,
+                    ReportName:$("input#inputText3").val(),
+                    Status:0,
+                    Report_Year:$("input#inputYear").val()
+                }),
+            success:function(data){
+                if(data==0)
+                {
+                    alert("报表新建失败！请重试");
+                }
+                else{
+                    alert("报表新建成功");
+                }
+            },
+            error:function(xhr){alert("error");}
+             });
+        });
+</script>
 </body>
 
 </html>

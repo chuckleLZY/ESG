@@ -186,7 +186,37 @@
                 <!-- ============================================================== -->
                 <!-- basic table  -->
                 <!-- ============================================================== -->
-
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="mb-0">管理个人信息</h3>
+                            <p></p>
+                        </div>
+                        <div class="card">
+                           
+                            <div class="card-body">
+                                <form>
+                                    <div class="form-group">
+                                        <label for="inputcom" class="col-form-label">所属公司</label>
+                                        <input id="inputcom" type="text" class="form-control">
+                                        <p id = "comAlert"></p>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputemail" class="col-form-label">邮箱</label>
+                                        <input id="inputemail" type="text" class="form-control">
+                                        <p id = "emailAlert"></p>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputlevel" class="col-form-label">身份</label>
+                                        <input id="inputlevel" type="text" class="form-control">
+                                        <p id = "levelAlert"></p>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="container">
+                                <button id="FinalSubmit" type="button" class="btn btn-primary">修改信息</button>
+                            </div>
+                </div>
                 <!-- ============================================================== -->
                 <!-- end basic table  -->
                 <!-- ============================================================== -->
@@ -245,6 +275,78 @@
     <script src="assets/vendor/charts/c3charts/C3chartjs.js"></script>
     <script src="assets/libs/js/dashboard-ecommerce.js"></script>
     <script src="assets/libs/js/Begin.js"></script>
+    <script type="text/javascript">
+      
+
+        $(document).ready(function(){              
+        $.ajax({
+            url:"api/User/viewPI",
+            type:"POST",
+            contentType:"application/json",
+            data: location.search.split('?')[1].split('=')[1].split('&')[0],
+            success:function(result){   
+                $("#inputcom").val(result[0].companyName);
+                $("#inputemail").val(result[0].email);
+                if(result[0].level==1)
+                {
+                    $("#inputlevel").val("一级管理员");
+                }
+                else if(result[0].level==2)
+                {
+                    $("#inputlevel").val("二级管理员");
+                }
+                else if(result[0].level==3)
+                {
+                    $("#inputlevel").val("数据录入员");
+                }
+
+
+                $("#inputcom").attr("readonly", true);//只读
+                $("#inputlevel").attr("readonly", true);//只读
+    
+            },
+            error:function(xhr)
+            {
+                alert("error");
+            }
+        })
+        });
+
+        $("#FinalSubmit").click(function(){
+                $("p#comAlert").html("");
+                $("p#levelAlert1").html("");
+                $("p#emailAlert2").html("");
+
+
+                if($("#inputemail").val().length<=0)
+                {
+                    $("p#emailAlert").html("请输入邮箱");
+                    return false;
+                }
+            
+                $.ajax({
+                    url: "api/user/changePI",//修改API
+                    type: "PUT",
+                    contentType: "application/json",
+                    data: JSON.stringify({
+                        UserId:location.search.split('?')[1].split('=')[1].split('&')[0],
+                        Email: $("#inputemail").val(),
+                        
+                    }),
+                success:function(data){
+                    if(data==0)
+                    {
+                        alert("修改信息失败");
+                    }
+                    else{
+                        alert("修改信息成功");
+                    }
+                },
+                error:function(xhr){alert("error");}
+                 });
+            });
+
+    </script>
 </body>
 
 </html>

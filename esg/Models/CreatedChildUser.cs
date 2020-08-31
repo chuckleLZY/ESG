@@ -9,11 +9,12 @@ namespace esg.Models
     {
         public List<string> AdminAccount { get; set; }
         public List<string> DataAccount { get; set; }
-
+        public List<int> userID{get; set;}
         public CreatedChildUser()
         {
             AdminAccount = new List<string>();
             DataAccount = new List<string>();
+            userID=new List<int>();
         }
     }
 }

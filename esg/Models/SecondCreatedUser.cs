@@ -10,11 +10,12 @@ namespace esg.Models
         public string CompanyName { get; set; }
         public List<string> AdminAccount { get; set; }
         public List<string> DataAccount { get; set; }
-
+        public List<int> userID{get; set;}
         public SecondCreatedUser()
         {
             AdminAccount = new List<string>();
             DataAccount = new List<string>();
+            userID=new List<int>();
         }
     }
 }

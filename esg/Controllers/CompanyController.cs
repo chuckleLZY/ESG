@@ -75,11 +75,11 @@ namespace esg.Controllers
 
                 using (MySqlCommand cmd = new MySqlCommand())
                 {
-                    string sql = "select * from company where com_id=@cid";
+                    string sql = "select com_id,level,name,parent from company where com_id=@cid";
                     cmd.Connection = conn;
                     cmd.CommandText = sql;
                     //查找母公司信息
-                    sql = "select * from company where com_id=@cid";
+                    sql = "select com_id,level,name,parent from company where com_id=@cid";
                     cmd.Parameters.Add(new MySqlParameter("@cid", com_id));
 
                     MySqlDataReader reader = cmd.ExecuteReader();
@@ -95,7 +95,7 @@ namespace esg.Controllers
                     reader.Close();
 
                     //查找子公司信息
-                    sql = "select * from company where parent=@comid";
+                    sql = "select com_id,level,name,parent from company where parent=@comid";
                     cmd.CommandText = sql;
                     cmd.Parameters.Add(new MySqlParameter("@comid", com_id));
                     
