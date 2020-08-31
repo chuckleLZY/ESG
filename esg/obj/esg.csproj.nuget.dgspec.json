@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\mtf\\Documents\\ESG\\esg\\esg.csproj": {}
+    "C:\\Users\\matianfang\\Documents\\ESG\\esg\\esg.csproj": {}
   },
   "projects": {
-    "C:\\Users\\mtf\\Documents\\ESG\\esg\\esg.csproj": {
+    "C:\\Users\\matianfang\\Documents\\ESG\\esg\\esg.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\mtf\\Documents\\ESG\\esg\\esg.csproj",
+        "projectUniqueName": "C:\\Users\\matianfang\\Documents\\ESG\\esg\\esg.csproj",
         "projectName": "esg",
-        "projectPath": "C:\\Users\\mtf\\Documents\\ESG\\esg\\esg.csproj",
-        "packagesPath": "C:\\Users\\mtf\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\mtf\\Documents\\ESG\\esg\\obj\\",
+        "projectPath": "C:\\Users\\matianfang\\Documents\\ESG\\esg\\esg.csproj",
+        "packagesPath": "C:\\Users\\matianfang\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\matianfang\\Documents\\ESG\\esg\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Microsoft\\Xamarin\\NuGet\\"
         ],
         "configFilePaths": [
-          "C:\\Users\\mtf\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\matianfang\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
         ],

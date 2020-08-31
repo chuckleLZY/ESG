@@ -167,7 +167,7 @@
             <div class="row">
                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                     <div class="page-header">
-                        <h2 class="pageheader-title">建立子公司</h2>
+                        <h2 class="pageheader-title">建立公司</h2>
                         <div class="page-breadcrumb">
                             <nav aria-label="breadcrumb">
                                 <ol class="breadcrumb">
@@ -186,7 +186,39 @@
                 <!-- ============================================================== -->
                 <!-- basic table  -->
                 <!-- ============================================================== -->
-
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="mb-0">输入您想建立的公司信息</h3>
+                            <p></p>
+                        </div>
+                        <div class="card">
+                           
+                            <div class="card-body">
+                                <form>
+                                    <label for="inputLevel" class="col-form-label">新建公司类型</label>
+                                    <div class="input-group">
+                                        <input id="inputLevel" type="text" class="form-control" aria-label="Text input with dropdown button">
+                                        <div class="input-group-append">
+                                          <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">请选择</button>
+                                          <div class="dropdown-menu">
+                                            <a id = "Comchoice1" class="dropdown-item" href="#">母公司</a>
+                                            <a id = "Comchoice2" class="dropdown-item" href="#">子公司</a>
+                                          </div>
+                                        </div>
+                                    </div>
+                                    <p id = "CompanyTypeAlert"></p>
+                                    <div class="form-group">
+                                        <label for="inputText" class="col-form-label">新建公司名称</label>
+                                        <input id="inputText" type="text" class="form-control">
+                                        <p id = "CompanyNameAlert"></p>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="container">
+                                <button id="FinalSubmit" type="button" class="btn btn-primary">创建公司</button>
+                            </div>
+                </div>
                 <!-- ============================================================== -->
                 <!-- end basic table  -->
                 <!-- ============================================================== -->
@@ -245,6 +277,77 @@
     <script src="assets/vendor/charts/c3charts/C3chartjs.js"></script>
     <script src="assets/libs/js/dashboard-ecommerce.js"></script>
     <script src="assets/libs/js/Begin.js"></script>
+
+    <script>
+        $("#subchoose").hide();
+        if(location.search.split('?')[1].split('&')[1].split('=')[1]==1)//一级管理员不能创建母公司
+        {
+            $("#Comchoice1").remove();
+        }
+        $("a#Comchoice1").click(function(){
+            
+         $("#inputLevel").val($("a#Comchoice1").html());
+
+
+        });
+        $("a#Comchoice2").click(function(){
+        $("#inputLevel").val($("a#Comchoice2").html());
+        });
+        $("#FinalSubmit").click(function(){
+            $("p#CompanyNameAlert").html("");
+            $("p#CompanyTypeAlert").html("");
+            if($("input#inputLevel").val().length<=0)
+            {
+                $("p#CompanyTypeAlert").html("请选择您要建立的公司类型");
+            }
+            if($("input#inputText").val().length<=0)
+            {
+                $("p#CompanyNameAlert").html("请输入您要建立的公司名称");
+                return false;
+            }
+            var i=0;
+            if($("#inputLevel").val()=="子公司")
+            {
+               i = 2;
+            }
+            else if("#inputLevel".val()=="母公司") 
+            {
+                i = 1;
+            }
+            var p;
+            if(i==1)
+            {
+                p=0;
+            }
+            else if(i==2)
+            {
+                p=location.search.split('?')[1].split('&')[4].split('=')[1];//创建子公司，提取当前用户所属公司
+            }
+            $.ajax({
+                url: "api/Company/createCompany",//修改API
+                type: "POST",
+                contentType: "application/json",
+                data: JSON.stringify({
+                    Level: i,
+                    Name: $("input#inputText").val(),
+                    Parent:p
+                }),
+                
+            success:function(result){
+                if(result==0)
+                {
+                    alert("创建公司失败!请重试！");
+                }
+                else{
+                    console.log(result);
+                    alert("创建公司成功！公司id："+(result['comId']));
+                }
+            },
+            error:function(xhr){alert("error");}
+             });
+        });
+</script>
+
 </body>
 
 </html>

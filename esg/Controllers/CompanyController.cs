@@ -16,17 +16,17 @@ namespace esg.Controllers
     {
         string connString = "server=rm-bp1o13lfefc6t7z98io.mysql.rds.aliyuncs.com;database=esg_information_database;uid=super_esg;pwd=esg123456";
         [HttpPost]
-        public JsonResult createCompany(Company com)
+        public ActionResult<string> createCompany(Company com)
         {
-            List<CreateCompanyReturn> list = new List<CreateCompanyReturn>();
+            int status = 1;
+            int comid = 0;
             
             using(MySqlConnection conn=new MySqlConnection(connString))
             {
                 conn.Open();
-                list.Add(new CreateCompanyReturn { ErrorCode = 1 });
                 using(MySqlCommand cmd=new MySqlCommand())
                 {
-                    string sql = "select * from company(level,name,parent) values(@level,@name,@parent)";
+                    string sql = "insert into company(level,name,parent) values(@level,@name,@parent)";
                     cmd.Connection = conn;
                     cmd.CommandText = sql;
                     
@@ -36,14 +36,29 @@ namespace esg.Controllers
                     
                     if (cmd.ExecuteNonQuery() != 1)
                     {
-                        list[0].ErrorCode = 0;
+                        status = 0;
                     }
-                    list[0].ComId = (int)cmd.LastInsertedId;
+                    
+                    comid = (int)cmd.LastInsertedId;
                 }
                 conn.Close();
             }
+            if(status == 1)
+            {
+                return Ok(new
+                {
+                    Status = status,
+                    ComId = comid
+                });
+            }
+            else
+            {
+                return Ok(new
+                {
+                    status = status,
+                });
+            }
             
-            return Json(list);
         }
         [HttpPost]
         public JsonResult getSubCompany([FromBody]int com_id)
@@ -100,11 +115,6 @@ namespace esg.Controllers
                 conn.Close();
             }
             return error_code;
-        }
-        public class CreateCompanyReturn
-        {
-            public int ErrorCode { get; set; }
-            public int ComId { get; set; }
         }
     }
 
