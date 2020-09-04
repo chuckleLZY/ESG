@@ -76,7 +76,7 @@
             if (target) {
                 // 如果已选择的大于设定的数目，并且当前是选择动作 则不执行
                 if ((_this.oliIdArray.length >= _this.options.selectedlength) && !target.hasClass('actived_li') && _this.options.isMultiple) {
-                    console.log('最大可选条目已设置');
+                    //console.log('最大可选条目已设置');
                     return false;
                 }
 
@@ -105,7 +105,7 @@
             if ($(event.target).attr('type') === 'checkbox') {
                 if ((_this.oliIdArray.length >= _this.options.selectedlength) && $(event.target).prop(
                         'checked')) {
-                    console.log('超出最大条目');
+                    //console.log('超出最大条目');
                     return false;
                 }
 
@@ -356,7 +356,7 @@
         _this.roleSelect.append(item);
         getResult(KKK,target.attr('data-name'));
         result.push(target.attr('data-name'));
-        console.log(result);
+        //console.log(result);
         var str = JSON.stringify({
             IndicateName1: result[0],
             IndicateName2: result[1],
@@ -708,7 +708,7 @@
      * 清空搜索输入框里面的内容
      */
     ComboTree.prototype.clearSearchValue = function() {
-        console.log(3333);
+        //console.log(3333);
     };
 
     ComboTree.prototype.datas = function () {

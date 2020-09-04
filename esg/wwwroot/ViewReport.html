@@ -383,9 +383,11 @@
             //判断是否闭包
             if(obj.parentNode){
                 //有父节点
-                console.log("查询text:" + query + ", 结果:" + obj.node.title + " -> 父级:" + (obj.parentNode ? obj.parentNode.title : '木有父级!'));
-                //获取父节点text继续查祖节点
                 getResult(json,obj.parentNode.title);
+                if(obj.parentNode.title=="资源使用")
+                {
+                    result.push("环境");
+                }
                 result.push(obj.parentNode.title);
             }
             return result;

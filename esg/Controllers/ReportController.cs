@@ -95,7 +95,7 @@ namespace esg.Controllers
         }
 
         //删除报表
-        [HttpDelete]
+        [HttpPost]
         //   api/Report/Delete
         public int DeleteReport(Report rep)
         {

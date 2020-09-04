@@ -76,7 +76,7 @@
             if (target) {
                 // 如果已选择的大于设定的数目，并且当前是选择动作 则不执行
                 if ((_this.oliIdArray.length >= _this.options.selectedlength) && !target.hasClass('actived_li') && _this.options.isMultiple) {
-                    console.log('最大可选条目已设置');
+                    //console.log('最大可选条目已设置');
                     return false;
                 }
 
@@ -105,7 +105,7 @@
             if ($(event.target).attr('type') === 'checkbox') {
                 if ((_this.oliIdArray.length >= _this.options.selectedlength) && $(event.target).prop(
                         'checked')) {
-                    console.log('超出最大条目');
+                    //console.log('超出最大条目');
                     return false;
                 }
 
@@ -356,7 +356,7 @@
         _this.roleSelect.append(item);
         getResult(KKK,target.attr('data-name'));
         result.push(target.attr('data-name'));
-        console.log(result);
+        //console.log(result);
         var str = JSON.stringify({
             IndicateName1: result[0],
             IndicateName2: result[1],
@@ -698,6 +698,8 @@
                                                $(".modal-body").html("录入新数据:<input type=\"text\" class=\"form-control\">");
                                                $(".modal").modal();
                                                $("[name='Data']").off("click").click(function(){
+                                                if(isNo($(".modal-body").children(".form-control").val())&&$(".modal-body").children(".form-control").val()!="")
+                                                {
                                                    $.ajax({
                                                        url: "api/DataInputUser/InputData",
                                                        type: "POST",
@@ -718,6 +720,15 @@
                                                            }
                                                        }
                                                    });
+                                                }
+                                                else if($(".modal-body").children(".form-control").val()=="")
+                                                {
+                                                    alert("您没有要更改的数据")
+                                                }
+                                                else
+                                                {
+                                                    alert("您输入的格式有误，请重新输入")
+                                                }
                                                });
                                            }
                                    });
@@ -873,7 +884,7 @@
                                         success:function(data3){
                                              if(data3[0]['tData']!=-1)
                                              {
-                                                    $("[name='" + _id + "']").val(data3[0]['tData']);
+                                                    $("[name='" + _id + "']").html(data3[0]['tData']);
                                              }
                                         }
                                     });
@@ -939,7 +950,7 @@
                                                 {
                                                     if(data3[k]['tData']!=-1)
                                                     {
-                                                        $("[name='" + _id + "'][id='" + data3[k]['report_Month'] + "']").val(data3[k]['tData']);
+                                                        $("[name='" + _id + "'][id='" + data3[k]['report_Month'] + "']").html(data3[k]['tData']);
                                                     }
                                                 }
                                             }
@@ -1271,7 +1282,7 @@
      * 清空搜索输入框里面的内容
      */
     ComboTree.prototype.clearSearchValue = function() {
-        console.log(3333);
+        //console.log(3333);
     };
 
     ComboTree.prototype.datas = function () {

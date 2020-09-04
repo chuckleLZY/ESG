@@ -160,26 +160,25 @@
         <!-- ============================================================== -->
         <!-- wrapper  -->
         <!-- ============================================================== -->
-        <div class="modal" tabindex="-1" role="dialog">
+          <div class="modal" tabindex="-1" role="dialog">
             <div class="modal-dialog">
               <div class="modal-content">
                 <div class="modal-header">
-                  <h5 class="modal-title"></h5>
+                  <h5 class="modal-title">删除报表</h5>
                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                   </button>
                 </div>
                 <div class="modal-body">
+                    确认删除此报表？此操作不可恢复。
                 </div>
                 <div class="modal-footer">
+                  <button name="Delbt" type="button" class="btn btn-danger">确认删除</button>
                   <button type="button" class="btn btn-primary" data-dismiss="modal">关闭窗口</button>
-                  <button name="Data" type="button" class="btn btn-success"></button>
-                  <button name="Delete" type="button" class="btn btn-danger">删除数据</button>
                 </div>
               </div>
             </div>
           </div>
-
         <div class="dashboard-wrapper">
             
             <div id="report1" class="container-fluid  dashboard-content">
@@ -389,9 +388,11 @@
             //判断是否闭包
             if(obj.parentNode){
                 //有父节点
-                console.log("查询text:" + query + ", 结果:" + obj.node.title + " -> 父级:" + (obj.parentNode ? obj.parentNode.title : '木有父级!'));
-                //获取父节点text继续查祖节点
                 getResult(json,obj.parentNode.title);
+                if(obj.parentNode.title=="资源使用")
+                {
+                    result.push("环境");
+                }
                 result.push(obj.parentNode.title);
             }
             return result;
@@ -469,6 +470,7 @@
                             报表年份:<span id=\"re_year\">"+data[i]['report_Year']+"</span> &nbsp;&nbsp;&nbsp;&nbsp;\
                             所属公司:<span id=\"re_com\">"+data[i]['companyName']+"公司</span>&nbsp;&nbsp;&nbsp;&nbsp;\
                             <span name=\"re_st\" id=\""+data[i]['status']+ "\" class=\"badge badge-primary\" >状态："+st+"</span>\
+                            <button id=del\""+data[i]['reportId']+"\" name=\"re_del\" type=\"button\" class=\"btn btn-outline-danger\" style=\"float: right; margin-top:-6px;\">删除此报表</button>\
                             <button id=\""+data[i]['reportId']+"\" name=\"re_bt\" type=\"button\" class=\"btn btn-primary\" style=\"float: right; margin-top:-6px;\">查看此报表</button>\
                             </div></div>");
                         }
@@ -479,6 +481,7 @@
                             报表年份:<span id=\"re_year\">"+data[i]['report_Year']+"</span> &nbsp;&nbsp;&nbsp;&nbsp;\
                             所属公司:<span id=\"re_com\">"+data[i]['companyName']+"公司</span>&nbsp;&nbsp;&nbsp;&nbsp;\
                             <span name=\"re_st\" id=\""+data[i]['status']+ "\" class=\"badge badge-primary\" >状态："+st+"</span>\
+                            <button id=del\""+data[i]['reportId']+"\" name=\"re_del\" type=\"button\" class=\"btn btn-outline-danger\" style=\"float: right; margin-top:-6px;\">删除此报表</button>\
                             <button id=\""+data[i]['reportId']+"\" name=\"re_bt\" type=\"button\" class=\"btn btn-primary\" style=\"float: right; margin-top:-6px;\">查看此报表</button>\
                             </div></div>");
                         }
@@ -488,6 +491,33 @@
                         }
                        
                        }
+                       $("[name='re_del']").each(function(index,e){
+                        $(this).off("click").click(function(index){
+                            $('.modal').modal();
+                            var del_id = $(e).attr('id').split("\"")[1];
+                            $("[name='Delbt']").off("click").click(function(){
+                                $.ajax({
+                                        url: "api/Report/DeleteReport",
+                                        type: "POST",
+                                        contentType: "application/json",
+                                        data: JSON.stringify({
+                                                ReportId: del_id }),
+                                        success:function(data){
+                                            if(data==1)
+                                            {
+                                                alert("删除成功");
+                                                $('.modal').modal('hide');
+                                                returnrp();
+                                            }
+                                            else{
+                                                alert("删除失败，请重新尝试");
+                                            }
+                                        }
+                                    });
+                        });
+
+                            });
+                        });
                        $("[name='re_bt']").each(function(index){
                         if(data[index]["companyId"]==location.search.split('?')[1].split('&')[4].split('=')[1])
                         {

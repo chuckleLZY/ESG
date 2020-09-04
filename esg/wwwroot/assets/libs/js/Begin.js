@@ -26,6 +26,12 @@ $(document).ready(function(){
         $("#xinjian").remove();
         $("#shenhe").remove();
     }
+    else if(level==0)
+    {
+        $("#level").html("您的身份：管理员");
+        $("#shenhe").remove();
+        $("#luru").remove();
+    }
     $("#createcompany").attr("href","CreateCompany.html?"+'id='+id+'&level='+level+'&cname='+cname+'&username='+username+"&cid="+cid);
     $("#managecompany").attr("href","ManageCompany.html?"+'id='+id+'&level='+level+'&cname='+cname+'&username='+username+"&cid="+cid);
     $("#createperson").attr("href","CreateCustomer.html?"+'id='+id+'&level='+level+'&cname='+cname+'&username='+username+"&cid="+cid);
@@ -38,8 +44,4 @@ $(document).ready(function(){
     $("#datahascheck").attr("href","ViewHasCheck.html?"+'id='+id+'&level='+level+'&cname='+cname+'&username='+username+"&cid="+cid);
     $("#shouye").attr("href","backend_homepage.html?"+'id='+id+'&level='+level+'&cname='+cname+'&username='+username+"&cid="+cid);
     $("#personalinfo").attr("href","PersonalInfo.html?"+'id='+id+'&level='+level+'&cname='+cname+'&username='+username+"&cid="+cid);
-    //$("#datanotcheck").attr("href","ViewNotCheck.html?"+'id='+id+'&level='+level+'&cname='+encodeURI(encodeURI(cname))+'&username='+username);
-    //$("#datahascheck").attr("href","ViewHasCheck.html?"+'id='+id+'&level='+level+'&cname='+encodeURI(encodeURI(cname))+'&username='+username);
-    //$("#datanotcheck").attr("href","ViewNotCheck.html?"+'id='+id+'&level='+level+'&cname='+encodeURI(encodeURI(cname))+'&username='+username);
-    //$("#datahascheck").attr("href","ViewHasCheck.html?"+'id='+id+'&level='+level+'&cname='+encodeURI(encodeURI(cname))+'&username='+username);
     });
