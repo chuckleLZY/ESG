@@ -449,6 +449,24 @@ namespace esg.Controllers
                                     data.Report_Month = j;
                                     data.TData = A21_10 * A12_10;
                                     datas.Add(data);
+
+                                    sql = "select data from data_quantitative where esg_id='"+ dataDetail.dataDetails[i].ESG_Id+"' and report_id='" + ReportId + "' and report_year='" + Report_Year + "' and report_month='" + j + "'";
+                                    cmd = new MySqlCommand(sql, con);
+                                    reader = cmd.ExecuteReader();
+                                    if (!reader.HasRows)
+                                    {
+                                        sql = "insert into data_quantitative(esg_id,report_id,report_year,report_month,data) values (@esg_id,@report_id,@report_year,@report_month,@data)";
+                                        cmd.CommandText = sql;//更新一下sql语句
+                                        cmd.Parameters.Add(new MySqlParameter("@esg_id", dataDetail.dataDetails[i].ESG_Id));
+                                        cmd.Parameters.Add(new MySqlParameter("@report_id", dataDetail.ReportId));
+                                        cmd.Parameters.Add(new MySqlParameter("@report_year", dataDetail.Report_Year));
+                                        cmd.Parameters.Add(new MySqlParameter("@report_month", j));
+                                        cmd.Parameters.Add(new MySqlParameter("@data", data.TData));
+                                        cmd.ExecuteNonQuery();
+                                        //int report_id = (int)cmd.LastInsertedId;
+                                    }
+                                    reader.Close();
+                                    con.Close();
                                 }
                             }
                         }
@@ -480,6 +498,24 @@ namespace esg.Controllers
                                 data.Report_Month = j;
                                 data.TData = A13_35;
                                 datas.Add(data);
+
+                                sql = "select data from data_quantitative where esg_id='" + dataDetail.dataDetails[i].ESG_Id + "' and report_id='" + ReportId + "' and report_year='" + Report_Year + "' and report_month='" + j + "'";
+                                cmd = new MySqlCommand(sql, con);
+                                reader = cmd.ExecuteReader();
+                                if (!reader.HasRows)
+                                {
+                                    sql = "insert into data_quantitative(esg_id,report_id,report_year,report_month,data) values (@esg_id,@report_id,@report_year,@report_month,@data)";
+                                    cmd.CommandText = sql;//更新一下sql语句
+                                    cmd.Parameters.Add(new MySqlParameter("@esg_id", dataDetail.dataDetails[i].ESG_Id));
+                                    cmd.Parameters.Add(new MySqlParameter("@report_id", dataDetail.ReportId));
+                                    cmd.Parameters.Add(new MySqlParameter("@report_year", dataDetail.Report_Year));
+                                    cmd.Parameters.Add(new MySqlParameter("@report_month", j));
+                                    cmd.Parameters.Add(new MySqlParameter("@data", data.TData));
+                                    cmd.ExecuteNonQuery();
+                                    //int report_id = (int)cmd.LastInsertedId;
+                                }
+                                reader.Close();
+                                con.Close();
                             }
                         }
                         else if (dataDetail.dataDetails[i].ESG_Id == "A1.3-56")
@@ -527,6 +563,24 @@ namespace esg.Controllers
                                 data.Report_Month = j;
                                 data.TData = A13_55/A0_4;
                                 datas.Add(data);
+
+                                sql = "select data from data_quantitative where esg_id='" + dataDetail.dataDetails[i].ESG_Id + "' and report_id='" + ReportId + "' and report_year='" + Report_Year + "' and report_month='" + j + "'";
+                                cmd = new MySqlCommand(sql, con);
+                                reader = cmd.ExecuteReader();
+                                if (!reader.HasRows)
+                                {
+                                    sql = "insert into data_quantitative(esg_id,report_id,report_year,report_month,data) values (@esg_id,@report_id,@report_year,@report_month,@data)";
+                                    cmd.CommandText = sql;//更新一下sql语句
+                                    cmd.Parameters.Add(new MySqlParameter("@esg_id", dataDetail.dataDetails[i].ESG_Id));
+                                    cmd.Parameters.Add(new MySqlParameter("@report_id", dataDetail.ReportId));
+                                    cmd.Parameters.Add(new MySqlParameter("@report_year", dataDetail.Report_Year));
+                                    cmd.Parameters.Add(new MySqlParameter("@report_month", j));
+                                    cmd.Parameters.Add(new MySqlParameter("@data", data.TData));
+                                    cmd.ExecuteNonQuery();
+                                    //int report_id = (int)cmd.LastInsertedId;
+                                }
+                                reader.Close();
+                                con.Close();
                             }
                         }
 
@@ -574,6 +628,24 @@ namespace esg.Controllers
                                 data.TData = A21_101 * A21_10;
                                 datas.Add(data);
                                 reader.Close();
+
+                                sql = "select data from data_quantitative where esg_id='" + dataDetail.dataDetails[i].ESG_Id + "' and report_id='" + ReportId + "' and report_year='" + Report_Year + "' and report_month='" + j + "'";
+                                cmd = new MySqlCommand(sql, con);
+                                reader = cmd.ExecuteReader();
+                                if (!reader.HasRows)
+                                {
+                                    sql = "insert into data_quantitative(esg_id,report_id,report_year,report_month,data) values (@esg_id,@report_id,@report_year,@report_month,@data)";
+                                    cmd.CommandText = sql;//更新一下sql语句
+                                    cmd.Parameters.Add(new MySqlParameter("@esg_id", dataDetail.dataDetails[i].ESG_Id));
+                                    cmd.Parameters.Add(new MySqlParameter("@report_id", dataDetail.ReportId));
+                                    cmd.Parameters.Add(new MySqlParameter("@report_year", dataDetail.Report_Year));
+                                    cmd.Parameters.Add(new MySqlParameter("@report_month", j));
+                                    cmd.Parameters.Add(new MySqlParameter("@data", data.TData));
+                                    cmd.ExecuteNonQuery();
+                                    //int report_id = (int)cmd.LastInsertedId;
+                                }
+                                reader.Close();
+                                con.Close();
                             }
                         }
                     }
