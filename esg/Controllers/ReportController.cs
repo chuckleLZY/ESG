@@ -466,6 +466,8 @@ namespace esg.Controllers
                                         cmd.ExecuteNonQuery();
                                         //int report_id = (int)cmd.LastInsertedId;
                                     }
+                                    else
+                                        reader.Close();
                                 }
                             }
                         }
@@ -514,7 +516,8 @@ namespace esg.Controllers
                                     cmd.ExecuteNonQuery();
                                     //int report_id = (int)cmd.LastInsertedId;
                                 }
-                                
+                                else
+                                    reader.Close();
                             }
                         }
                         else if (dataDetail.dataDetails[i].ESG_Id == "A1.3-56")
@@ -579,7 +582,8 @@ namespace esg.Controllers
                                     cmd.ExecuteNonQuery();
                                     //int report_id = (int)cmd.LastInsertedId;
                                 }
-                                
+                                else
+                                    reader.Close();
                             }
                         }
 
@@ -644,7 +648,8 @@ namespace esg.Controllers
                                     cmd.ExecuteNonQuery();
                                     //int report_id = (int)cmd.LastInsertedId;
                                 }
-                                
+                                else
+                                    reader.Close();
                             }
                         }
                     }
