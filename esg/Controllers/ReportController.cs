@@ -455,6 +455,7 @@ namespace esg.Controllers
                                     reader = cmd.ExecuteReader();
                                     if (!reader.HasRows)
                                     {
+                                        reader.Close();
                                         sql = "insert into data_quantitative(esg_id,report_id,report_year,report_month,data) values (@esg_id,@report_id,@report_year,@report_month,@data)";
                                         cmd.CommandText = sql;//更新一下sql语句
                                         cmd.Parameters.Add(new MySqlParameter("@esg_id", dataDetail.dataDetails[i].ESG_Id));
@@ -465,7 +466,6 @@ namespace esg.Controllers
                                         cmd.ExecuteNonQuery();
                                         //int report_id = (int)cmd.LastInsertedId;
                                     }
-                                    reader.Close();
                                     con.Close();
                                 }
                             }
@@ -504,6 +504,7 @@ namespace esg.Controllers
                                 reader = cmd.ExecuteReader();
                                 if (!reader.HasRows)
                                 {
+                                    reader.Close();
                                     sql = "insert into data_quantitative(esg_id,report_id,report_year,report_month,data) values (@esg_id,@report_id,@report_year,@report_month,@data)";
                                     cmd.CommandText = sql;//更新一下sql语句
                                     cmd.Parameters.Add(new MySqlParameter("@esg_id", dataDetail.dataDetails[i].ESG_Id));
@@ -514,7 +515,7 @@ namespace esg.Controllers
                                     cmd.ExecuteNonQuery();
                                     //int report_id = (int)cmd.LastInsertedId;
                                 }
-                                reader.Close();
+                                
                                 con.Close();
                             }
                         }
@@ -569,6 +570,7 @@ namespace esg.Controllers
                                 reader = cmd.ExecuteReader();
                                 if (!reader.HasRows)
                                 {
+                                    reader.Close();
                                     sql = "insert into data_quantitative(esg_id,report_id,report_year,report_month,data) values (@esg_id,@report_id,@report_year,@report_month,@data)";
                                     cmd.CommandText = sql;//更新一下sql语句
                                     cmd.Parameters.Add(new MySqlParameter("@esg_id", dataDetail.dataDetails[i].ESG_Id));
@@ -579,7 +581,7 @@ namespace esg.Controllers
                                     cmd.ExecuteNonQuery();
                                     //int report_id = (int)cmd.LastInsertedId;
                                 }
-                                reader.Close();
+                                
                                 con.Close();
                             }
                         }
@@ -634,6 +636,7 @@ namespace esg.Controllers
                                 reader = cmd.ExecuteReader();
                                 if (!reader.HasRows)
                                 {
+                                    reader.Close();
                                     sql = "insert into data_quantitative(esg_id,report_id,report_year,report_month,data) values (@esg_id,@report_id,@report_year,@report_month,@data)";
                                     cmd.CommandText = sql;//更新一下sql语句
                                     cmd.Parameters.Add(new MySqlParameter("@esg_id", dataDetail.dataDetails[i].ESG_Id));
@@ -644,7 +647,7 @@ namespace esg.Controllers
                                     cmd.ExecuteNonQuery();
                                     //int report_id = (int)cmd.LastInsertedId;
                                 }
-                                reader.Close();
+                                
                                 con.Close();
                             }
                         }
