@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="en">
 
 <head>
@@ -284,6 +284,10 @@
         {
             $("#Comchoice1").remove();
         }
+        if (location.search.split('?')[1].split('&')[1].split('=')[1] == 0)//管理员不能创建子公司
+        {
+            $("#Comchoice2").remove();
+        }
         $("a#Comchoice1").click(function(){
             
          $("#inputLevel").val($("a#Comchoice1").html());
@@ -310,12 +314,12 @@
             {
                i = 2;
             }
-            else if("#inputLevel".val()=="母公司") 
+            else if($("#inputLevel").val()=="母公司") 
             {
                 i = 1;
             }
             var p;
-            if(i==1)
+            if (i == 1)
             {
                 p=0;
             }
@@ -323,6 +327,7 @@
             {
                 p=location.search.split('?')[1].split('&')[4].split('=')[1];//创建子公司，提取当前用户所属公司
             }
+            console.log(i);
             $.ajax({
                 url: "api/Company/createCompany",//修改API
                 type: "POST",

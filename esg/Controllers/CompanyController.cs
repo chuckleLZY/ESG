@@ -125,8 +125,43 @@ namespace esg.Controllers
 
         }
 
+        [HttpPost]
+        public ActionResult<string>GetAllParentCompany()
+        {
+            int num = 0;
+            List<int> info = new List<int>();
+
+            using (MySqlConnection conn = new MySqlConnection(connString))
+            {
+                conn.Open();
+
+                using (MySqlCommand cmd = new MySqlCommand())
+                {
+                    string sql = "select com_id from company where level=1";
+                    cmd.Connection = conn;
+                    cmd.CommandText = sql;
+                    //查找母公司id
+
+                    MySqlDataReader reader = cmd.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        int c = reader.GetInt32("com_id");
+                        info.Add(c);
+                        num++;
+                    }
+                    reader.Close();
+                }
+                conn.Close();
+            }
+            return Ok(new
+            {
+                cnt = num,
+                parent = info
+            }) ;
+        }
+
         [HttpDelete]
-        public int deleteCompany( int CompanyId)
+        public int deleteCompany(int com_id)
         {
             int error_code = 1;
 
@@ -135,15 +170,45 @@ namespace esg.Controllers
                 conn.Open();
                 using (MySqlCommand cmd = new MySqlCommand())
                 {
-                    //删除本公司
-                    string sql = "delete from company where com_id = @com_id";
+                    int type = 0;
                     cmd.Connection = conn;
+                    string sql = "select * from company where com_id=@com_id";
                     cmd.CommandText = sql;
-                    cmd.Parameters.Add(new MySqlParameter("@com_id", CompanyId));
+                    cmd.Parameters.Add(new MySqlParameter("@com_id", com_id));
 
-                    if (cmd.ExecuteNonQuery() != 1)
+                    MySqlDataReader reader = cmd.ExecuteReader();
+                    while(reader.Read())
                     {
-                        error_code = 0;
+                        //获取公司级别，母公司需删除所有子公司
+                        type = reader.GetInt32(1);
+                    }
+                    reader.Close();
+                    //删除本公司
+                    {
+                        sql = "delete from company where com_id = @com_id1";
+                        cmd.CommandText = sql;
+                        cmd.Parameters.Add(new MySqlParameter("@com_id1", com_id));
+
+                        if (cmd.ExecuteNonQuery() != 1)
+                        {
+                            error_code = 0;
+                        }
+                    }
+                    //级联删除
+                    if(type==1)
+                    {
+                        sql = "select * from company where parent = @parent";
+                        cmd.CommandText = sql;
+                        cmd.Parameters.Add(new MySqlParameter("@parent", com_id));
+                        MySqlDataReader reader1 = cmd.ExecuteReader();
+                        while (reader1.Read())
+                        {
+                            if(deleteCompany(reader1.GetInt32(0))!=1)
+                            {
+                                error_code = 0;
+                            }
+                        }
+                        reader1.Close();
                     }
                 }
                 conn.Close();

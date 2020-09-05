@@ -191,23 +191,19 @@
                         <h5 class="card-header">我的公司</h5>
                         <div class="card-body">
                             <div class="table-responsive">
-                                <table class="table table-striped table-bordered first">
+                                <table class="table table-striped table-bordered first" id="tbody-table">
                                     <thead>
                                         <tr>
                                             <th>公司ID</th>
 
                                             <th>公司名称</th>
-                                           
+
                                             <th>公司类别</th>
                                             
                                             <th>可进行的操作</th>
 
                                         </tr>
                                     </thead>
-                                    <tbody>
-                                        
-                                        
-                                    </tbody>
                                 </table>
                             </div>
                         </div>
@@ -274,26 +270,41 @@
 
 
     <script>
-        var comid=location.search.split('?')[1].split('&')[4].split('=')[1];
-        viewCmompany();
-
-        function createTable(status,data1,len,data2)
+        var ulevel=location.search.split('?')[1].split('&')[1].split('=')[1];
+        if(ulevel!=0)
         {
-            var tbody=document.querySelector("tbody");
+            var CompanyId=location.search.split('?')[1].split('&')[4].split('=')[1];
+            var t=document.querySelector("#tbody-table");
+            var tbody=document.createElement("tbody");
+            tbody.id="tbody0";
+            t.appendChild(tbody);
+            viewCmompany(CompanyId,"#tbody0"); 
+        }      
+        else
+            getParentCompany();
+        
+
+        function createTable(status,data1,len,data2,name)
+        {
+            var tbody=document.querySelector(name);
             var tr1=document.createElement("tr");
             tbody.appendChild(tr1);
         for(var k in data1)
         { 
             var td=document.createElement("td");
-                tr1.appendChild(td);
-                if(k=="level")
-                {
-                    td.innerHTML="母公司";
-                }
-                else
-                {
-                    td.innerHTML=data1[k];
-                } 
+            tr1.appendChild(td);
+            if(k=="level")
+            {
+                td.innerHTML="集团公司"
+            }
+            else
+                td.innerHTML=data1[k];
+        }
+        if(ulevel==0)
+        {
+            var td=document.createElement("td");
+            tr1.appendChild(td);
+            td.innerHTML="<a id='com' href='javascript:;'>删除公司</a>"
         }
         for(var i=0;i<len;++i)
         {
@@ -305,27 +316,22 @@
                 tr.appendChild(td);
                 if(k=="level")
                 {
-                    td.innerHTML="子公司";
+                    td.innerHTML="基层公司"
                 }
                 else
-                {
-                    if(k=="com_id")
-                    {
-                        ///td.className="comid";
-                    }
                     td.innerHTML=data2[i][k];
-                }
             }
             
             var td=document.createElement("td");
             tr.appendChild(td);
-            td.innerHTML="<a href='javascript:;'>删除子公司</a>"
+            td.innerHTML="<a id='com' href='javascript:;'>删除公司</a>"
         }
-        var as=document.querySelectorAll("a");
+        var as=document.querySelectorAll("a#com");
         for(var i=0;i<as.length;i++)
         {
             as[i].onclick=function () {  //点击a 删除 当前a 所在的行（a链接的爸爸的爸爸）
                 var comid="";
+                console.log(this.parentNode.parentNode);
                 for(var i=4;i<100;++i)
                 {
                     if(0<=this.parentNode.parentNode.innerHTML[i]&&this.parentNode.parentNode.innerHTML[4]<=9)
@@ -335,13 +341,46 @@
                 }
                 ///console.log(comid);
                 
-                tbody.removeChild(this.parentNode.parentNode);
                 deleteSubCompany(comid);
             }
         }
+
         }
-        
-        function viewCmompany()
+
+        function getParentCompany()
+        {
+            $.ajax({
+                url: "api/Company/getAllParentCompany",//修改API
+                type: "POST",
+                contentType: "application/json",               
+            success:function(result){
+                if(result['cnt']>0)//母公司存在
+                {
+                    for(var i=0;i<result['cnt'];++i)
+                    {
+                        var t=document.querySelector("#tbody-table");
+
+                        var tt=document.createElement("td");
+                        t.appendChild(tt);
+                        tt.innerHTML="<tr>集团"+(i+1)+"</tr>";
+
+                        var tbody=document.createElement("tbody");
+                        tbody.id="tbody"+i;
+                        t.appendChild(tbody);
+                        
+                        viewCmompany(result['parent'][i],"#tbody"+i);
+                    }
+                }
+                else//无母公司
+                {
+                    
+                }
+            },
+            error:function(xhr){alert("error");}
+             });
+        }
+
+        function viewCmompany(comid,name)
         {
             $.ajax({
                 url: "api/Company/getSubCompany?com_id="+comid,//修改API
@@ -351,7 +390,7 @@
                 var status=result['status'];
                 if(status>0)//母公司存在且有子公司
                 {
-                    createTable(status,result['parentCompany'],result['subCompanyNum'],result['subCompany']);
+                    createTable(status,result['parentCompany'],result['subCompanyNum'],result['subCompany'],name);
                 }
                 else//每个用户都有母公司
                 {
@@ -364,24 +403,22 @@
 
         function deleteSubCompany(comId)
         {
-            ////////////////////////删除子公司
-            console.log(comId);
             $.ajax({
-                url: "api/Company/deleteCompany?CompanyId="+comId,//修改API
+                url: "api/Company/deleteCompany?com_id="+comId,//修改API
                 type: "DELETE",
                 contentType: "application/json",               
             success:function(result){
                 if(result==0)
                 {
-                    alert("删除子公司失败！请重试！");
+                    alert("删除公司失败！请重试！");
                 }
                 else
                 {
-                    alert("删除子公司成功！子公司id："+comId);
+                    alert("删除公司成功！子公司id："+comId);
                 }
             },
-            error:function(xhr){alert("error");}
-             });
+             error:function(xhr){alert("error");}
+            });
         }
     </script>
 
