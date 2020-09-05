@@ -467,7 +467,13 @@ namespace esg.Controllers
                                         //int report_id = (int)cmd.LastInsertedId;
                                     }
                                     else
+                                    {
                                         reader.Close();
+                                        sql = "update data_quantitative set data='"+ data.TData+ "' where esg_id='" + dataDetail.dataDetails[i].ESG_Id + "' and report_id='" + ReportId + "' and report_year='" + Report_Year + "' and report_month='" + j + "'";
+                                        cmd = new MySqlCommand(sql, con);
+                                        cmd.ExecuteNonQuery();
+                                    }
+                                        
                                 }
                             }
                         }
@@ -517,7 +523,12 @@ namespace esg.Controllers
                                     //int report_id = (int)cmd.LastInsertedId;
                                 }
                                 else
+                                {
                                     reader.Close();
+                                    sql = "update data_quantitative set data='" + data.TData + "' where esg_id='" + dataDetail.dataDetails[i].ESG_Id + "' and report_id='" + ReportId + "' and report_year='" + Report_Year + "' and report_month='" + j + "'";
+                                    cmd = new MySqlCommand(sql, con);
+                                    cmd.ExecuteNonQuery();
+                                }
                             }
                         }
                         else if (dataDetail.dataDetails[i].ESG_Id == "A1.3-56")
@@ -583,7 +594,12 @@ namespace esg.Controllers
                                     //int report_id = (int)cmd.LastInsertedId;
                                 }
                                 else
+                                {
                                     reader.Close();
+                                    sql = "update data_quantitative set data='" + data.TData + "' where esg_id='" + dataDetail.dataDetails[i].ESG_Id + "' and report_id='" + ReportId + "' and report_year='" + Report_Year + "' and report_month='" + j + "'";
+                                    cmd = new MySqlCommand(sql, con);
+                                    cmd.ExecuteNonQuery();
+                                }
                             }
                         }
 
@@ -649,7 +665,12 @@ namespace esg.Controllers
                                     //int report_id = (int)cmd.LastInsertedId;
                                 }
                                 else
+                                {
                                     reader.Close();
+                                    sql = "update data_quantitative set data='" + data.TData + "' where esg_id='" + dataDetail.dataDetails[i].ESG_Id + "' and report_id='" + ReportId + "' and report_year='" + Report_Year + "' and report_month='" + j + "'";
+                                    cmd = new MySqlCommand(sql, con);
+                                    cmd.ExecuteNonQuery();
+                                }
                             }
                         }
                     }
