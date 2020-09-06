@@ -573,7 +573,7 @@
                                         success:function(data3){
                                              if(data3[0]['tData']!=-1)
                                              {
-                                                    $("[name='" + _id + "']").html(data3[0]['tData']);
+                                                    $("[name='" + _id + "']").html(data3[0]['tData'].toFixed(2));
                                              }
                                         }
                                     });
@@ -639,7 +639,7 @@
                                                 {
                                                     if(data3[k]['tData']!=-1)
                                                     {
-                                                        $("[name='" + _id + "'][id='" + data3[k]['report_Month'] + "']").html(data3[k]['tData']);
+                                                        $("[name='" + _id + "'][id='" + data3[k]['report_Month'] + "']").html(data3[k]['tData'].toFixed(2));
                                                     }
                                                 }
                                             }

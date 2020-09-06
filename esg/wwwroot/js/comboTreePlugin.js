@@ -508,6 +508,14 @@
                                                                 alert("更改成功！");
                                                                 $('.modal').modal('hide');
                                                                 $("[name='" + _id + "'][id='" + $(E).attr("id") + "']").val($(".modal-body").children(".form-control").val());
+                                                                if($(E).attr("name")=="A1.3-35")
+                                                                {
+                                                                    updatepaisheng1($(E).attr("id"));
+                                                                }
+                                                                else if($(E).attr("name")=="A2.1-10.1")
+                                                                {
+                                                                    updatepaisheng2($(E).attr("id"));
+                                                                }
                                                             }
                                                         }
                                                     });
@@ -539,6 +547,14 @@
                                                             alert("删除成功！");
                                                             $('.modal').modal('hide');
                                                             $("[name='" + _id + "'][id='" + $(E).attr("id") + "']").val("");
+                                                            if($(E).attr("name")=="A1.3-35")
+                                                            {
+                                                                updatepaisheng1($(E).attr("id"));
+                                                            }
+                                                            else if($(E).attr("name")=="A2.1-10.1")
+                                                            {
+                                                                updatepaisheng2($(E).attr("id"));
+                                                            }
                                                         }
                                                     }
                                                 });
@@ -573,6 +589,14 @@
                                                                 alert("录入成功！");
                                                                 $('.modal').modal('hide');
                                                                 $("[name='" + _id + "'][id='" + $(E).attr("id") + "']").val($(".modal-body").children(".form-control").val());
+                                                                if($(E).attr("name")=="A1.3-35")
+                                                                {
+                                                                    updatepaisheng1($(E).attr("id"));
+                                                                }
+                                                                else if($(E).attr("name")=="A2.1-10.1")
+                                                                {
+                                                                    updatepaisheng2($(E).attr("id"));
+                                                                }
                                                             }
                                                         }
                                                     });
@@ -884,7 +908,7 @@
                                         success:function(data3){
                                              if(data3[0]['tData']!=-1)
                                              {
-                                                    $("[name='" + _id + "']").html(data3[0]['tData']);
+                                                    $("[name='" + _id + "']").html(data3[0]['tData'].toFixed(2));
                                              }
                                         }
                                     });
@@ -950,7 +974,7 @@
                                                 {
                                                     if(data3[k]['tData']!=-1)
                                                     {
-                                                        $("[name='" + _id + "'][id='" + data3[k]['report_Month'] + "']").html(data3[k]['tData']);
+                                                        $("[name='" + _id + "'][id='" + data3[k]['report_Month'] + "']").html(data3[k]['tData'].toFixed(2));
                                                     }
                                                 }
                                             }
@@ -1145,7 +1169,7 @@
                                         success:function(data3){
                                              if(data3[0]['tData']!=-1)
                                              {
-                                                    $("[name='" + _id + "']").html(data3[0]['tData']);
+                                                    $("[name='" + _id + "']").html(data3[0]['tData'].toFixed(2));
                                              }
                                         }
                                     });
@@ -1211,7 +1235,7 @@
                                                 {
                                                     if(data3[k]['tData']!=-1)
                                                     {
-                                                        $("[name='" + _id + "'][id='" + data3[k]['report_Month'] + "']").html(data3[k]['tData']);
+                                                        $("[name='" + _id + "'][id='" + data3[k]['report_Month'] + "']").html(data3[k]['tData'].toFixed(2));
                                                     }
                                                 }
                                             }
@@ -1324,4 +1348,77 @@ function isNo(str) {
     var fudian=/^\d+(\.\d+)?$/
     var reg=/^-?\d+$ /;   /*定义验证表达式*/
     return reg.test(str)||fudian.test(str);     /*进行验证*/
+}
+function updatepaisheng1(month)
+{
+    var jsonArr = [ {
+        "ESG_Id" : "A1.3-55",
+        "Type" : 12,
+    },{
+        "ESG_Id" : "A1.3-56",
+        "Type" : 12,
+    }]
+    var str2 = JSON.stringify({
+        ReportId: rid,
+        Report_Year: ryear,
+        dataDetails: jsonArr
+    });
+    $.ajax({
+        url: "api/Report/GetData",
+        type: "POST",
+        contentType: "application/json",
+        data: str2,
+    success:function(updatedata){
+        for(var i=0;i<updatedata.length;i++)
+        {
+            if(updatedata[i]['esG_Id']=="A1.3-55"&&updatedata[i]['tData']!=-1&&updatedata[i]['report_Month']==month)
+            {
+                $("[name='A1.3-55'][id='" + updatedata[i]['report_Month'] + "']").html(updatedata[i]['tData'].toFixed(2));
+            }
+            else if(updatedata[i]['esG_Id']=="A1.3-55"&&updatedata[i]['tData']==-1&&updatedata[i]['report_Month']==month)
+            {
+                $("[name='A1.3-55'][id='" + updatedata[i]['report_Month'] + "']").html("");
+            }
+            else if(updatedata[i]['esG_Id']=="A1.3-56"&&updatedata[i]['tData']!=-1&&updatedata[i]['report_Month']==month)
+            {
+                $("[name='A1.3-56'][id='" + updatedata[i]['report_Month'] + "']").html(updatedata[i]['tData'].toFixed(2));
+            }
+            else if(updatedata[i]['esG_Id']=="A1.3-55"&&updatedata[i]['tData']==-1&&updatedata[i]['report_Month']==month)
+            {
+                $("[name='A1.3-56'][id='" + updatedata[i]['report_Month'] + "']").html("");
+            }
+        }
+    }
+    });
+}
+function updatepaisheng2(month)
+{
+    var jsonArr = [ {
+        "ESG_Id" : "A2.1-10",
+        "Type" : 11,
+    }]
+    var str2 = JSON.stringify({
+        ReportId: rid,
+        Report_Year: ryear,
+        dataDetails: jsonArr
+    });
+    $.ajax({
+        url: "api/Report/GetData",
+        type: "POST",
+        contentType: "application/json",
+        data: str2,
+    success:function(updatedata){
+        for(var i=0;i<updatedata.length;i++)
+        {
+            if(updatedata[i]['esG_Id']=="A2.1-10"&&updatedata[i]['tData']!=-1&&updatedata[i]['report_Month']==month)
+            {
+                $("[name='A2.1-10'][id='" + updatedata[i]['report_Month'] + "']").html(updatedata[i]['tData'].toFixed(2));
+            }
+            else if(updatedata[i]['esG_Id']=="A2.1-10"&&updatedata[i]['tData']==-1&&updatedata[i]['report_Month']==month)
+            {
+                $("[name='A2.1-10'][id='" + updatedata[i]['report_Month'] + "']").html("");
+            }
+        }
+    }
+    });
 }

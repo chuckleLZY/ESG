@@ -401,7 +401,7 @@ namespace esg.Controllers
                 int frequency;
                 for (int i=0;i< dataDetail.dataDetails.Count;i++)
                 {
-                    if(dataDetail.dataDetails[i].Type>10)
+                    /*if(dataDetail.dataDetails[i].Type>10)
                     {
                         if(dataDetail.dataDetails[i].ESG_Id== "A1.2-10")
                         {
@@ -675,7 +675,7 @@ namespace esg.Controllers
                         }
                     }
                     else
-                    {
+                    {*/
                         if(dataDetail.dataDetails[i].Type == 2)//定性数据
                         {
                             sql = "select data from data_qualitative where esg_id='"+ dataDetail.dataDetails[i].ESG_Id+"' and report_id='" + ReportId + "' and report_year='" + Report_Year + "'";
@@ -698,7 +698,7 @@ namespace esg.Controllers
                             datas.Add(data);
                             reader.Close();
                         }
-                        else if(dataDetail.dataDetails[i].Type == 1)//定量数据
+                        else if(dataDetail.dataDetails[i].Type == 1|| dataDetail.dataDetails[i].Type > 10)//定量数据
                         {
                             sql = "select frequency from indicate where esg_id='" + dataDetail.dataDetails[i].ESG_Id + "'";
                             cmd = new MySqlCommand(sql, con);
@@ -766,7 +766,7 @@ namespace esg.Controllers
                             }
                         }
                     }
-                }
+                //}
                 con.Close();
                 return datas;
             }
