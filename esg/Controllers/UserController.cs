@@ -464,6 +464,7 @@ namespace esg.Controllers
                 List<int> insertcom=ChildCom[comid[i]];
                 for(int x=0;x<insertcom.Count;x++)
                 {
+                    if(!FirstCom.ContainsKey(insertcom[x]))continue;
                     List<userinfo> insertinfos=FirstCom[insertcom[x]];
                     for (int y=0;y<insertinfos.Count;y++)
                     {   

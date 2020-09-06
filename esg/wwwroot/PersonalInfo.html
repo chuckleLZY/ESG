@@ -287,7 +287,11 @@
             success:function(result){   
                 $("#inputcom").val(result[0].companyName);
                 $("#inputemail").val(result[0].email);
-                if(result[0].level==1)
+                if(result[0].level==0)
+                {
+                    $("#inputlevel").val("超级管理员");
+                }
+                else if(result[0].level==1)
                 {
                     $("#inputlevel").val("一级管理员");
                 }
