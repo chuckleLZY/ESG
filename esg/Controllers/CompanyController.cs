@@ -215,6 +215,51 @@ namespace esg.Controllers
             }
             return error_code;
         }
+
+
+        [HttpPost]
+        public ActionResult<string>GetAllFirstCompany()
+        {
+            int num = 0;
+            List<cominfo> info = new List<cominfo>();
+
+            using (MySqlConnection conn = new MySqlConnection(connString))
+            {
+                conn.Open();
+
+                using (MySqlCommand cmd = new MySqlCommand())
+                {
+                    string sql = "select com_id,name from company where level=1";
+                    cmd.Connection = conn;
+                    cmd.CommandText = sql;
+                    //查找母公司id
+
+                    MySqlDataReader reader = cmd.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        cominfo temp=new cominfo();
+                        temp.com_id = reader.GetInt32("com_id");
+                        temp.com_name = reader.GetString("name");
+                        info.Add(temp);
+                        num++;
+                    }
+                    reader.Close();
+                }
+                conn.Close();
+            }
+            return Ok(new
+            {
+                cnt = num,
+                subCompany = info
+            }) ;
+        }
+
+        public class cominfo
+        {
+            public int com_id{get; set;}
+
+            public string com_name{get; set;}
+        }
     }
 
 }

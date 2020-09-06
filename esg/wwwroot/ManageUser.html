@@ -344,6 +344,86 @@
     viewUser();
     function viewUser()
     {
+        if(a==0)
+        {
+            $.ajax({
+            url:"api/User/GetAllUser",
+            type:"POST",
+            contentType:"application/json",
+            
+            success:function(result){
+                console.log(result);
+                for(var i=0;i<result.total;i++)
+                {
+                    if(result.useritem[i].level==1)
+                    {
+                        $("#userinfo").append(" <tr>\
+                    <td>"+result.useritem[i].account+"</td>\
+                    <td>一级管理员</td>\
+                    <td>"+result.useritem[i].com_name+"</td>\
+                    <td><button type=\"button\" class=\"btn btn-outline-danger\" id=\"DeleteButton\">删除此用户</button></td>\
+                    </tr>");
+                    }
+                    else if(result.useritem[i].level==2)
+                    {
+                        $("#userinfo").append(" <tr>\
+                    <td>"+result.useritem[i].account+"</td>\
+                    <td>二级管理员</td>\
+                    <td>"+result.useritem[i].com_name+"</td>\
+                    <td><button type=\"button\" class=\"btn btn-outline-danger\" id=\"DeleteButton\">删除此用户</button></td>\
+                    </tr>");
+                    }
+                    else if(result.useritem[i].level==3)
+                    {
+                        $("#userinfo").append(" <tr>\
+                    <td>"+result.useritem[i].account+"</td>\
+                    <td>数据录入员</td>\
+                    <td>"+result.useritem[i].com_name+"</td>\
+                    <td><button type=\"button\" class=\"btn btn-outline-danger\" id=\"DeleteButton\">删除此用户</button></td>\
+                    </tr>");
+                    } 
+                    else if(result.useritem[i].level==0)
+                    {
+                        num=i;
+                        continue;
+                    }                   
+                    
+                }
+               
+                aInt2 = document.getElementById('userinfo').getElementsByTagName('button');
+                for(var i=0;i<result.total-1;i++)
+                {
+                    var x=i;
+                    if(i>=num)x=i+1;
+                    var user=result.useritem[x].user_id;                    
+                    aInt2[i].onclick=function(){
+                        $.ajax({
+                            url:"api/User/DeleteCustomer?UserId="+user,
+                            type:"DELETE",
+                            contentType:"application/json",
+                            success:function(ans){
+                                if(ans==0)
+                                {
+                                     alert("删除用户失败！请重试！");
+                                }
+                                else
+                                {
+                                   alert("删除用户成功");
+                                   window.location.reload();
+                                }
+                            },
+                            error:function(xhr){alert("error");}
+                        })
+                    }
+                }
+
+            },
+            error:function(xhr)
+            {
+                alert("error");
+            }
+            })
+        }
         if(a==1)
         {
             $.ajax({

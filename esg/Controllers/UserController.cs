@@ -358,6 +358,128 @@ namespace esg.Controllers
             }
             return "";
         }
+
+        
+        [HttpPost]
+        public AlluserResponse GetAllUser()
+        {
+            AlluserResponse response=new AlluserResponse();
+            response.total=0;
+            response.useritem=new List<userinfo>();
+
+            Dictionary<int,List<userinfo>> FirstCom= new Dictionary<int, List<userinfo>>();
+            Dictionary<int,List<int>> ChildCom = new Dictionary<int, List<int>>();
+            List<int> comid=new List<int>();
+            using (MySqlConnection con = new MySqlConnection(connString))
+            {
+                con.Open();
+
+                //var temp_com_id=0;
+                List<userinfo> temp_info =new List<userinfo>();
+
+                string sql = "SELECT user_id,user.com_id,account,user.level,name FROM user JOIN company USING (com_id) ";
+                MySqlCommand cmd = new MySqlCommand(sql, con);
+                MySqlDataReader reader = cmd.ExecuteReader();
+                while(reader.Read())
+                {
+                    userinfo temp=new userinfo();
+                    temp.account=reader.GetString("account");
+                    temp.com_id=reader.GetInt32("com_id");
+                    temp.com_name=reader.GetString("name");
+                    temp.level=reader.GetInt32("level");
+                    temp.user_id=reader.GetInt32("user_id");
+                    response.total++;
+                    if(FirstCom.ContainsKey(temp.com_id))
+                    {
+                        FirstCom[temp.com_id].Add(temp);
+                    }
+                    else{
+                        comid.Add(temp.com_id);
+                        temp_info.Add(temp);
+                        FirstCom.Add(temp.com_id,temp_info);
+                        temp_info =new List<userinfo>();
+                    }
+
+
+                    // if(temp_com_id!=temp.com_id)
+                    // {
+                    //     if(temp_com_id==0)
+                    //     {
+                    //         temp_com_id=temp.com_id;
+                    //         continue;
+                    //     }
+                    //     FirstCom.Add(temp_com_id,temp_info);
+                    //     comid.Add(temp_com_id);
+                    //     temp_com_id=temp.com_id;
+                    //     temp_info=new List<userinfo>();                        
+                    // }
+                    // temp_info.Add(temp);
+                }
+                reader.Close();
+
+                
+                sql = "select com_id,parent from company where parent<>0";
+                cmd.CommandText = sql;
+                //List<int> temp_child=new List<int>();
+                reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    int temp_key=reader.GetInt32("parent");
+                    int temp_id=reader.GetInt32("com_id");
+                    if(ChildCom.ContainsKey(temp_key))
+                    {
+                        ChildCom[temp_key].Add(temp_id);
+                    }
+                    else{
+                        List<int> temp_child=new List<int>();
+                        temp_child.Add(temp_id);
+                        ChildCom.Add(temp_key,temp_child);
+                    }
+                }
+                reader.Close();
+
+                con.Close();
+            }
+            int com_num=comid.Count;
+            Dictionary<int,bool> ifuse=new Dictionary<int, bool>();
+            for (int i=0;i<com_num;i++)
+            {
+                ifuse.Add(comid[i],false);
+            }
+            for(int i=0;i<com_num;i++)
+            {
+                if(ifuse[comid[i]])
+                {
+                    continue;
+                }
+                List<userinfo> insertinfo=FirstCom[comid[i]];
+                for (int x=0;x<insertinfo.Count;x++)
+                {
+                    response.useritem.Add(insertinfo[x]);
+                }
+                if(!ChildCom.ContainsKey(comid[i]))
+                {
+                    continue;
+                }
+                List<int> insertcom=ChildCom[comid[i]];
+                for(int x=0;x<insertcom.Count;x++)
+                {
+                    List<userinfo> insertinfos=FirstCom[insertcom[x]];
+                    for (int y=0;y<insertinfos.Count;y++)
+                    {   
+                        response.useritem.Add(insertinfos[y]);
+                    }
+                    ifuse[insertcom[x]]=true;
+                }
+            }
+
+
+            return response;
+        }
+
+        
+
+
         public class loginReturn
         {
             public int ErrorCode { get; set; }
@@ -373,6 +495,26 @@ namespace esg.Controllers
             public int Level { get; set; }
             public string CompanyName { get; set; }
             public string Email { get; set; }
+        }
+
+
+        public class userinfo{
+            public int user_id{get; set;}
+
+            public int com_id{get; set;}
+
+            public string account{get; set;}
+
+            public int level{get; set;}
+
+            public string com_name{get; set;}
+        }
+
+        public class AlluserResponse
+        {
+            public int total{get; set;}
+
+            public List<userinfo> useritem{get; set;}
         }
     }
 }

@@ -205,6 +205,7 @@
                                             <div class="input-group-append">
                                               <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">请选择</button>
                                               <div class="dropdown-menu">
+                                                <a id = "Comchoice3" class="dropdown-item" href="#">一级管理员</a>
                                                 <a id = "Comchoice1" class="dropdown-item" href="#">二级管理员</a>
                                                 <a id = "Comchoice2" class="dropdown-item" href="#">数据录入员</a>
                                               </div>
@@ -296,8 +297,18 @@
 
     <script>
             $("#subchoose").hide();
+            if(location.search.split('?')[1].split('&')[1].split('=')[1]==0)
+             {
+                $("#Comchoice2").remove();
+                $("#Comchoice1").remove();
+             }
+             if(location.search.split('?')[1].split('&')[1].split('=')[1]==1)
+             {
+                 $("#Comchoice3").remove();
+             }
             if(location.search.split('?')[1].split('&')[1].split('=')[1]==2)
             {
+                $("#Comchoice3").remove();
                 $("#Comchoice1").remove();
             }
             $("a#Comchoice1").click(function(){
@@ -325,7 +336,30 @@
             $("#inputLevel").val($("a#Comchoice2").html());
             $("#subchoose").hide();
             });
-            $("#FinalSubmit").click(function(){
+
+            $("a#Comchoice3").click(function(){
+                
+                $("#inputLevel").val($("a#Comchoice3").html());
+                $("#subchoose").fadeIn();
+                $.ajax({
+                       url: "api/Company/GetAllFirstCompany",
+                       type: "POST",
+                       contentType: "application/json",
+                       
+                   success:function(data){
+                       //console.log(location.search.split('?')[1].split('&')[4].split('=')[1]);
+                       //console.log(data);
+                       for(var i=0;i<data.cnt;i++)
+                       {
+                           $(".custom-select").append("<option value=\""+data.subCompany[i].com_id+"\">"+data.subCompany[i].com_id+"："+data.subCompany[i].com_name+"公司"+"</option>")
+                       }
+                   },
+                   error:function(xhr){alert("error");}
+                    });
+   
+               });
+
+               $("#FinalSubmit").click(function(){
                 $("p#AccountAlert").html("");
                 $("p#pwdAlert1").html("");
                 $("p#pwdAlert2").html("");
@@ -357,13 +391,17 @@
                     return false;
                 }
                 var i=0;
-                if($("#inputLevel").val()=="二级管理员")
+                if($("#inputLevel").val()=="一级管理员")
+                {
+                   i = 1;
+                }
+                else if($("#inputLevel").val()=="二级管理员")
                 {
                    i = 2;
                 }
                 else i = 3;
                 var CID;
-                if(i==2)
+                if(i==2|| i==1)
                 {
                     CID=$('select option:selected').val();
                 }
