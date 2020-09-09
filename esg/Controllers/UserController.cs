@@ -171,7 +171,7 @@ namespace esg.Controllers
                 {
                     int num=reader.GetInt32("user_id");
                     string act = reader.GetString("account");
-                    if (reader.GetInt32("level") == 1)
+                    if (reader.GetInt32("level") == 2)
                     {
                         CCUser.AdminAccount.Add(act);
                     }

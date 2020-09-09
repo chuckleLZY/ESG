@@ -482,6 +482,10 @@
                             error:function(xhr){alert("error");}
                         })
                     }
+                    if(user==location.search.split('?')[1].split('=')[1].split('&')[0])
+                    {
+                        aInt2[i].style.display="none";
+                    }
                 }
 
             },
@@ -542,6 +546,10 @@
                             },
                             error:function(xhr){alert("error");}
                         })
+                    }
+                    if(user==location.search.split('?')[1].split('=')[1].split('&')[0])
+                    {
+                        aInt2[i].style.display="none";
                     }
                 }
             },
