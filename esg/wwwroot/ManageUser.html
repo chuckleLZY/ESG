@@ -270,6 +270,7 @@
     <script type="text/javascript">
     var a=location.search.split('?')[1].split('=')[2].split('&')[0];
     var num=0;
+    var temp_num=1;
     var first=0;
     var aInt2;
     function viewchilduser(cname)
@@ -353,7 +354,7 @@
             contentType:"application/json",
             
             success:function(result){
-                console.log(result);
+                //console.log(result);
                 for(var i=0;i<result.total;i++)
                 {
                     if(result.useritem[i].level==1)
@@ -362,8 +363,9 @@
                     <td>"+result.useritem[i].account+"</td>\
                     <td>一级管理员</td>\
                     <td>"+result.useritem[i].com_name+"</td>\
-                    <td><button type=\"button\" class=\"btn btn-outline-danger\" id=\"DeleteButton\">删除此用户</button></td>\
+                    <td><button type=\"button\" class=\"btn btn-outline-danger\" id=\"DeleteButton"+temp_num+"\">删除此用户</button></td>\
                     </tr>");
+                    temp_num++;
                     }
                     else if(result.useritem[i].level==2)
                     {
@@ -371,8 +373,9 @@
                     <td>"+result.useritem[i].account+"</td>\
                     <td>二级管理员</td>\
                     <td>"+result.useritem[i].com_name+"</td>\
-                    <td><button type=\"button\" class=\"btn btn-outline-danger\" id=\"DeleteButton\">删除此用户</button></td>\
+                    <td><button type=\"button\" class=\"btn btn-outline-danger\" id=\"DeleteButton"+temp_num+"\">删除此用户</button></td>\
                     </tr>");
+                    temp_num++;
                     }
                     else if(result.useritem[i].level==3)
                     {
@@ -380,8 +383,9 @@
                     <td>"+result.useritem[i].account+"</td>\
                     <td>数据录入员</td>\
                     <td>"+result.useritem[i].com_name+"</td>\
-                    <td><button type=\"button\" class=\"btn btn-outline-danger\" id=\"DeleteButton\">删除此用户</button></td>\
+                    <td><button type=\"button\" class=\"btn btn-outline-danger\" id=\"DeleteButton"+temp_num+"\">删除此用户</button></td>\
                     </tr>");
+                    temp_num++;
                     } 
                     else if(result.useritem[i].level==0)
                     {
@@ -392,17 +396,21 @@
                 }
                
                 aInt2 = document.getElementById('userinfo').getElementsByTagName('button');
+                console.log(aInt2);
                 for(var i=0;i<result.total-1;i++)
                 {
                     var x=i;
                     if(i>=num)x=i+1;
-                    var user=result.useritem[x].user_id;                    
+                    var user=result.useritem[x].user_id;
+                    console.log(aInt2[i]);   
+                    console.log(user);               
                     aInt2[i].onclick=function(){
                         $.ajax({
                             url:"api/User/DeleteCustomer?UserId="+user,
                             type:"DELETE",
                             contentType:"application/json",
                             success:function(ans){
+                                console.log(user);
                                 if(ans==0)
                                 {
                                      alert("删除用户失败！请重试！");
